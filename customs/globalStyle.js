@@ -12,12 +12,12 @@ const globalStyles = StyleSheet.create({
         borderWidth : 1
     },
     button : {
-        backgroundColor : "#ffffff",
-        borderColor : "#ffffff"
+        backgroundColor : "#0089FF",
+        borderColor : "#0089FF"
     },
     buttonText : {
         fontFamily : "BlackHanSans-Regular",
-        color : "black"
+        color : "white"
     },
 
     textNomal :{

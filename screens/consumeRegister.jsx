@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function consumeRegisterScreen() {
+function ConsumeRegisterScreen() {
     return (  
     <View>
-        <Text>consumeRegisterScreen 페이지</Text>
+        <Text>ConsumeRegisterScreen 페이지</Text>
     </View>
     );
 }
 
-export default consumeRegisterScreen;
+export default ConsumeRegisterScreen;
 
 const styles = StyleSheet.create({
     

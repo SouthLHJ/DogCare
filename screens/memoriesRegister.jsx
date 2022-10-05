@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function memoriesRegisterScreen() {
+function MemoriesRegisterScreen() {
     return (  
     <View>
         <Text>memoriesRegister 페이지</Text>
@@ -8,7 +8,7 @@ function memoriesRegisterScreen() {
     );
 }
 
-export default memoriesRegisterScreen;
+export default MemoriesRegisterScreen;
 
 const styles = StyleSheet.create({
     

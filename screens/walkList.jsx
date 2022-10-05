@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function walkList() {
+function WalkListScreen() {
     return (  
     <View>
         <Text>walkList 페이지</Text>
@@ -8,7 +8,7 @@ function walkList() {
     );
 }
 
-export default walkList;
+export default WalkListScreen;
 
 const styles = StyleSheet.create({
     

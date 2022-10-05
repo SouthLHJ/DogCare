@@ -22,14 +22,15 @@ const styles = StyleSheet.create({
         
         borderWidth : 1,
         borderRadius : 8,
-        borderColor : "white"
+        borderColor : "#0089FF"
     },
     
     buttonOutContainer : {
         overflow : "hidden",
 
         backgroundColor : "black",
-        borderColor : "black",
+        borderColor : "#0089FF",
+        borderWidth : 1,
 
         // marginVertical : 8,
         // marginHorizontal : 8,
@@ -39,11 +40,11 @@ const styles = StyleSheet.create({
         opacity : 1
     },
     buttonInContainer : {
-        borderColor : "black",
+        borderColor : "#0089FF",
     },
     buttonText : {
         textAlign : "center",
-        color : "white",
+        color : "black",
         fontSize : 16
     }
 })

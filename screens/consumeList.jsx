@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function consumeListScreen() {
+function ConsumeListScreen() {
     return (  
     <View>
-        <Text>consumeListScreen 페이지</Text>
+        <Text>ConsumeListScreen 페이지</Text>
     </View>
     );
 }
 
-export default consumeListScreen;
+export default ConsumeListScreen;
 
 const styles = StyleSheet.create({
     

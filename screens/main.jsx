@@ -7,19 +7,26 @@ const BottomTab = createBottomTabNavigator();
 
 import { StyleSheet, Text, View } from "react-native";
 
+//icon
+import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+
 import Header from "../components/header";
 import LoginScreen from './login';
 import RegisterScreen from './register';
-import NewWalkScreen from './newWalk';
 import AroundPlaceScreen from './aroundPlace';
-import MemoriesListScreen from './memoriesList';
-import ConsumeChartScreen from './consumeChart';
 import MypageMainScreen from './mypageMain';
+import WalkMain from '../components/walkMain';
+import MemoriesMain from '../components/memoriesMain';
+import ConsumeMain from '../components/consumeMain';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../contexts/app-context';
 
 function NoneUser (){
     return (
         <>
-            <TopTab.Navigator>
+            <TopTab.Navigator screenOptions={{tabBarStyle  :  {display: 'none'} , swipeEnabled : false}}>
                 <TopTab.Screen name="login" component={LoginScreen}/>
                 <TopTab.Screen name="register" component={RegisterScreen}/>
             </TopTab.Navigator>
@@ -30,12 +37,12 @@ function NoneUser (){
 function User(){
     return (
         <>
-            <BottomTab.Navigator>
-                <BottomTab.Screen name="newWalk" component={NewWalkScreen}/>
-                <BottomTab.Screen name="aroundPlace" component={AroundPlaceScreen}/>
-                <BottomTab.Screen name="memoriesList" component={MemoriesListScreen}/>
-                <BottomTab.Screen name="consumeChart" component={ConsumeChartScreen}/>
-                <BottomTab.Screen name="mypageMain" component={MypageMainScreen}/>
+            <BottomTab.Navigator screenOptions={{tabBarActiveTintColor:"#0089FF", headerShown : false}}>
+                <BottomTab.Screen name="walkMain" component={WalkMain} options={{title :"산책",tabBarIcon :({color})=>{return <FontAwesome5 name="walking" size={24} color={color} />} }}/>
+                <BottomTab.Screen name="aroundPlace" component={AroundPlaceScreen} options={{title :"장소",tabBarIcon :({color})=>{return <FontAwesome name="map" size={18}  color={color}  />} }}/>
+                <BottomTab.Screen name="memoriesMain" component={MemoriesMain}options={{title :"추억",tabBarIcon :({color})=>{return <MaterialIcons name="history-edu" size={24} color={color} />} }}/>
+                <BottomTab.Screen name="consumeMain" component={ConsumeMain}options={{title :"소비",tabBarIcon :({color})=>{return <FontAwesome name="dollar" size={24} color={color} />} }}/>
+                <BottomTab.Screen name="mypageMain" component={MypageMainScreen}options={{title :"마이페이지",tabBarIcon :({color})=>{return <FontAwesome name="user" size={24}  color={color} />} }}/>
             </BottomTab.Navigator>
         </>
     )
@@ -43,11 +50,18 @@ function User(){
 
 
 function MainScreen() {
+    const context = useContext(AppContext);
+
+    const [user, setUser] = useState(false);
+
+    useEffect(()=>{
+        context.auth?.token && setUser(true);
+    },[context.auth])
 
     return (  
     <View style={styles.container}>
         <Header />
-        {true ? <NoneUser />: <User/>}
+        {user ? <User/>: <NoneUser /> }
         
     </View>
     );

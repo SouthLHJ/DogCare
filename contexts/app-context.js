@@ -5,7 +5,7 @@ import { createContext, useEffect, useReducer, useState } from "react";
 import { ActivityIndicator } from "react-native";
 
 export const AppContext = createContext({
-    auth : {},
+    auth : {id : String , pw : String, token  : String },
     dispatch : authReducer,
     refresh  : {},
     setRefresh : {}
@@ -14,11 +14,10 @@ export const AppContext = createContext({
 // 
 const authReducer = (state={}, action) => {
     switch (action.type) {
-        case "signIn":
+        case "login":
             AsyncStorage.setItem("token",JSON.stringify(action.payload));
-
             return action.payload;
-        case "signOut":
+        case "logout":
             AsyncStorage.removeItem("token");
             return null;
 
@@ -39,7 +38,7 @@ export function AppContextProvider({ children }) {
             try{
                 const data = await AsyncStorage.getItem("token");
                 if(data){
-                    dispatch({type: "signIn" , payload : JSON.parse(data)})
+                    dispatch({type: "login" , payload : JSON.parse(data)})
                 }
                 setDone(true);
 
