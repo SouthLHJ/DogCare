@@ -1,11 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import CustomButton from "../customs/customButton";
 import FontText from "../customs/fontText";
 import globalStyles from "../customs/globalStyle";
 
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { sendRegister } from "../api/account";
 
 function RegisterScreen() {
     const [id,setId] = useState(null);
@@ -23,6 +24,47 @@ function RegisterScreen() {
     const moveLogin = ()=>{
         navigation.navigate("login");
     }
+    const onRegister = ()=>{
+        if(!(rePw === pw)){
+            return 
+        }
+        if(!(id && pw && nick && contact)  ){
+            Alert.alert(
+                "", "아이디, 비밀번호, 이름, 전화번호 작성은 필수입니다.",[{
+                    text : "확인"
+                }]
+            )
+        }else{
+            const data = {
+                id : id,
+                password : pw,
+                name : nick,
+                birth : date,
+                contact : contact
+            }
+            // console.log(data)
+            sendRegister(data)
+             .then((rcv)=>{
+                if(rcv.result){
+                    Alert.alert(
+                        "성공", "가입에 성공하셨습니다.",[{
+                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setChkPw(false); setNick(null); setDate(new Date()); setContact(null)}
+                        }]
+                    )
+                }else{
+                    Alert.alert(
+                        "실패", "가입에 실패하셨습니다. 다시 시도해 주세요",[{
+                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setChkPw(false); setNick(null); setDate(new Date()); setContact(null)}
+                        }]
+                    )
+                }
+             })
+             .catch((err)=>{
+                console.log(err)
+             })
+        }
+    }
+
     return (  
     <View style={globalStyles.container}>
         <View style={styles.inputContain}>
@@ -53,7 +95,7 @@ function RegisterScreen() {
             <TextInput  style={[globalStyles.input,styles.input]}  onChangeText={(text)=>setContact(text)}
             value={contact}   keyboardType="number-pad"/>
 
-            <CustomButton styleBtn={[globalStyles.button]} styleText={[globalStyles.buttonText]}>가입</CustomButton>
+            <CustomButton onPress={()=>onRegister()} styleBtn={[globalStyles.button]} styleText={[globalStyles.buttonText]}>가입</CustomButton>
         </View>
 
         <TouchableOpacity onPress={moveLogin} style={styles.register}>

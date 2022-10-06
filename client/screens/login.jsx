@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { sendLogin } from "../api/account";
 import { AppContext } from "../contexts/app-context";
 import CustomButton from "../customs/customButton";
 import FontText from "../customs/fontText";
@@ -16,8 +17,23 @@ function LoginScreen() {
     const moveRegister = ()=>{
         navigation.navigate("register")
     }
-    const sendLogin = ()=>{
-        context.dispatch({type : "login", payload : {id : "test", pw : "0000", token : "sampleToken"}})
+    const onLogin = ()=>{
+        const data = {
+            id : id,
+            password : pw
+        }
+        sendLogin(data)
+         .then((rcv)=>{
+            if(rcv.result){
+                // console.log(rcv)
+                Alert.alert(
+                    "",`${rcv.msg}`
+                )
+                context.dispatch({type : "login", payload : {id : id, pw : pw, token : rcv.token}})
+            }else{
+                console.log(rcv)
+            }
+         }).catch(e=>console.log(e))
     }
 
     return (  
@@ -31,7 +47,7 @@ function LoginScreen() {
             <TextInput  style={[globalStyles.input,styles.input]}  onChangeText={(text)=>setPw(text)} secureTextEntry={true} autoCapitalize="sentences"
             value={pw} />
 
-            <CustomButton onPress={()=>sendLogin()} styleBtn={[globalStyles.button]} styleText={[globalStyles.buttonText]}>로그인</CustomButton>
+            <CustomButton onPress={()=>onLogin()} styleBtn={[globalStyles.button]} styleText={[globalStyles.buttonText]}>로그인</CustomButton>
         </View>
         
         <TouchableOpacity onPress={moveRegister} style={styles.touchable}>
