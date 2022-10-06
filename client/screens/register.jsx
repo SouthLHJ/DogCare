@@ -86,7 +86,9 @@ function RegisterScreen() {
 
             <FontText style={[globalStyles.textNomal]}>생년월일</FontText>
                 <FontText>{date.getFullYear()} - {date.getMonth()+1} - {date.getDate()}</FontText>
-                {dateShow && <DateTimePicker locale="ko" testID="dateTimePicker" value={date} mode="date" is24Hour={true} display="spinner" onChange={(d)=>{setDate(new Date(d.nativeEvent.timestamp)); setDateShow(false)}} />}
+                {dateShow && <DateTimePicker locale="ko" testID="dateTimePicker" value={date} mode="date" is24Hour={true} onChange={(d)=>{
+                    if(d.type === "set"){setDate(new Date(d.nativeEvent.timestamp)); setDateShow(false);}
+                }} />}
             <TouchableOpacity onPress={()=>setDateShow(!dateShow)} style={styles.register}>
                 <FontText style={[styles.text]}>날짜 선택하기</FontText>
             </TouchableOpacity>
