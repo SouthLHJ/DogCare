@@ -22,6 +22,9 @@ const globalStyles = StyleSheet.create({
 
     textNomal :{
         fontSize : 15
+    },
+    loading: {
+        backgroundColor: `rgba(50,50,50,0.5)`
     }
     
 })
