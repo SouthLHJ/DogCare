@@ -10,7 +10,7 @@ router.get("/getData", async (req, res)=>{ // 강아지 정보 받아오기
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const findDog = await Dog.findOne({userId: verifyToken});
+        const findDog = await Dog.findOne({userId: verifyToken.token_id});
 
         res.json({result: true, data: findDog});
     } catch(err) {
@@ -37,7 +37,7 @@ router.post("/register", async (req, res)=>{ // 강아지 정보 저장
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const newDog = await Dog.create({name: req.body.name, userId: verifyToken, image: req.body.image, birth: req.body.birth, gender: req.body.gender, animalCode: req.body.animalCode});
+        const newDog = await Dog.create({name: req.body.name, userId: verifyToken.token_id, image: req.body.image, birth: req.body.birth, gender: req.body.gender, animalCode: req.body.animalCode});
         
         res.json({result: true, data: newDog});
     } catch(err) {
@@ -51,7 +51,7 @@ router.get("/takeMedicine", async (req, res)=>{ // 약 먹음
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const newDog = await Dog.findOneAndUpdate({userId: verifyToken}, {lastMedicine: new Date()});
+        const newDog = await Dog.findOneAndUpdate({userId: verifyToken.token_id}, {lastMedicine: new Date()});
         
         res.json({result: true, data: newDog});
     } catch(err) {
@@ -65,7 +65,7 @@ router.get("/brushTeeth", async (req, res)=>{ // 양치함
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const newDog = await Dog.findOneAndUpdate({userId: verifyToken}, {lastMedicine: new Date()});
+        const newDog = await Dog.findOneAndUpdate({userId: verifyToken.token_id}, {lastMedicine: new Date()});
         
         res.json({result: true, data: newDog});
     } catch(err) {
@@ -79,7 +79,7 @@ router.get("/lastCheck", async (req, res)=>{ // 마지막으로 양치/약 먹�
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const checkDate = await Dog.findOne({userId: verifyToken}).select("lastMedicine lastTeeth");
+        const checkDate = await Dog.findOne({userId: verifyToken.token_id}).select("lastMedicine lastTeeth");
         
         res.json({result: true, data: checkDate});
     } catch(err) {
