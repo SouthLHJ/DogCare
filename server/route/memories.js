@@ -17,22 +17,22 @@ router.post("/storage/:fileName", (req, resp)=>{ // 추억 사진 저장
 });
 
 router.post("/write", async (req, res)=>{ // 추억 등록
-    const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
+    const verifyToken = jwt.verify(req.body.token_id, process.env.SECRET_KEY);
 
     try {
-        const newMemory = Memories.create({userId: verifyToken, date: req.body.date ?? new Date , title: req.body.title, description: req.body.description, image: req.body.image, public: req.body.public})
+        const newMemory = Memories.create({userId: verifyToken.token_id, date: req.body.date ?? new Date() , title: req.body.title, description: req.body.description, image: req.body.image ? req.body.image : null , public: req.body.public})
 
         res.json({result: true, data: newMemory});
     } catch(err) {
         res.json({result: false, msg: err.message});
     };
-});
+}); 
 
-router.get("/myList", async (req, res)=>{ // 나의 추억
+router.get("/myList", async (req, res)=>{ // 나의 추억 
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
-
+console.log(verifyToken)
     try {
-        const memoriesList = await Memories.find({userId: verifyToken}).sort("-date").lean();
+        const memoriesList = await Memories.find({userId: verifyToken.token_id}).sort("-date").lean();
 
         res.json({result: true, list: memoriesList });
     } catch(err) {

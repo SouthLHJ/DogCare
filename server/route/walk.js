@@ -22,7 +22,7 @@ router.post("/write", async (req, res)=>{ // 산책 기록 저장
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const newWalk = await Walk.create({userId: verifyToken, date: new Date(), time: req.body.time, memo: req.body.memo, image: req.body.image });
+        const newWalk = await Walk.create({userId: verifyToken.token_id, date: new Date(), time: req.body.time, memo: req.body.memo, image: req.body.image });
 
         res.json({result: true, data: newWalk});
     } catch(err) {
@@ -34,7 +34,7 @@ router.get("/list", async (req, res)=>{ // 산책 리스트
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const walkList = await Walk.find({userId: verifyToken}).sort("-date").lean();
+        const walkList = await Walk.find({userId: verifyToken.token_id}).sort("-date").lean();
 
         res.json({result: true, list: walkList });
     } catch(err) {
