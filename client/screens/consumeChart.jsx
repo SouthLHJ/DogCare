@@ -7,13 +7,17 @@ import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
 */
 
 import { LineChart,BarChart,PieChart, ProgressChart } from 'react-native-chart-kit'
-import { AppContext } from "../contexts/app-context";
+import { readConsumeAll } from "../api/consume";
+import { AppContext } from '../contexts/app-context';
+import { ConsumeContext } from '../contexts/consume-context';
 import globalStyles from "../customs/globalStyle";
 import Loading from "../customs/loading";
 
 
 function ConsumeChartScreen() {
     const context  = useContext(AppContext);
+    const consumeContext = useContext(ConsumeContext);
+
 
     const [data,setData] = useState();
 
@@ -22,13 +26,16 @@ function ConsumeChartScreen() {
 
     useEffect(()=>{
         // 소비내역 이번달 꺼 싹 불러오는 api 실행
-        // const data = {
-
-        // }
-        // readConsumeList(data, token)
-        //  .then((rcv)=>{
-        //     console.log(rcv)
-        //  })
+        const token  = context.auth.token
+        // console.log(consumeContext.data)
+        readConsumeAll(token)
+         .then((rcv)=>{
+            // console.log("chart",rcv)
+            if(rcv.result){
+                consumeContext.dispatch({type: "update", payload : rcv.list})
+            }
+         })
+         .catch(err=>console.log("readCounsumeAll => ",err))
         // 실행해서 나온 값을 저장하게한다.
         setData(
             {
