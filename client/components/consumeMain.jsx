@@ -10,7 +10,7 @@ import ConsumeRegisterScreen from '../screens/consumeRegister';
 
 function ConsumeMain() {
     return (  
-        <TopTab.Navigator screenOptions={{tabBarStyle  :  {display: 'none'}}}>
+        <TopTab.Navigator screenOptions={{tabBarStyle  :  {display: 'flex'}}}>
             <TopTab.Screen  name="consumeChart" component={ConsumeChartScreen}/>
             <TopTab.Screen  name="consumeList" component={ConsumeListScreen}/>
             <TopTab.Screen  name="consumeRegister" component={ConsumeRegisterScreen}/>
