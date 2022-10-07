@@ -22,6 +22,7 @@ function LoginScreen() {
             id : id,
             password : pw
         }
+        console.log(data)
         sendLogin(data)
          .then((rcv)=>{
             if(rcv.result){

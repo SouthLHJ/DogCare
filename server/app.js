@@ -28,7 +28,7 @@ app.use("/util/account", account);
 app.use("/util/walk", walk); 
 app.use("/util/memories", memories);
 app.use("/util/consume", consume);
-app.use("/util/dog", dog); 
+app.use("/util/dog", dog);  
  
 app.listen(8080, ()=>{
     console.log("[Server] start."); 
