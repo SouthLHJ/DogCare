@@ -1,5 +1,4 @@
 // 체크 박스  설치 : npx expo install expo-checkbox
-import Checkbox from 'expo-checkbox';
 
 /*
     차트
@@ -18,6 +17,7 @@ import CustomDatePicker from "../customs/datePicker";
 import globalStyles from "../customs/globalStyle";
 import Loading from "../customs/loading";
 import FontText from '../customs/fontText';
+import ConsumeBarChart from '../components/barChart';
 
 
 function ConsumeChartScreen() {
@@ -27,8 +27,6 @@ function ConsumeChartScreen() {
 
     const [data,setData] = useState();
 
-    const [isChecked, setChecked] = useState(false);
-    const [isChecked2, setChecked2] = useState(false);
     const [startPoint, setStartPoint] = useState(new Date());
     const [endPoint, setEndPoint] = useState(new Date());
 
@@ -111,32 +109,16 @@ function ConsumeChartScreen() {
     return (
         <View style={globalStyles.container}>
             <Text>1. 전체 기간 차트</Text>
+            <View>
+                <ConsumeBarChart />
+            </View>
             <Text>2. 기간 조회 가능 차트</Text>
             <CustomDatePicker startPoint={startPoint} setStartPoint={setStartPoint} endPoint={endPoint} setEndPoint={setEndPoint} />
             <Text>3. 카테고리 별 조회 가능 차트</Text>
-            <View>
-                <View style={styles.section}>
-                    <Checkbox
-                        style={styles.checkbox}
-                        value={isChecked}
-                        onValueChange={setChecked}
-                        
-                        color={isChecked ? '#4630EB' : undefined}
-                    /> 
-                    <FontText>용품</FontText>
-                </View>
-                <View style={styles.section}>
-                <Checkbox
-                    style={styles.checkbox}
-                    value={isChecked2}
-                    onValueChange={setChecked2}
-                    onChange={(e)=>{console.log(e);}}
-                    color={isChecked2 ? '#4630EB' : undefined}
-                /> 
-                <FontText>간식</FontText>
-            </View>
-            </View>
-            <ScrollView style={{marginVertical : 30}}>
+
+            <Text>차트 예시</Text>
+
+            <ScrollView >
                 <Text>라인 차트</Text>
                 <LineChart
                     data={{
@@ -161,35 +143,6 @@ function ConsumeChartScreen() {
                         marginVertical: 8,
                         borderRadius: 2
                     }}
-                />
-                <Text>바 차트</Text>
-                <BarChart
-                    data={{
-                        labels: ["용품", "간식", "사료", "위생", "약", "치료비"],
-                        datasets: [
-                        {
-                            data: [20, 45, 28, 80, 99, 43]
-                        }
-                        ]
-                    }}
-                    width={Dimensions.get("window").width}
-                    height={220}
-                    yAxisLabel="$"
-                    chartConfig={{backgroundColor: "white",
-                    backgroundGradientFrom: "#0089FF", // 배경색깔 그라데이션용 (왼쪽)
-                    backgroundGradientTo: "#0089FF",    // 배경색깔 그라데이션용 (오른쪽)
-                    decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // 그래프 내부 색상 투명도
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    style: {
-                        borderRadius: 30    
-                    },
-                    propsForDots: {
-                        r: "2",
-                        strokeWidth: "3",
-                        stroke: "white"
-                    }}}
-                    verticalLabelRotation={0} // 라벨 글자 기울기 정도
                 />
                 <Text>파이 차트</Text>
                 <PieChart
