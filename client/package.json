@@ -28,7 +28,8 @@
     "react-native-pager-view": "5.4.24",
     "react-native-svg": "^9.13.3",
     "react-native-tab-view": "^3.2.1",
-    "react-native-table-component": "^1.2.2"
+    "react-native-table-component": "^1.2.2",
+    "expo-checkbox": "~2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
