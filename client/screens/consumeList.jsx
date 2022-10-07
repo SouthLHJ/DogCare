@@ -4,75 +4,50 @@
     - 참고페이지 : https://www.npmjs.com/package/react-native-table-component
 */
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-//icon
-import { AntDesign } from '@expo/vector-icons';
 
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+//icon
+
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import globalStyles from '../customs/globalStyle';
 import { useContext, useEffect, useState } from 'react';
 import Loading from '../customs/loading';
-import { readConsumeList } from '../api/consume';
 import { AppContext } from '../contexts/app-context';
+import { ConsumeContext } from '../contexts/consume-context';
+import ListConsume from '../components/listCnsm';
+import FontText from '../customs/fontText';
+import CustomDatePicker from '../customs/datePicker';
+import CustomButton from '../customs/customButton';
+import { readConsumeMontly } from '../api/consume';
 
 
 function ConsumeListScreen() {
     const context  = useContext(AppContext);
+    const consumeContext = useContext(ConsumeContext);
 
-    const [data,setData] = useState();
-    const [startPoint, setStartPoint] = useState(new Date());
-    const [endPoint, setEndPoint] = useState(new Date());
+    const [date1, setDate1] = useState(new Date());
+    const [date2, setDate2] = useState(new Date());
 
-    useEffect(()=>{
-        // 소비내역 이번달 꺼 싹 불러오는 api 실행
-        const data = {
-            startPoint,
-            endPoint
-        }
-        const token  = context.auth.token
-        readConsumeList(data, token)
+    //func
+    const onSearch = ()=>{
+        console.log("!@!@1");
+        readConsumeMontly(date1,date2,context.auth.token)
          .then((rcv)=>{
             console.log(rcv)
          })
-        // 실행해서 나온 값을 저장하게한다.
-        setData(
-            {
-                tableHead: ['', 'Head1', 'Head2', 'Head3'],
-                tableTitle: ['Title', 'Title2', 'Title3', 'Title4'],
-                tableData: [
-                    ['1', '2', '3'],
-                    ['a', 'b', 'c'],
-                    ['1', '2', '3'],
-                    ['a', 'b', 'c']
-                ]
-            }
-        )
-    },[])
-
-    //func
-    const onRegister = ()=>{
-
+         .catch(err=>console.log("onSearch ConsumeList => ",err))
     }
 
-    if(!data){
-        return(
-            <Loading/>
-        );
-    }
     return (  
     <View style={globalStyles.container}>
-        <TouchableOpacity onPress={()=>onRegister()} style={styles.plusIcon}>
-            <AntDesign name="pluscircleo" size={20} color="black" />
-        </TouchableOpacity>
-
-        <Table borderStyle={{borderWidth: 1}}>
-          <Row data={data.tableHead} flexArr={[1, 2, 1, 1]} style={styles.head} textStyle={styles.text}/>
-          <TableWrapper style={styles.wrapper}>
-            <Col data={data.tableTitle} style={styles.title} heightArr={[28,28]} textStyle={styles.text}/>
-            <Rows data={data.tableData} flexArr={[2, 1, 1]} style={styles.row} textStyle={styles.text}/>
-          </TableWrapper>
-        </Table>
-
-
+        <View style={styles.searchDateContainer}>
+            <CustomDatePicker start={true} end={true} startPoint={date1} setStartPoint={setDate1} endPoint={date2} setEndPoint={setDate2}/>
+            <TouchableOpacity onPress={()=>onSearch()}>
+                <FontText>검색</FontText>
+            </TouchableOpacity>
+        </View>
+        <ScrollView style={{height : 200}}>
+            <ListConsume />
+        </ScrollView>
     </View>
     );
 }
@@ -84,11 +59,14 @@ const styles = StyleSheet.create({
         marginVertical : 5,
         alignItems  : "flex-end"
     },
+
+    searchDateContainer :{
+        flexDirection : "row",
+        justifyContent: "space-around"
+    },
         
     // 표
     head: {  height: 40,  backgroundColor: '#f1f8ff'  },
-    wrapper: { flexDirection: 'row' },
-    title: { flex: 1, backgroundColor: '#f6f8fa' },
     row: {  height: 28  },
     text: { textAlign: 'center' }
 });
