@@ -13,3 +13,21 @@ export async function getReverseGeocordingURI(lat, lng) {
 
     return resp.data;
 };
+
+export async function getHospital(lat, lng) {
+    console.log(lat, lng);
+    const uri = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=animal%20hospital&location=${lat}%2C${lng}&key=${GOOGLE_APP_KEY}&region=ko&rankby=distance`;
+
+    const resp = await axios.get(uri);
+
+    return (resp.data.results);
+};
+
+export async function getPark(lat, lng) {
+    console.log(lat, lng);
+    const uri = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=공원&location=${lat}%2C${lng}&key=${GOOGLE_APP_KEY}&region=ko&rankby=distance`;
+
+    const resp = await axios.get(uri);
+
+    return (resp.data.results);
+};
