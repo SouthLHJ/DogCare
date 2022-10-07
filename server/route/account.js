@@ -7,15 +7,21 @@ const router = express.Router();
 
 router.post("/register", async (req, res)=>{ // 회원가입
     console.log(req.body);
-    const hash = await bcrypt.hash(req.body.password, 10);
 
-    try {
-        const result = await Account.create({id: req.body.id, password: hash, name: req.body.name, birth: req.body.birth, contact: req.body.contact});
+    if( !(/[a-z0-9]{4,}/.test(req.body.id) && /[a-zA-Z0-9`~!@#$%^&*]/.test(req.body.password)) ) {
+        res.json({result: false, msg: "아이디 또는 비밀번호가 형식에 맞지 않습니다."});
 
-        res.json({result: true, data: result});
-    } catch(err) {
-        res.json({result: false, msg: err.message});
-    };
+    }else {
+        const hash = await bcrypt.hash(req.body.password, 10);
+        
+        try {
+            const result = await Account.create({id: req.body.id, password: hash, name: req.body.name, birth: req.body.birth, contact: req.body.contact});
+            
+            res.json({result: true, data: result});
+        } catch(err) {
+            res.json({result: false, msg: err.message});
+        };
+    }
 });
 
 
