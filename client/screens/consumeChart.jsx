@@ -1,17 +1,23 @@
-import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
+// 체크 박스  설치 : npx expo install expo-checkbox
+import Checkbox from 'expo-checkbox';
+
 /*
     차트
     - 설치 : react-native-chart-kit / react-native-svg@9.13.3 (다운그레이드 필수)
     - 참고 페이지 : https://www.npmjs.com/package/react-native-chart-kit
 */
-
 import { LineChart,BarChart,PieChart, ProgressChart } from 'react-native-chart-kit'
+
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
+
 import { readConsumeAll } from "../api/consume";
 import { AppContext } from '../contexts/app-context';
 import { ConsumeContext } from '../contexts/consume-context';
+import CustomDatePicker from "../customs/datePicker";
 import globalStyles from "../customs/globalStyle";
 import Loading from "../customs/loading";
+import FontText from '../customs/fontText';
 
 
 function ConsumeChartScreen() {
@@ -21,6 +27,8 @@ function ConsumeChartScreen() {
 
     const [data,setData] = useState();
 
+    const [isChecked, setChecked] = useState(false);
+    const [isChecked2, setChecked2] = useState(false);
     const [startPoint, setStartPoint] = useState(new Date());
     const [endPoint, setEndPoint] = useState(new Date());
 
@@ -104,7 +112,30 @@ function ConsumeChartScreen() {
         <View style={globalStyles.container}>
             <Text>1. 전체 기간 차트</Text>
             <Text>2. 기간 조회 가능 차트</Text>
+            <CustomDatePicker startPoint={startPoint} setStartPoint={setStartPoint} endPoint={endPoint} setEndPoint={setEndPoint} />
             <Text>3. 카테고리 별 조회 가능 차트</Text>
+            <View>
+                <View style={styles.section}>
+                    <Checkbox
+                        style={styles.checkbox}
+                        value={isChecked}
+                        onValueChange={setChecked}
+                        
+                        color={isChecked ? '#4630EB' : undefined}
+                    /> 
+                    <FontText>용품</FontText>
+                </View>
+                <View style={styles.section}>
+                <Checkbox
+                    style={styles.checkbox}
+                    value={isChecked2}
+                    onValueChange={setChecked2}
+                    onChange={(e)=>{console.log(e);}}
+                    color={isChecked2 ? '#4630EB' : undefined}
+                /> 
+                <FontText>간식</FontText>
+            </View>
+            </View>
             <ScrollView style={{marginVertical : 30}}>
                 <Text>라인 차트</Text>
                 <LineChart
@@ -213,6 +244,13 @@ const styles = StyleSheet.create({
         backgroundGradientFrom: '#1E2923',
         backgroundGradientTo: '#08130D',
         color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`
-    }
+    },
+    section: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkbox: {
+        margin: 8,
+    },
 
 });
