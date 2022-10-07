@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 
 const dogSchema = new mongoose.Schema({
-    name: { type: String, unique: true, require: true}, // 해당 필드 내의 중복된 데이터 거르기
+    name: { type: String, unique: true, required: true}, // 해당 필드 내의 중복된 데이터 거르기
     userId: { type: mongoose.SchemaTypes.ObjectId, ref: "account", required: true},
     image: { type: String, default: null },
     birth: {type: String, default: null },
