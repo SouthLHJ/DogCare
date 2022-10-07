@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
     - 참고 페이지 : https://www.npmjs.com/package/react-native-chart-kit
 */
 
-import { LineChart,BarChart,PieChart } from 'react-native-chart-kit'
+import { LineChart,BarChart,PieChart, ProgressChart } from 'react-native-chart-kit'
 import { AppContext } from "../contexts/app-context";
 import globalStyles from "../customs/globalStyle";
 import Loading from "../customs/loading";
@@ -16,12 +16,19 @@ function ConsumeChartScreen() {
     const context  = useContext(AppContext);
 
     const [data,setData] = useState();
+
     const [startPoint, setStartPoint] = useState(new Date());
     const [endPoint, setEndPoint] = useState(new Date());
 
     useEffect(()=>{
         // 소비내역 이번달 꺼 싹 불러오는 api 실행
-        
+        // const data = {
+
+        // }
+        // readConsumeList(data, token)
+        //  .then((rcv)=>{
+        //     console.log(rcv)
+        //  })
         // 실행해서 나온 값을 저장하게한다.
         setData(
             {
@@ -75,6 +82,11 @@ function ConsumeChartScreen() {
         }
       ]
 
+    const ProgressData = {
+        labels: ["Swim", "Bike", "Run"], // optional
+        data: [0.4, 0.6, 0.8]
+    };
+
     if(!data){
         return(
             <Loading/>
@@ -83,6 +95,9 @@ function ConsumeChartScreen() {
 
     return (
         <View style={globalStyles.container}>
+            <Text>1. 전체 기간 차트</Text>
+            <Text>2. 기간 조회 가능 차트</Text>
+            <Text>3. 카테고리 별 조회 가능 차트</Text>
             <ScrollView style={{marginVertical : 30}}>
                 <Text>라인 차트</Text>
                 <LineChart
@@ -156,6 +171,24 @@ function ConsumeChartScreen() {
                     paddingLeft={"15"}
                     center={[10, 10]} // 파이 표 중심점 위치 조정
                     // absolute (퍼센트로 보여줄 것인지 데이터값 고대로 보여줄것인지 결정)
+                />
+
+                <Text>프로그래스 차트</Text>
+                <ProgressChart
+                data={ProgressData}
+                width={Dimensions.get("window").width}
+                height={220}
+                strokeWidth={16}
+                radius={32}
+                chartConfig={{
+                    backgroundColor: "white",
+                    backgroundGradientFrom: "#0089FF", // 배경색깔 그라데이션용 (왼쪽)
+                    backgroundGradientTo: "#0089FF",    // 배경색깔 그라데이션용 (오른쪽)
+                    decimalPlaces: 2, // optional, defaults to 2dp
+                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // 그래프 내부 색상 투명도
+                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                }}
+                hideLegend={false}
                 />
             </ScrollView>
 
