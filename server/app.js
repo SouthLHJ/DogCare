@@ -10,6 +10,7 @@ import walk from "./route/walk.js";
 import memories from "./route/memories.js";
 import consume from "./route/consume.js";
 import dog from "./route/dog.js";
+import place from "./route/place.js";
  
 
 const app = express();
@@ -28,7 +29,8 @@ app.use("/util/account", account);
 app.use("/util/walk", walk); 
 app.use("/util/memories", memories);
 app.use("/util/consume", consume);
-app.use("/util/dog", dog); 
+app.use("/util/dog", dog);  
+app.use("/util/place", place);  
  
 app.listen(8080, ()=>{
     console.log("[Server] start."); 
