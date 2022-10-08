@@ -1,10 +1,28 @@
 import express from "express";
 import Walk from "../model/walk.js";
 import jwt from "jsonwebtoken";
+import axios from "axios"
+import path from "path"
+import fs from "fs"
+
 
 const router = express.Router();
 
 
+router.get("/weather",async(req,res)=>{
+    const key = "oDtrqrff3ZdIF5EMB%2FvexXvzsZtmLbgpmzK9RPUArCS7CDaPhUBMC5XjUQT1RgyY%2BOs%2FSXE8RZMTYxTbFssszg%3D%3D";  
+    const date = req.query.date;
+    const time = req.query.time;
+    const x = req.query.x;
+    const y = req.query.y;
+    console.log(date,time,x,y)
+    try{
+        const rcv  = await axios.get(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`)
+        res.json({result : true , data : rcv})
+    }catch(e){
+        console.log(e.message)        
+    }
+})
 
 
 router.post("/storage/:fileName", (req, resp)=>{ // 사진 저장
@@ -19,9 +37,9 @@ router.post("/storage/:fileName", (req, resp)=>{ // 사진 저장
 });
 
 router.post("/write", async (req, res)=>{ // 산책 기록 저장
-    const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
-
+    
     try {
+        const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
         const newWalk = await Walk.create({userId: verifyToken.token_id, date: new Date(), time: req.body.time, memo: req.body.memo, image: req.body.image });
 
         res.json({result: true, data: newWalk});

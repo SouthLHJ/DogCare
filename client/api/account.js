@@ -1,6 +1,6 @@
 import axios  from "axios";
 
-const ip = "http://192.168.4.56:8080";
+const ip = "http://221.156.95.190:8080";
 
 export const sendLogin = async(data)=>{
     const res  = await axios.post(`${ip}/util/account/login`,data)
