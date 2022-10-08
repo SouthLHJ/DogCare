@@ -14,6 +14,7 @@ import globalStyles from "../customs/globalStyle";
 function AroundPlaceScreen({ navigation, route }) {
     const [loaded, setLoaded] = useState(false);
     const [coordinate, setCoordinate] = useState({ lat: 36, lng: 127, setting: false });
+    const [itemcoordinate, setItemCoordinate] = useState({ lat: 36, lng: 127, setting: false });
     // const [mapURI, setMapURI] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [list, setList] = useState([]);
@@ -54,6 +55,7 @@ function AroundPlaceScreen({ navigation, route }) {
             };
             console.log("여기", res.coords)
 
+            setItemCoordinate({ lat: res.coords.latitude, lng: res.coords.longitude, setting: true });
             setCoordinate({ lat: res.coords.latitude, lng: res.coords.longitude, setting: true });
             return { lat: res.coords.latitude, lng: res.coords.longitude, setting: true };
             // await setMapInformation(res.coords.latitude, res.coords.longitude);
@@ -61,6 +63,7 @@ function AroundPlaceScreen({ navigation, route }) {
             try {
                 const locationRes = await getCurrentPositionAsync();
 
+                setItemCoordinate({ lat: locationRes.coords.latitude, lng: locationRes.coords.longitude , setting: true});
                 setCoordinate({ lat: locationRes.coords.latitude, lng: locationRes.coords.longitude , setting: true});
                 console.log("여기", locationRes.coords)
                 return { lat: locationRes.coords.latitude, lng: locationRes.coords.longitude, setting: true };
@@ -150,17 +153,17 @@ function AroundPlaceScreen({ navigation, route }) {
                 </View>
 
                 <View style={styles.map}>
-                    {coordinate.setting ?
+                    {itemcoordinate.setting ?
                         <MapView provider="google" mapType="terrain" showsUserLocation={true} region={{
-                            latitude: coordinate.lat,
-                            longitude: coordinate.lng,
+                            latitude: itemcoordinate.lat,
+                            longitude: itemcoordinate.lng,
                             latitudeDelta: 0.014,
                             longitudeDelta: 0.014,
                         }} style={{ flex: 1, width: "100%", height: "100%" }}>
 
                             {list.map((one, index) => {
                                 return <Marker onCalloutPress={() => {
-                                    setCoordinate({ lat:  one.geometry.location.lat, lng: one.geometry.location.lng, setting: true });
+                                    setItemCoordinate({ lat:  one.geometry.location.lat, lng: one.geometry.location.lng, setting: true });
                                     setItem(one);
                                     setShowModal(true);
                                 }} coordinate={{ latitude: one.geometry.location.lat, longitude: one.geometry.location.lng }} key={one.place_id} title={one.name} />
