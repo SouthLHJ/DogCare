@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function mypageCheckScreen() {
+function MypageCheckScreen() {
     return (  
     <View>
         <Text>mypageCheck 페이지</Text>
@@ -8,7 +8,7 @@ function mypageCheckScreen() {
     );
 }
 
-export default mypageCheckScreen;
+export default MypageCheckScreen;
 
 const styles = StyleSheet.create({
     

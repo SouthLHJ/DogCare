@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function MypagePetRegisterScreen() {
+function MypageAccountScreen() {
     return (  
     <View>
-        <Text>mypagePetRegister 페이지</Text>
+        <Text>MypageAccountScreen 페이지</Text>
     </View>
     );
 }
 
-export default MypagePetRegisterScreen;
+export default MypageAccountScreen;
 
 const styles = StyleSheet.create({
     

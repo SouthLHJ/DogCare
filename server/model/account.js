@@ -8,6 +8,7 @@ const accountSchema = new mongoose.Schema({
     name: { type: String, required: true},
     birth: { type: String, default: null},
     contact: { type: Number, unique: true, default: false, required: true},
+    place: { type: Array, default: []},
 });
 
 

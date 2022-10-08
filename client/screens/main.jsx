@@ -16,7 +16,7 @@ import Header from "../components/header";
 import LoginScreen from './login';
 import RegisterScreen from './register';
 import AroundPlaceScreen from './aroundPlace';
-import MypageMainScreen from './mypageMain';
+import MypageMainScreen from '../components/mypageMain';
 import WalkMain from '../components/walkMain';
 import MemoriesMain from '../components/memoriesMain';
 import ConsumeMain from '../components/consumeMain';

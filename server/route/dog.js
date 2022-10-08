@@ -37,7 +37,7 @@ router.post("/register", async (req, res)=>{ // 강아지 정보 저장
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
 
     try {
-        const newDog = await Dog.create({name: req.body.name, userId: verifyToken.token_id, image: req.body.image, birth: req.body.birth, gender: req.body.gender, animalCode: req.body.animalCode});
+        const newDog = await Dog.create({name: req.body.name, userId: verifyToken.token_id, image: req.body.image ?? "https://www.shutterstock.com/ko/image-vector/paw-vector-foot-trail-print-cat-1140245744", birth: req.body.birth, gender: req.body.gender, animalCode: req.body.animalCode});
         
         res.json({result: true, data: newDog});
     } catch(err) {
