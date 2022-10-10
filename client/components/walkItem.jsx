@@ -16,8 +16,8 @@ function WalkItem({ item, onRefresh }) {
     return (
         <View style={styles.itemBox}>
             <View>
-                <FontText>{item.title}</FontText>
                 <FontText>{item.date.split("T")[0]}</FontText>
+                <FontText>{item.memo}</FontText>
                 <View style={styles.iconBox}>
                     <Pressable onPress={() => { setModal(true)}}>
                         <Feather name="edit" size={18} color="black" />
@@ -31,13 +31,13 @@ function WalkItem({ item, onRefresh }) {
                                         .then((rcv) => {
                                             if(rcv.result) {
                                                 console.log("삭제됨!");
+                                                onRefresh();
                                             } else {
-                                                console.log(rcv.msg);
+                                                console.log("deleteWalk server =>",rcv.msg);
                                             }
                                         }).catch((err) => {
-                                            console.log(err.message);
+                                            console.log("deleteWalk =>",err.message);
                                         });
-                                        onRefresh();
                                 }
                             }
                         ])
@@ -46,7 +46,7 @@ function WalkItem({ item, onRefresh }) {
                     </Pressable>
                 </View>
             </View>
-            {modal &&<WalkRegister modal={modal} setModal={setModal} time1={item.time1} time2={item.time2}/> }
+            {modal &&<WalkRegister modal={modal} setModal={setModal} time1={item.time1} time2={item.time2} image={item?.image} memo={item?.memo} edit={true} id={item._id}/> }
             <View style={{ flex: 1, alignItems: "flex-end" }}>
                 {item.image ? <Image source={{ uri: item.image }} style={{ height: "100%", width: 78, borderRadius: 8 }} />
                     : <></>

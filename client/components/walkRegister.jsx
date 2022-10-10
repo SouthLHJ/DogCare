@@ -10,9 +10,9 @@ import Loading from '../customs/loading';
 import globalStyles from '../customs/globalStyle';
 import CustomButton from '../customs/customButton';
 import { AppContext } from '../contexts/app-context';
-import { writeWalk, writeWalkImage } from '../api/walk';
+import { editWalk, writeWalk, writeWalkImage } from '../api/walk';
 
-function WalkRegister({modal,setModal,time1,time2}) {
+function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id}) {
     const context = useContext(AppContext);
     const navigation  = useNavigation();
 
@@ -20,11 +20,11 @@ function WalkRegister({modal,setModal,time1,time2}) {
     const [hide, setHide] = useState(false);
     const [loaded, setLoaded] = useState(false);
 
-    const [imageUri, setImageUri] = useState(null);
+    const [imageUri, setImageUri] = useState(image ?? null);
     const [imageData, setImageData] = useState(null);
     const [dateShow, setDateShow] =useState(false);
     const [date, setDate] = useState(new Date());
-    const [comment, setComment] = useState(null);
+    const [comment, setComment] = useState(memo ?? null);
 
     useEffect(()=>{
 
@@ -62,36 +62,49 @@ function WalkRegister({modal,setModal,time1,time2}) {
     };
     const onRegister = ()=>{
         const data = {
-            token_id: context.auth.token,
             date: date,
+            time1: time1,
+            time2 : time2,
             memo: comment ?? ""
         };
         setLoaded(true);
-        if (imageUri && imageData) {    
-            writeWalkImage(data, imageData, imageUri)
-                .then((rcv) => {
-                    if (rcv.result) {
-                        console.log("저장!");
-                        navigation.navigate("newWalk");
-                    } else {
-                        console.log("에러!");
-                    };
-                }).catch((err) => {
-                    console.log("writeWalkImage = > ",err.message);
-                });
-        }else {
-            writeWalk(data)
-                .then((rcv) => {
-                    if (rcv.result) {
-                        console.log("저장!");
-                        navigation.navigate("newWalk");
-                    } else {
-                        console.log("에러!");
-                    };
-                }).catch((err) => {
-                    console.log("writeWalk = > ",err.message);
-                });
-        };
+        if(!edit){
+            if (imageUri && imageData) {
+                console.log("??")    
+                writeWalkImage(context.auth.token,data, imageData, imageUri)
+                    .then((rcv) => {
+                        if (rcv.result) {
+                            setModal(false)
+                            navigation.navigate("newWalk");
+                        } else {
+                            console.log("writeWalkImage server => ", rcv.msg);
+                        };
+                    }).catch((err) => {
+                        console.log("writeWalkImage = > ",err.message);
+                    });
+            }else {
+                writeWalk(context.auth.token,data)
+                    .then((rcv) => {
+                        if (rcv.result) {
+                            navigation.navigate("newWalk");
+                        } else {
+                            console.log("writeWalk server =>", rcv.msg);
+                        };
+                    }).catch((err) => {
+                        console.log("writeWalk = > ",err.message);
+                    });
+            };
+        }else{
+            editWalk(context.auth.token,data,imageData,imageUri,id)
+                .then((rcv)=>{
+                    if(rcv.result){
+                        navigation.navigate("walkList");
+                    }else{
+                        console.log("editWalk server =>",rcv.msg);
+                    }
+                }).catch(err=>console.log("editWalk => ", err.message))
+                
+        }
 
         setLoaded(false);
     }

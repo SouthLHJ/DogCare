@@ -14,6 +14,11 @@ function WalkListScreen() {
     const [list, setList] = useState([]);
 
     useEffect(()=>{
+       onRefresh();
+
+    },[])
+
+    const onRefresh = ()=>{
         getWalkList(context.auth.token)
             .then((rcv) => {
                 if (rcv.result) {
@@ -27,8 +32,7 @@ function WalkListScreen() {
             }).finally(() => {
                 setLoaded(false);
             });
-
-    },[])
+    }
 
     if(loaded){
         return (
@@ -42,7 +46,7 @@ function WalkListScreen() {
         {list.length === 0 ? <FontText style={{textAlign : "center"}}>아직 산책 기록이 없습니다.</FontText>
             :
             <FlatList style={styles.scroll} data={list} renderItem={({ item }) => {
-                return <WalkItem item={item}/>
+                return <WalkItem item={item} onRefresh={onRefresh}/>
             }} />
         }
     </View>
