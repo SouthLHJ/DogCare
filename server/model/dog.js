@@ -8,6 +8,7 @@ const dogSchema = new mongoose.Schema({
     image: { type: String, default: null },
     birth: {type: String, default: null },
     gender: { type: String, default: null },
+    species: {type: String, default: "기타" },
     animalCode: { type: Number, default: null},
     lastMedicine: { type: String, default: null},
     lastTeeth: { type: String, default: null},

@@ -63,8 +63,8 @@ router.post("/edit", async (req, res)=>{ // 추억 수정
 
         if(haveToDel) {
             const base = path.resolve();
-            const lastFileName = haveToDel.split("/")[(haveToDel.splice("/").length) -1]
-            fs.rm(path.join(base, "storage", "memories", lastFileName))
+            const lastFileName = haveToDel.split("/")[(haveToDel.split("/").length) -1]
+            fs.rm(path.join(base, "storage", "memories", lastFileName));
         };
 
         const delMemo = await Memories.findOneAndUpdate(req.query.id, {date: req.body.date, title: req.body.title, description: req.body.description, image: req.body.image ? req.body.image : null, public: req.body.public});

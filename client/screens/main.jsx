@@ -37,7 +37,7 @@ function NoneUser (){
 function User(){
     return (
         <>
-            <BottomTab.Navigator screenOptions={{tabBarActiveTintColor:"#0089FF", headerShown : false, unmountOnBlur: true}}>
+            <BottomTab.Navigator screenOptions={{tabBarActiveTintColor:"#0089FF", headerShown : false, unmountOnBlur: true}} initialRouteName="memoriesMain">
                 <BottomTab.Screen name="walkMain" component={WalkMain} options={{title :"산책",tabBarIcon :({color})=>{return <FontAwesome5 name="walking" size={24} color={color} />} }}/>
                 <BottomTab.Screen name="aroundPlace" component={AroundPlaceScreen} options={{title :"장소",tabBarIcon :({color})=>{return <FontAwesome name="map" size={18}  color={color}  />} }}/>
                 <BottomTab.Screen name="memoriesMain" component={MemoriesMain}options={{title :"추억",tabBarIcon :({color})=>{return <MaterialIcons name="history-edu" size={24} color={color} />} }}/>
