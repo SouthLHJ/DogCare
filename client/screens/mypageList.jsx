@@ -23,7 +23,6 @@ function MypageListScreen({navigation, route}) {
             });
 
 
-
     }, []);
 
     //func

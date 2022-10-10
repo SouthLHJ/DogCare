@@ -36,7 +36,7 @@ function MemoriesWriteScreen({ navigation, route }) {
             setPublic(currentItem?.public)
             setImageUri(currentItem?.image);
             setLastImageUri(currentItem?.image);
-        }
+        };
     }, [route.params]);
 
  
@@ -101,6 +101,15 @@ function MemoriesWriteScreen({ navigation, route }) {
         setLoaded(false);
     };
 
+    const removeStates = () => {
+        setTitle(null);
+        setDesc(null);
+        setImageData(null);
+        setImageUri(null);
+        setLastImageUri(null);
+        setPublic(false);
+    };
+
     return (
         <View style={{ flex: 1 }}>
             {loaded ? <Loading /> : <></>}
@@ -126,6 +135,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            removeStates();
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("에러!");
@@ -138,6 +148,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            removeStates();
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("에러!");
@@ -152,6 +163,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            removeStates();
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("에러!");
@@ -164,6 +176,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            removeStates();
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("에러!");
@@ -181,6 +194,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                 </View>
                 <View style={styles.headerLeft}>
                     <Pressable onPress={() => {
+                        removeStates();
                         navigation.navigate("memoriesList");
                     }}>
                         <Ionicons name="arrow-back-circle-outline" size={42} color="black" />

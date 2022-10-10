@@ -61,7 +61,7 @@ router.get("/list", async (req, res)=>{ // 산책 리스트
 });
 
 
-router.get("/delete", async (req, res)=>{ // 산책 기록 저장
+router.get("/delete", async (req, res)=>{ // 산책 기록 삭제
     try {
         const delWalk = await Walk.findByIdAndDelete(req.query._id);
 

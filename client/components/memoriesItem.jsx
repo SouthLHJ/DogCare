@@ -27,7 +27,7 @@ function MemoriesItem({ item, onRefresh }) {
 
     return (
         <View style={styles.itemBox}>
-            <View>
+            <View style={{ flex: 1}}>
                 <FontText>{item.title}</FontText>
                 <FontText>{item.date.split("T")[0]}</FontText>
             {myMemory ?
@@ -62,8 +62,11 @@ function MemoriesItem({ item, onRefresh }) {
                 </View>
                 : <></>}
             </View>
-            <View style={{ flex: 1, alignItems: "flex-end" }}>
-                {item.image ? <Image source={{ uri: item.image }} style={{ height: "100%", width: 78, borderRadius: 8 }} />
+            <View style={{alignItems: "flex-end", height: 78, width: 78, }}>
+                {item.image ? <>
+                    <Image source={{ uri: item.image }} style={{ height: 78, width: 78, borderRadius: 8 }} />
+                    <Text style={{top: -80}}>집에서 확인용. 이미지 나오는거임</Text>
+                </>
                     : <></>
                 }
             </View>
