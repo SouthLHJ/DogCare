@@ -1,6 +1,9 @@
 import axios from "axios";
 import {Buffer} from 'buffer'
 
+const ip  = `http://221.156.95.190:8080/util/walk`
+
+
 // 응답 코드 체크용 (기억용)
 function code (){
     const value = ["POP",'PTY','PCP','REH','SNO','SKY','TMP','TMN','TMX',"UUU","VVV","WAV","VEC","WSD"]
@@ -15,15 +18,17 @@ export const readWeather = async(time,x=55,y=126)=>{
     const date = `${new Date().getFullYear()}`+`${new Date().getMonth()+1}`.padStart(2,"0")+`${new Date().getDate()}`.padStart(2,"0")
 
     // console.log(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`)
-    // const res  = await axios.get(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`)
-    // console.log("readweather",res.body)
+    // const res  = await fetch(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`)
+    // console.log("readweather",res.json())
 
     // const rcv = await axios.get(`http://221.156.95.190:8080/util/walk/weather?date=${date}&time=${time}&x=${x}&y=${y}`)
+
+    // console.log(rcv.data)
 
     return {weather :"맑음", heat : "17"}
 }
 
-export const writeWalkImage = async(data, fileData, fileURI)=>{
+export const writeWalkImage = async(token,data, fileData, fileURI)=>{
     const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1); // 파일 이름 저장
 
     const storageURI = `${ip}/storage/${fileName}`; // 해당 경로로 파일 이름을 params로 전달
@@ -38,14 +43,15 @@ export const writeWalkImage = async(data, fileData, fileURI)=>{
     });
     
     const item = {...data, image: uploadRes.data.path}; // 위에서 응답으로 받은 이미지 path값과 저장할 데이터들 묶어주기
-    const realDB = `${ip}/write`; // memories, walk는 write
+    const realDB = `${ip}/write?token_id=${token}`; // memories, walk는 write
     const res = await axios.post(realDB, item); // 데이터 베이스에 정보 저장하는 용
     
     return res.data;
 }
 
-export const writeWalk = async(data)=>{
-    const res = await axios.post(`${ip}/write`, data); // 데이터 베이스에 정보 저장하는 용
+export const writeWalk = async(token,data)=>{
+    console.log(data)
+    const res = await axios.post(`${ip}/write?token_id=${token}`, data); // 데이터 베이스에 정보 저장하는 용
     
     return res.data;
 }
@@ -58,7 +64,7 @@ export const getWalkList = async(token) =>{
 
 export async function deleteWalk(id) {
     try{
-        const res = await axios.get(`${ip}/delete?id=${id}`);
+        const res = await axios.get(`${ip}/delete?_id=${id}`);
 
 
         return res.data;
@@ -66,3 +72,31 @@ export async function deleteWalk(id) {
         console.log(e.message);
     };
 };
+
+export async function editWalk(token, data, fileData, fileURI, id){
+    const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1); // 파일 이름 저장
+    
+    const storageURI = `${ip}/storage/${fileName}`; // 해당 경로로 파일 이름을 params로 전달
+    let item  ;
+    if(fileData){
+        const uploadRes = await axios({ // 사진 저장하는 uri
+            url: storageURI,
+            headers: {
+                "Content-type": "image/jpeg"
+            },
+            data: Buffer.from(fileData, "base64"),
+            method: "post"
+        });
+        item = {...data, image: uploadRes.data.path}; // 위에서 응답으로 받은 이미지 path값과 저장할 데이터들 묶어주기
+    }
+    else{
+        item = {...data}
+    }
+    const realDB = `${ip}/edit?token_id=${token}?id=${id}`; // memories, walk는 write
+    const res = await axios.post(realDB, item); // 데이터 베이스에 정보 저장하는 용
+    
+    return res.data;
+
+
+
+}

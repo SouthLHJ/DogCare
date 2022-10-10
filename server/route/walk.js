@@ -2,6 +2,8 @@ import express from "express";
 import Walk from "../model/walk.js";
 import jwt from "jsonwebtoken";
 import axios from "axios"
+import https from "https";
+import fetch from "node-fetch";
 import path from "path"
 import fs from "fs"
 
@@ -10,6 +12,7 @@ const router = express.Router();
 
 
 router.get("/weather",async(req,res)=>{
+    // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
     const key = "oDtrqrff3ZdIF5EMB%2FvexXvzsZtmLbgpmzK9RPUArCS7CDaPhUBMC5XjUQT1RgyY%2BOs%2FSXE8RZMTYxTbFssszg%3D%3D";  
     const date = req.query.date;
     const time = req.query.time;
@@ -17,7 +20,15 @@ router.get("/weather",async(req,res)=>{
     const y = req.query.y;
     console.log(date,time,x,y)
     try{
-        const rcv  = await axios.get(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`)
+        const rcv  = await axios.get(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`,
+        {method: "GET", 
+        httpsAgent: new https.Agent({
+            rejectUnauthorized: false, //허가되지 않은 인증을 reject하지 않겠다!
+        }),
+        headers: {
+            "User-Agent": "test",
+        },
+        })
         res.json({result : true , data : rcv})
     }catch(e){
         console.log(e.message)        
@@ -37,10 +48,10 @@ router.post("/storage/:fileName", (req, resp)=>{ // 사진 저장
 });
 
 router.post("/write", async (req, res)=>{ // 산책 기록 저장
-    
+    console.log(req.body.image)
     try {
         const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
-        const newWalk = await Walk.create({userId: verifyToken.token_id, date: new Date(), time: req.body.time, memo: req.body.memo, image: req.body.image });
+        const newWalk = await Walk.create({userId: verifyToken.token_id, date: req.body.date, time1: req.body.time1, time2 : req.body.time2 , memo: req.body.memo, image: req.body?.image });
 
         res.json({result: true, data: newWalk});
     } catch(err) {
@@ -71,4 +82,15 @@ router.get("/delete", async (req, res)=>{ // 산책 기록 저장
     };
 });
 
+
+router.post("/edit",async(req,res)=>{
+    try{
+        const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
+        const edit = await Walk.findOneAndUpdate(req.query.id,{date: req.body.date, time1: req.body.time1, time2 : req.body.time2 , memo: req.body.memo, image: req.body?.image });
+
+        res.json({result: true, data: edit});
+    }catch(e){
+        res.json({result : false,msg : e.message})
+    }
+})
 export default router;
