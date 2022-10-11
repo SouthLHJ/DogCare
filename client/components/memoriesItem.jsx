@@ -62,11 +62,9 @@ function MemoriesItem({ item, onRefresh }) {
                 </View>
                 : <></>}
             </View>
-            <View style={{alignItems: "flex-end", height: 78, width: 78, }}>
-                {item.image ? <>
+            <View style={{}}>
+                {item.image ?
                     <Image source={{ uri: item.image }} style={{ height: 78, width: 78, borderRadius: 8 }} />
-                    <Text style={{top: -80}}>집에서 확인용. 이미지 나오는거임</Text>
-                </>
                     : <></>
                 }
             </View>
@@ -76,7 +74,7 @@ function MemoriesItem({ item, onRefresh }) {
 
 const styles = StyleSheet.create({
     itemBox: {
-        height: 86,
+        height: 98,
         width: 328,
         flexDirection: "row",
         borderWidth: 2,

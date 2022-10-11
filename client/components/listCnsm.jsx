@@ -13,6 +13,7 @@ function ListConsume() {
 
     useEffect(()=>{
         // 소비내역 싹 불러오는 api 실행
+        console.log(consumeContext.data);
         const arr = consumeContext.data
         // console.log(arr)
         const combineArr = arr.map((one)=>{

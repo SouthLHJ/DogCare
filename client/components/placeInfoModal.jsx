@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     mapImage: {
-        width: 400,
+        width: 370,
         height: 250,
         justifyContent: "flex-end",
     },

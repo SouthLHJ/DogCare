@@ -32,7 +32,8 @@ function ConsumeListScreen() {
         console.log("!@!@1");
         readConsumeMontly(date1,date2,context.auth.token)
          .then((rcv)=>{
-            console.log(rcv)
+            console.log(rcv);
+            consumeContext.dispatch({type: "update", payload: rcv.list})
          })
          .catch(err=>console.log("onSearch ConsumeList => ",err))
     }
