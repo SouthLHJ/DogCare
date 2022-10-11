@@ -80,6 +80,15 @@ router.get("/delete", async (req, res)=>{ // 삭제
     try {
         const delMemo = await Memories.findByIdAndDelete(req.query.id);
 
+        const haveToDel = delMemo.image;
+        if(haveToDel) {
+            console.log("haveToDel", haveToDel);
+            const base = path.resolve();
+            const lastFileName = haveToDel.split("/")[(haveToDel.split("/").length) -1]
+            fs.rm(path.join(base, "storage", "memories", lastFileName));
+        };
+
+        console.log("delMemo",delMemo)
         res.json({result: true, data: delMemo});
     } catch(err) {
         res.json({result: false, msg: err.message});
@@ -91,7 +100,7 @@ router.post("/checkAuth", (req, res) => {
     console.log(req.body)
     const verifyToken = jwt.verify(req.body.token_id, process.env.SECRET_KEY);
 
-    res.json({result: true, checked: req.body.userId === verifyToken.token_id});
+    res.json({result: true, checked: req.body.userId === verifyToken.token_id}); 
 } catch(err) {
     res.json({result: false, msg: err.message});
 };

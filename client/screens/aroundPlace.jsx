@@ -87,6 +87,7 @@ function AroundPlaceScreen({ navigation, route }) {
                 <View style={styles.buttonBox}>
                     <Pressable style={[globalStyles.button, styles.button]} onPress={() => {
                         !async function () {
+                            setLoaded(true);
                             getFromLocation()
                                 .then((res) => {
                                     console.log("res", res);

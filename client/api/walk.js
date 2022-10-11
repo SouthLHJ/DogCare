@@ -58,7 +58,7 @@ export const getWalkList = async(token) =>{
     const res = await axios.get(`${ip}/list?token_id=${token}`);
 
     return res.data;
-}
+};
 
 export async function deleteWalk(id) {
     try{
@@ -94,7 +94,12 @@ export async function editWalk(token, data, fileData, fileURI, id){
     const res = await axios.post(realDB, {...item, id: id}); // 데이터 베이스에 정보 저장하는 용
     
     return res.data;
-
-
-
 }
+
+
+
+export const weeklyWalkCheck = async(token) =>{
+    const res = await axios.get(`${ip}/weeklyList?token_id=${token}`);
+
+    return res.data;
+};
