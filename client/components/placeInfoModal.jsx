@@ -40,27 +40,25 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
         if (item_id) {
             !async function () {
                 try {
-                    const itemInfo = await getPlaceInfo(item_id);
-                    const { lat, lng } = itemInfo.geometry.location;
+                    const itemInfo = await getPlaceInfo([item_id]);
+                    const { lat, lng } = itemInfo[0].geometry.location;
                     const resMapUri = createStaticMapURI(lat, lng);
                     const isLiked = await sendLikeCheckRequest(auth.id, item_id);
 
-                    console.log(isLiked);
-
                     setLikecheck(isLiked.check);
-                    setMoreInfo(itemInfo);
+                    setMoreInfo(itemInfo[0]);
                     setDistance(() => {
                         const otherLat = lat;
                         const otherLng = lng;
 
                         const Distancia = Dist(currentCoords.lat, currentCoords.lng, otherLat, otherLng);
 
+
                         return Distancia
                     });
                     setMapURI(resMapUri);
                 } catch (e) {
-                    console.log("PlaceInfoModal_useEffect===");
-                    console.log(e.message);
+                    console.log("PlaceInfoModal_useEffect===",e.message);
                 };
             }();
         };

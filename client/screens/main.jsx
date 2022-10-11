@@ -55,7 +55,7 @@ function MainScreen() {
     const [user, setUser] = useState(false);
 
     useEffect(()=>{
-        context.auth?.token && setUser(true);
+        context.auth?.token ? setUser(true) : setUser(false);
     },[context.auth])
 
     return (  
