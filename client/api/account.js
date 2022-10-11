@@ -18,3 +18,13 @@ export const sendRegister = async(data)=>{
 export const sendLogout = async()=>{
     
 }
+
+export const readUserProfile = async(id)=>{
+    const res = await axios.post(`${ip}/read`,{id: id});
+    return res.data
+}
+
+export const editUserProfile = async(id,data)=>{
+    const res = await axios.post(`${ip}/edit`,{...data, id: id});
+    return res.data
+}

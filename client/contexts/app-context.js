@@ -31,7 +31,7 @@ const authReducer = (state={}, action) => {
 export function AppContextProvider({ children }) {
     const [auth, dispatch] = useReducer(authReducer,null);
     const [refresh, setRefresh] = useState(false);
-
+    const [done,setDone] = useState(false);
 
     useEffect(()=>{
         async function load(){
@@ -50,7 +50,7 @@ export function AppContextProvider({ children }) {
         
     },[])
 
-    const [done,setDone] = useState(false);
+    
     if(!done){
         return (<ActivityIndicator size={60}/>)
     }

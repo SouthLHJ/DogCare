@@ -46,6 +46,28 @@ router.post("/login", async (req, res)=>{ // 로그인
     };
 });
 
+router.post("/read",async(req,res)=>{
+    try{
+        const findAccount = await Account.findOne({id: req.body.id}).lean();
+        res.json({result : true, data : findAccount})
+    }catch(e){
+        res.json({result : false, msg : e.message})
+    }
+})
 
+router.post("/edit",async(req,res)=>{
+    try{
+        const edit = await Account.findOneAndUpdate({id : req.body.id},{
+            birth: req.body.birth,
+            // contact: req.body.contact,
+            name: req.body.name, 
+            password: req.body.password,
+            place : req.body.place});
+
+        res.json({result: true, data: edit});
+    }catch(e){
+        res.json({result : false, msg : e.message})
+    }
+})
 
 export default router;
