@@ -113,23 +113,30 @@ function NewWalkScreen() {
     return (  
     <View style={globalStyles.container}>
         <View style={styles.weatherContainer}>
-            <FontText>{weather[9].fcstValue}</FontText>
             <FontText>{pty}</FontText>
+            <FontText>{weather[9].fcstValue}</FontText>
             <FontText>{weather[0].fcstValue}℃</FontText>
         </View>
-        <FontText style={{textAlign : "right"}}>출처 : 기상청 , 기준 시간 : {weather[0].baseTime.slice(0,2)}시 </FontText>
+        <FontText style={{textAlign : "right", fontSize : 10}}>출처 : 기상청 , 기준 시간 : {weather[0].baseTime.slice(0,2)}시 </FontText>
         <View style={{height : 400,alignItems : "center"}}>
+            {startIcon ?
             <Image source={require("../assets/puppy.gif")} style={styles.img} resizeMode="contain"/>
+            :    
+            <Image source={require("../assets/puppy_stop.gif")} style={styles.img} resizeMode="contain"/>
+            }
         </View>
 
         <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={()=>onWalkingStart()}>
-                {startIcon ? <AntDesign name="pause" size={24} color="black" />:<AntDesign name="caretright" size={24} color="black" />}
-            </TouchableOpacity>
+                {startIcon ?
+                <TouchableOpacity style={styles.button} onPress={()=>onWalkingStop()}>
+                    <FontAwesome name="stop" size={24} color="#0070d1" />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity  style={styles.button}  onPress={()=>onWalkingStart()}>
+                    <AntDesign name="caretright" size={24} color="#0070d1" />
+                </TouchableOpacity>
+                }
 
-            <TouchableOpacity onPress={()=>onWalkingStop()}>
-                <FontAwesome name="stop" size={24} color="black" />
-            </TouchableOpacity>
         </View>
         <SafeAreaView>
             {modal && <WalkRegister modal={modal} setModal={setModal} time1={time1.current} time2={time2.current}/>}
@@ -145,10 +152,10 @@ const styles = StyleSheet.create({
         flexDirection : "row",
         justifyContent : "space-around",
         alignItems : "center",
-        padding: 10,
+        paddingVertical: 7,
 
-        borderColor: "black",
-        borderWidth: 1,
+        borderColor : "#0070d1",
+        borderBottomWidth: 1,
     },
 
     img : {
@@ -157,8 +164,12 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer :{
-        flexDirection : "row",
-        justifyContent : "space-around",
-
+        alignItems : "center"        ,
+    },
+    button : {
+        padding : 5,
+        borderColor : "#0070d1",
+        borderRadius : 20,
+        borderWidth : 2,
     }
 });
