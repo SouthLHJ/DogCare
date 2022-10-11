@@ -4,8 +4,8 @@ import {BarChart} from 'react-native-chart-kit'
 import { ConsumeContext, SearchContext } from '../contexts/consume-context';
 import Loading from '../customs/loading';
 
-function ConsumeBarChart() {
-    const consumeContext = useContext(ConsumeContext);
+function ConsumeBarChartDate() {
+    const searchContext = useContext(SearchContext);
 
     const [data, setData] = useState([0,0,0,0,0,0,0]);
 
@@ -13,7 +13,8 @@ function ConsumeBarChart() {
         const labels = ["용품", "간식", "사료", "위생", "약", "치료비", "기타"];
         // console.log(arr)
         const combinedArr = [0,0,0,0,0,0,0];
-        const arr = consumeContext.data
+        
+        const arr = searchContext.search
         arr?.forEach((one)=>{
             const idx = labels.indexOf(one.category);
             if(idx == -1){
@@ -25,8 +26,7 @@ function ConsumeBarChart() {
         // console.log(combinedArr)
         setData(combinedArr);
 
-    },[consumeContext.data])
-
+    },[searchContext.search])
 
     return (
             <BarChart
@@ -48,8 +48,8 @@ function ConsumeBarChart() {
                     propsForVerticalLabels : {},
                 }}
                 yLabelsOffset={0}
-                showValuesOnTopOfBars={true}
                 // horizontalLabelRotation={-30}
+                showValuesOnTopOfBars={true}
                 verticalLabelRotation={0} // 라벨 글자 기울기 정도
                 style={{
                     marginVertical: 8,
@@ -61,4 +61,4 @@ function ConsumeBarChart() {
       );
 }
 
-export default ConsumeBarChart;
+export default ConsumeBarChartDate;

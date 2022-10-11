@@ -1,6 +1,8 @@
 //icon
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 import { useEffect, useRef, useState } from "react";
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -23,18 +25,7 @@ function NewWalkScreen() {
     const [modal, setModal] = useState(false);
 
     useEffect(()=>{
-        const timeIndex = ["02", "05", "08", "11", "14", "17", "20", "23"];
-        const time = `${new Date().getHours()}`.padStart(2,"0")
-        const idx = timeIndex.findIndex((one)=>{
-            return (one >= time)
-        })
-
-        readWeather(timeIndex[idx-1])
-        .then((rcv)=>{
-            // console.log(rcv)
-            setWeather(rcv)
-        })
-        .catch(e=>console.log("readWeather => ",e))
+        onRefreshWeather();
         async function load(){
             try{
                 const start = await AsyncStorage.getItem("walkStart")
@@ -80,19 +71,53 @@ function NewWalkScreen() {
         }
 
     }
+    let pty = "없음"
+    const onRefreshWeather = ()=>{
+        const timeIndex = ["02", "05", "08", "11", "14", "17", "20", "23"];
+        const time = `${new Date().getHours()}`.padStart(2,"0")
+        const idx = timeIndex.findIndex((one)=>{
+            return (one >= time)
+        })
 
+        readWeather(timeIndex[idx-1])
+        .then((rcv)=>{
+            // console.log(rcv)
+            
+            setWeather(rcv);
+        })
+        .catch(e=>console.log("readWeather => ",e))
+    }
     if(!weather){
         return (
             <Loading/>
-        )
+            )
+    }
+    switch(weather[6]?.fcstValue){
+        case "0":
+            pty = <MaterialCommunityIcons name="weather-sunny" size={24} color="black" />
+            break;
+        case "1":
+            pty = <MaterialCommunityIcons name="weather-rainy" size={24} color="black" />
+            break;
+        case "2":
+            pty = <MaterialCommunityIcons name="weather-snowy-rainy" size={24} color="black" />
+            break;
+        case "3":
+            pty = <MaterialCommunityIcons name="weather-snowy" size={24} color="black" />
+            break;
+        case "4":
+            pty = <MaterialCommunityIcons name="weather-pouring" size={24} color="black" />
+            break;
     }
     
     return (  
     <View style={globalStyles.container}>
         <View style={styles.weatherContainer}>
-            <FontText>{weather.weather}</FontText>
-            <FontText>{weather.heat}</FontText>
+            <FontText>{weather[9].fcstValue}</FontText>
+            <FontText>{pty}</FontText>
+            <FontText>{weather[0].fcstValue}℃</FontText>
         </View>
+        <FontText style={{textAlign : "right"}}>출처 : 기상청 , 기준 시간 : {weather[0].baseTime.slice(0,2)}시 </FontText>
         <View style={{height : 400,alignItems : "center"}}>
             <Image source={require("../assets/puppy.gif")} style={styles.img} resizeMode="contain"/>
         </View>
@@ -119,7 +144,7 @@ const styles = StyleSheet.create({
     weatherContainer :{
         flexDirection : "row",
         justifyContent : "space-around",
-
+        alignItems : "center",
         padding: 10,
 
         borderColor: "black",

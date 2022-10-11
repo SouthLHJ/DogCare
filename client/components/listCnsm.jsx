@@ -1,29 +1,40 @@
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 import { useContext, useEffect, useState } from "react";
-import { ConsumeContext } from "../contexts/consume-context";
+import { ConsumeContext, SearchContext } from "../contexts/consume-context";
 import Loading from "../customs/loading";
 import { StyleSheet, View } from 'react-native';
+import FontText from '../customs/fontText';
 
 function ListConsume() {
-    const consumeContext = useContext(ConsumeContext);
+    // const consumeContext = useContext(ConsumeContext);
+    const searchConsume = useContext(SearchContext);
 
     const [data,setData] = useState();
 
 
     useEffect(()=>{
-        // 소비내역 싹 불러오는 api 실행
-        console.log(consumeContext.data);
-        const arr = consumeContext.data
-        // console.log(arr)
-        const combineArr = arr.map((one)=>{
-            return [one.date.slice(0,10), one.category, one.ammount, one.description]
-        }) 
-        // 실행해서 나온 값을 저장하게한다.
-        setData(combineArr)
-    },[consumeContext.data])
+        if(searchConsume?.search){
+            // 소비내역 싹 불러오는 api 실행
+            const arr = searchConsume?.search
+            // console.log(arr)
+            const combineArr = arr.map((one)=>{
+                return [<FontText style={styles.text}>{one.date.slice(0,10)}</FontText>,
+                 <FontText style={styles.text}>{one.category}</FontText>,
+                 <FontText style={styles.text}>{one.ammount}</FontText>, 
+                 <FontText style={styles.text}>{one.description}</FontText>]
+            }) 
+            // 실행해서 나온 값을 저장하게한다.
+            setData(combineArr)
+        }
+    },[searchConsume.search])
 
-    
+    const tableTitle = [
+        <FontText style={styles.text}>날짜</FontText>,
+        <FontText style={styles.text}>카테고리</FontText>,
+        <FontText style={styles.text}>소비가격</FontText>,
+        <FontText style={styles.text}>내용</FontText>,
+    ]
 
     if(!data){
         return(
@@ -34,8 +45,8 @@ function ListConsume() {
     return (  
         <View style={styles.tableContainer}>
             <Table>
-                <Row data={["날짜","카테고리","소비가격","내용"]} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.text}/>
-                <Rows data={data} flexArr={[1, 1, 1, 1]} style={styles.row} textStyle={styles.text} />
+                <Row data={tableTitle} flexArr={[1, 1, 1, 1]} style={styles.head} />
+                <Rows data={data} flexArr={[1, 1, 1, 1]} style={styles.row}/>
             </Table>
         </View>
     );

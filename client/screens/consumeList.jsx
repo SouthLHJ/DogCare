@@ -12,7 +12,7 @@ import globalStyles from '../customs/globalStyle';
 import { useContext, useEffect, useState } from 'react';
 import Loading from '../customs/loading';
 import { AppContext } from '../contexts/app-context';
-import { ConsumeContext } from '../contexts/consume-context';
+import { ConsumeContext, SearchContext } from '../contexts/consume-context';
 import ListConsume from '../components/listCnsm';
 import FontText from '../customs/fontText';
 import CustomDatePicker from '../customs/datePicker';
@@ -23,19 +23,26 @@ import { readConsumeMontly } from '../api/consume';
 function ConsumeListScreen() {
     const context  = useContext(AppContext);
     const consumeContext = useContext(ConsumeContext);
+    const searchConsume = useContext(SearchContext);
 
-    const [date1, setDate1] = useState(new Date());
+    const [date1, setDate1] = useState(new Date(new Date().setMonth(new Date().getMonth()-1)));
     const [date2, setDate2] = useState(new Date());
 
+    useEffect(()=>{
+        onSearch();
+    },[consumeContext.data])
     //func
     const onSearch = ()=>{
-        console.log("!@!@1");
         readConsumeMontly(date1,date2,context.auth.token)
          .then((rcv)=>{
-            console.log(rcv);
-            consumeContext.dispatch({type: "update", payload: rcv.list})
+            // console.log(rcv);
+            if(rcv.result){
+                searchConsume.searchdispatch({type: "search", payload: rcv.list})
+            }else{
+                console.log("readConsumeMontly server => ",rcv.msg)
+            }
          })
-         .catch(err=>console.log("onSearch ConsumeList => ",err))
+         .catch(err=>console.log("readConsumeMontly => ",err))
     }
 
     return (  
@@ -63,7 +70,8 @@ const styles = StyleSheet.create({
 
     searchDateContainer :{
         flexDirection : "row",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        marginBottom : 8
     },
         
     // 표

@@ -8,25 +8,28 @@
 import { LineChart,BarChart,PieChart, ProgressChart } from 'react-native-chart-kit'
 
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Dimensions, ScrollView, TouchableOpacity } from "react-native";
+
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 
 import { readConsumeAll } from "../api/consume";
 import { AppContext } from '../contexts/app-context';
-import { ConsumeContext } from '../contexts/consume-context';
+import { ConsumeContext, SearchContext } from '../contexts/consume-context';
 import CustomDatePicker from "../customs/datePicker";
 import globalStyles from "../customs/globalStyle";
 import Loading from "../customs/loading";
 import FontText from '../customs/fontText';
 import ConsumeBarChart from '../components/barChart';
+import ConsumeListScreen from './consumeList';
+import ConsumeBarChartDate from '../components/barChartDate';
 
 
 function ConsumeChartScreen() {
     const context  = useContext(AppContext);
     const consumeContext = useContext(ConsumeContext);
+    const searchContext = useContext(SearchContext);
 
-
-    const [data,setData] = useState();
-
+    const [chartAll, setChartAll] = useState(true);
     const [startPoint, setStartPoint] = useState(new Date());
     const [endPoint, setEndPoint] = useState(new Date());
 
@@ -39,24 +42,78 @@ function ConsumeChartScreen() {
             // console.log("chart",rcv)
             if(rcv.result){
                 consumeContext.dispatch({type: "update", payload : rcv.list})
+                searchContext.searchdispatch({type: "search", payload : rcv.list})
             }
          })
          .catch(err=>console.log("readCounsumeAll => ",err))
-        // 실행해서 나온 값을 저장하게한다.
-        setData(
-            {
-                data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100
-                ]
-            }
-        )
+ 
     },[])
 
+    //func
+    const onSwitch = ()=>{
+        setChartAll(current=>!current)
+    }
+
+    if(!consumeContext.data){
+        return(
+            <Loading/>
+        );
+    }
+
+    return (
+        <View style={globalStyles.container}>
+            <View style={styles.swithContainer}>
+                <FontText style={{marginHorizontal: 4}}>{chartAll ? "누적 소비 차트" : "기간 소비 차트"}</FontText>
+                <TouchableOpacity onPress={()=>onSwitch()}>
+                    <FontAwesome5 name="exchange-alt" size={18} color="black" />
+                </TouchableOpacity>
+            </View>
+
+            <View>
+                {chartAll ?
+                <ConsumeBarChart/>
+                :
+                <ConsumeBarChartDate/>
+                }
+            </View>
+            {/* <Text>2. 기간 조회 리스트</Text> */}
+            <ConsumeListScreen />
+            {/* <Text>3. 카테고리 별 조회 가능 차트</Text> */}
+        </View>
+    );
+}
+
+export default ConsumeChartScreen;
+
+const styles = StyleSheet.create({
+    
+    swithContainer : {
+        flexDirection : "row",
+        alignItems : "center"
+    }
+
+
+});
+
+/* 차트 참고용~~
+    chart: {
+        flex: 1
+    },
+    chartConfig: {
+        backgroundGradientFrom: '#1E2923',
+        backgroundGradientTo: '#08130D',
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`
+    },
+    section: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkbox: {
+        margin: 8,
+    },
+
+
+    
     const PieData =  [
         {
           name: "용품",
@@ -100,25 +157,7 @@ function ConsumeChartScreen() {
         data: [0.4, 0.6, 0.8]
     };
 
-    if(!data){
-        return(
-            <Loading/>
-        );
-    }
-
-    return (
-        <View style={globalStyles.container}>
-            <Text>1. 전체 기간 차트</Text>
-            <View>
-                <ConsumeBarChart />
-            </View>
-            <Text>2. 기간 조회 가능 차트</Text>
-            <CustomDatePicker startPoint={startPoint} setStartPoint={setStartPoint} endPoint={endPoint} setEndPoint={setEndPoint} />
-            <Text>3. 카테고리 별 조회 가능 차트</Text>
-
-            <Text>차트 예시</Text>
-
-            <ScrollView >
+<ScrollView >
                 <Text>라인 차트</Text>
                 <LineChart
                     data={{
@@ -182,28 +221,4 @@ function ConsumeChartScreen() {
                 hideLegend={false}
                 />
             </ScrollView>
-
-        </View>
-    );
-}
-
-export default ConsumeChartScreen;
-
-const styles = StyleSheet.create({
-    chart: {
-        flex: 1
-    },
-    chartConfig: {
-        backgroundGradientFrom: '#1E2923',
-        backgroundGradientTo: '#08130D',
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`
-    },
-    section: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    checkbox: {
-        margin: 8,
-    },
-
-});
+*/

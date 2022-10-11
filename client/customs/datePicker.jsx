@@ -11,7 +11,7 @@ function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint
         <View style={styles.datePoinContainer}>
             { start && 
             <TouchableOpacity onPress={() => setDateShow1(true)} style={styles.register}>
-                <FontText style={styles.text}>{startPoint.getFullYear()}-{startPoint.getMonth() + 1}-{startPoint.getDate()}</FontText>
+                <FontText style={styles.text}>{startPoint.getFullYear()}-{`${startPoint.getMonth() + 1}`.padStart(2,"0")}-{`${startPoint.getDate()}`.padStart(2,"0")}</FontText>
             </TouchableOpacity>
             }
             { end &&
@@ -24,16 +24,16 @@ function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint
             }
         {(dateShow1 || dateShow2)
             &&
-               <DateTimePicker locale="ko" testID="dateTimePicker" value={new Date()} mode="date" is24Hour={true} onChange={(d)=>{
+               <DateTimePicker locale="ko" testID="dateTimePicker" value={dateShow1 ? startPoint : endPoint} mode="date" is24Hour={true} onChange={(d)=>{
                    if(d.type === "set"){
                        if(dateShow1){
                            setStartPoint(new Date(d.nativeEvent.timestamp)); 
                        }else{
                            setEndPoint(new Date(d.nativeEvent.timestamp)); 
                        }
-                       setDateShow1(false); 
-                       setDateShow2(false); 
-                   }
+                    }
+                    setDateShow1(false); 
+                    setDateShow2(false); 
                }} />
            }
         </View>
