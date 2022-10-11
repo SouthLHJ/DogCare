@@ -1,7 +1,7 @@
 import axios from "axios";
 import {Buffer} from 'buffer'
 
-const ip  = `http://221.156.95.190:8080/util/walk`
+const ip  = `http://192.168.4.56:8080/util/walk`;
 
 
 // 응답 코드 체크용 (기억용)
@@ -17,15 +17,13 @@ const key = "oDtrqrff3ZdIF5EMB%2FvexXvzsZtmLbgpmzK9RPUArCS7CDaPhUBMC5XjUQT1RgyY%
 export const readWeather = async(time,x=55,y=126)=>{
     const date = `${new Date().getFullYear()}`+`${new Date().getMonth()+1}`.padStart(2,"0")+`${new Date().getDate()}`.padStart(2,"0")
 
-    // console.log(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`)
-    // const res  = await fetch(`https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`)
-    // console.log("readweather",res.json())
+    const res  = await axios.get(`http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${key}&pageNo=1&numOfRows=15&dataType=JSON&base_date=${date}&base_time=${time}00&nx=${x}&ny=${y}`);
 
-    // const rcv = await axios.get(`http://221.156.95.190:8080/util/walk/weather?date=${date}&time=${time}&x=${x}&y=${y}`)
 
-    // console.log(rcv.data)
 
-    return {weather :"맑음", heat : "17"}
+    console.log(res.data.response.body.items.item)
+
+    return res.data;
 }
 
 export const writeWalkImage = async(token,data, fileData, fileURI)=>{
@@ -92,8 +90,8 @@ export async function editWalk(token, data, fileData, fileURI, id){
     else{
         item = {...data}
     }
-    const realDB = `${ip}/edit?token_id=${token}?id=${id}`; // memories, walk는 write
-    const res = await axios.post(realDB, item); // 데이터 베이스에 정보 저장하는 용
+    const realDB = `${ip}/edit`; // memories, walk는 write
+    const res = await axios.post(realDB, {...item, id: id}); // 데이터 베이스에 정보 저장하는 용
     
     return res.data;
 

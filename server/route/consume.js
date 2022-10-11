@@ -32,9 +32,13 @@ router.get("/allList", async (req, res)=>{ // 모든 소비 목록
 
 router.get("/montlyList", async (req, res)=>{ // 이번달 소비 목록
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
+    const start = new Date(req.query.startPoint).setHours(0);
+    const end = new Date(req.query.endPoint).setHours(0);
 
     try {
-        const consumeList = await Consume.find({userId: verifyToken.token_id}, {date: {$gte: new Date(date.setMonth(Number(new Date().getMonth()) - 1, 1))}}).sort("-date").lean();
+        const consumeList = await Consume.find({userId: verifyToken.token_id})
+            .where("date").gte(start).lte(end)
+            .sort("-date").lean();
 
         res.json({result: true, list: consumeList });
     } catch(err) {
