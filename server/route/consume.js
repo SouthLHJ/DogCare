@@ -33,7 +33,7 @@ router.get("/allList", async (req, res)=>{ // 모든 소비 목록
 router.get("/montlyList", async (req, res)=>{ // 이번달 소비 목록
     const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
     const start = new Date(req.query.startPoint).setHours(0);
-    const end = new Date(req.query.endPoint).setHours(0);
+    const end = new Date(req.query.endPoint).setHours(23,59,59);
 
     try {
         const consumeList = await Consume.find({userId: verifyToken.token_id})

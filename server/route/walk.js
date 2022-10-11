@@ -91,5 +91,23 @@ router.post("/edit",async(req,res)=>{
     }catch(e){
         res.json({result : false,msg : e.message})
     }
+});
+
+router.get("/weeklyList", async(req, res) => {
+    try{
+        const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
+
+        const thisWeek = new Date(new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).setHours(0, 0, 0, 0)); // 대충 이번주 시작 날
+
+
+        const getList = await Walk.find({userId: verifyToken.token_id, $gte: {date: thisWeek}});
+        console.log(getList)
+
+        res.json({result: true, list: getList});
+    }catch(e){
+        res.json({result : false,msg : e.message})
+    }
 })
+
+
 export default router;

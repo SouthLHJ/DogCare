@@ -7,9 +7,10 @@ const dogSchema = new mongoose.Schema({
     userId: { type: mongoose.SchemaTypes.ObjectId, ref: "account", required: true},
     image: { type: String, default: null },
     birth: {type: String, default: null },
-    gender: { type: String, default: null },
-    species: {type: String, default: "기타" },
+    gender: { type: String, default: "unknown" },
+    species: {type: String, default: null },
     animalCode: { type: Number, default: null},
+    extra: {type: String, default: null},
     lastMedicine: { type: String, default: null},
     lastTeeth: { type: String, default: null},
 });
