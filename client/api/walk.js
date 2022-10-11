@@ -21,9 +21,9 @@ export const readWeather = async(time,x=55,y=126)=>{
 
 
 
-    console.log(res.data.response.body.items.item)
+    // console.log(res.data.response.body.items.item)
 
-    return res.data;
+    return res.data.response.body.items.item;
 }
 
 export const writeWalkImage = async(token,data, fileData, fileURI)=>{

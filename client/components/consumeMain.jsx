@@ -13,8 +13,7 @@ function ConsumeMain() {
     return (
         <ConsumeContextProvider>
             <TopTab.Navigator screenOptions={{tabBarStyle  :  {display: 'flex'}}}>
-                <TopTab.Screen  name="consumeChart" component={ConsumeChartScreen} options={{title : "차트"}}/>
-                <TopTab.Screen  name="consumeList" component={ConsumeListScreen} options={{title : "리스트"}}/>
+                <TopTab.Screen  name="consumeChart" component={ConsumeChartScreen} options={{title : "목록"}}/>
                 <TopTab.Screen  name="consumeRegister" component={ConsumeRegisterScreen} options={{title : "관리"}}/>
             </TopTab.Navigator>
         </ConsumeContextProvider>

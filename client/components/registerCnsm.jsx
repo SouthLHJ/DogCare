@@ -30,20 +30,22 @@ function RegisterConsume() {
 
     const tableInput = [
         [
-            <CustomDatePicker end={false} setStartPoint={setDate} startPoint={date}/>,
+            <View style={{flexDirection : "row", justifyContent : "center"}}>
+                <CustomDatePicker end={false} setStartPoint={setDate} startPoint={date}/>
+            </View>,
             <View style={{flexDirection : "row", justifyContent : "center"}}>
                 <FontText>{selectedItem?.title}</FontText>
-                <TouchableOpacity onPress={()=>setSelectedItemShow(!selectedItemShow)} style={[styles.register,{marginLeft : 20}]}>
+                <TouchableOpacity onPress={()=>setSelectedItemShow(!selectedItemShow)} style={[styles.register,{marginLeft : 10}]}>
                     <FontText style={{color : "blue"}}>선택</FontText>
                 </TouchableOpacity>
             </View>,
-            <View style={{alignItems : "center"}}>
+            <View style={{flexDirection : "row", justifyContent : "center"}}>
                 <TextInput  keyboardType='number-pad' onChangeText={(text)=>setPrice(text)} value={price}/>
             </View>,
-            <View style={{alignItems : "center"}}>
+            <View style={{flexDirection : "row", justifyContent : "center"}}>
                 <TextInput  keyboardType='email-address'  onChangeText={(text)=>setComment(text)} value={comment}/>
             </View>,
-            <TouchableOpacity onPress={()=>onRegister()} style={styles.register}>
+            <TouchableOpacity onPress={()=>onRegister()} style={[styles.register,{flexDirection : "row", justifyContent : "center"}]}>
                 <FontText style={styles.text}>등록하기</FontText>
             </TouchableOpacity>
         ]
@@ -80,13 +82,20 @@ function RegisterConsume() {
          })
          .catch(err=>console.log("onRefresh readConsumeAll = > ", err))
     }
+    const tableTitle = [
+        <FontText style={styles.text}>날짜</FontText>,
+        <FontText style={styles.text}>카테고리</FontText>,
+        <FontText style={styles.text}>소비가격</FontText>,
+        <FontText style={styles.text}>내용</FontText>,
+        <FontText style={styles.text}>등록</FontText>,
+    ]
 
     return (  
         <>
             <Text>1. 등록</Text>
             <View style={styles.tableContainer}>
                 <Table>
-                    <Row data={["날짜","카테고리","소비가격","내용", "등록"]} flexArr={[1, 1, 1, 1,1]} style={styles.head} textStyle={styles.text}/>
+                    <Row data={tableTitle} flexArr={[1, 1, 1, 1,1]} style={styles.head} />
                     <Rows data={tableInput} flexArr={[1,1, 1, 1,1]} style={styles.row} />
                 </Table>
             </View>
@@ -95,8 +104,9 @@ function RegisterConsume() {
                     clearOnFocus={false}
                     closeOnBlur={true}
                     closeOnSubmit={false}
-                    initialValue={{id: '1', title: '용품'}} // or just '2'
+                    initialValue={{id: '0', title: ""}} // or just '2'
                     onSelectItem={setSelectedItem}
+                    onChangeText={(text)=>setSelectedItem({id: '0', title: text})}
                     dataSet={[
                     {id: '1', title: '용품'},
                     {id: '2', title: '간식'},

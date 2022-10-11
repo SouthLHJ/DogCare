@@ -1,3 +1,4 @@
+import { useRoute } from "@react-navigation/native";
 import { useContext, useEffect, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import { getWalkList } from "../api/walk";
@@ -8,6 +9,7 @@ import globalStyles from "../customs/globalStyle";
 import Loading from "../customs/loading";
 
 function WalkListScreen() {
+    const route = useRoute();
     const context = useContext(AppContext);
     const [loaded, setLoaded] = useState(true);
 
@@ -15,14 +17,13 @@ function WalkListScreen() {
 
     useEffect(()=>{
        onRefresh();
-
-    },[])
+    },[route])
 
     const onRefresh = ()=>{
         getWalkList(context.auth.token)
             .then((rcv) => {
                 if (rcv.result) {
-                    console.log(rcv.list)
+                    // console.log(rcv.list)
                     setList(rcv.list);
                 } else {
                     Alert.alert("", rcv.msg);

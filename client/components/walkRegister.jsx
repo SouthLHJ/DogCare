@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons,AntDesign, FontAwesome } from '@expo/vector-icons';
 import { launchImageLibraryAsync, useMediaLibraryPermissions, PermissionStatus } from 'expo-image-picker';
 import { useContext, useEffect, useState } from 'react';
-import { ImageBackground,  Modal, Pressable, StyleSheet, TextInput, TouchableOpacity, View, Keyboard } from "react-native";
+import { ImageBackground,  Modal, Pressable, StyleSheet, TextInput, TouchableOpacity, View, Keyboard, Alert } from "react-native";
 import FontText from "../customs/fontText";
 import Loading from '../customs/loading';
 import globalStyles from '../customs/globalStyle';
@@ -60,6 +60,7 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
         };
         setLoaded(false);
     };
+
     const onRegister = ()=>{
         const data = {
             date: date,
@@ -70,12 +71,12 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
         setLoaded(true);
         if(!edit){
             if (imageUri && imageData) {
-                console.log("??")    
+                console.log("no edit, image")    
                 writeWalkImage(context.auth.token,data, imageData, imageUri)
                     .then((rcv) => {
                         if (rcv.result) {
                             setModal(false)
-                            navigation.navigate("newWalk");
+                            navigation.navigate("walkList",{refresh : true});
                         } else {
                             console.log("writeWalkImage server => ", rcv.msg);
                         };
@@ -83,10 +84,12 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                         console.log("writeWalkImage = > ",err.message);
                     });
             }else {
+                console.log("no edit, no image")    
                 writeWalk(context.auth.token,data)
                     .then((rcv) => {
                         if (rcv.result) {
-                            navigation.navigate("newWalk");
+                            setModal(false)
+                            navigation.navigate("walkList",{refresh : true});
                         } else {
                             console.log("writeWalk server =>", rcv.msg);
                         };
@@ -95,10 +98,12 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                     });
             };
         }else{
+            console.log("edit")    
             editWalk(context.auth.token,data,imageData,imageUri,id)
                 .then((rcv)=>{
                     if(rcv.result){
-                        navigation.navigate("walkList");
+                        setModal(false)
+                        navigation.navigate("walkList",{edit : true});
                     }else{
                         console.log("editWalk server =>",rcv.msg);
                     }
@@ -107,6 +112,32 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
         }
 
         setLoaded(false);
+    }
+
+    const onCloseModal = ()=>{
+        if(!edit){
+            Alert.alert(
+                "","산책기록을 저장하시겠습니까?",[
+                {
+                    text : "취소",
+                },{
+                    text : "삭제", onPress : ()=>setModal(false)
+                },{
+                    text : "저장", onPress : ()=>{onRegister()}
+                }]
+            )
+        }else{
+            Alert.alert(
+                "","수정한 내용을 저장하시겠습니까?",[
+                {
+                    text : "취소"
+                },{
+                    text : "안함", onPress : ()=>setModal(false)
+                },{
+                    text : "저장", onPress : ()=>{onRegister()}
+                }]
+            )
+        }
     }
 
     // 키보드 유무 체크
@@ -132,7 +163,7 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                         <View style={styles.topTitle}> 
                             <FontText>기록</FontText>
                         </View>
-                        <TouchableOpacity style={styles.topClose} onPress={()=>setModal(false)}>
+                        <TouchableOpacity style={styles.topClose} onPress={()=>onCloseModal()}>
                             <AntDesign name="closesquare" size={24} color="black" />
                         </TouchableOpacity>
                     </View>
@@ -141,7 +172,6 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                         <></>
                         :
                         <>
-                            <FontText>사진</FontText>
                             <View style={styles.imageShow}>
                                 {imageUri ?
                                     <ImageBackground source={{ uri: imageUri }} style={{ height: "100%", width: "100%", borderRadius: 4, }} >
