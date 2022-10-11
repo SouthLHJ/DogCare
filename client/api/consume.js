@@ -2,7 +2,7 @@ import axios  from "axios";
 
 
 
-const ip = "http://221.156.95.190:8080/util/consume";
+const ip = "http://192.168.4.56:8080/util/consume";
 
 
 export const readConsumeAll = async(token)=>{
