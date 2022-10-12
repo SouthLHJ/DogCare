@@ -5,7 +5,7 @@ import { launchCameraAsync, launchImageLibraryAsync, useCameraPermissions, useMe
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
 import Loading from "../customs/loading";
-import globalStyles from "../customs/globalStyle";
+import globalStyles, { colors } from "../customs/globalStyle";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import EyeIcon from "../components/eyeIcon";
 import { editMemories, editMemoriesImage, writeMemories, writeMemoriesImage } from "../api/memories";
@@ -29,93 +29,11 @@ function MemoriesWriteScreen({ navigation, route }) {
     const isFocused = useIsFocused();
 
     useEffect(() => {
-        if (route.params?.type) {
-            const currentItem = route.params.item;
-            console.log(currentItem)
-            setDate(new Date(currentItem?.date));
-            setTitle(currentItem?.title)
-            setDesc(currentItem?.description)
-            setPublic(currentItem?.public)
-            setImageUri(currentItem?.image);
-            setLastImageUri(currentItem?.image);
-        } else {
-            setTitle(null);
-            setDesc(null);
-            setImageData(null);
-            setImageUri(null);
-            setLastImageUri(null);
-            setPublic(false);
-        }
-    }, [route.params, isFocused]);
-
- 
-    const getFromCamera = async () => {
-        if (cameraStatus.status == PermissionStatus.DENIED || cameraStatus.status == PermissionStatus.UNDETERMINED) {
-            try {
-                const cameraPermission = await requestCameraPermission();
-
-                if (!cameraPermission.granted) {
-                    Alert.alert("", '카메라 접근 권한이 없으면 기능을 사용하실 수 없습니다.');
-                    return;
-                };
-            } catch (e) {
-                console.log(e.message);
-                return;
-            };
-        };
-
-        setLoaded(true);
-        const result = await launchCameraAsync({ // 카메라 이용 권한이 없는데도 실행되어 경고 로그가 뜸. 그래서 위의 permission 설정을 해 줘야함
-            quality: 0.4, // 0~1
-            allowsEditing: true,
-            aspect: [16, 9],
-            base64: true,
-        });
-
-        if (!result.cancelled) { //사진을 찍으려다 취소한 경우, uri가 들어가지 않도록함.
-            setImageUri(result.uri);
-            setImageData(result.base64);
-        };
-        setLoaded(false);
-    };
-
-    const getFromAlbum = async () => {
-        if (albumStatus.status == PermissionStatus.DENIED || albumStatus.status == PermissionStatus.UNDETERMINED) {
-            try {
-                const albumPermission = await requestAlbumPermission();
-
-                if (!albumPermission.granted) {
-                    Alert.alert("", '앨범 접근 권한이 없으면 기능을 사용하실 수 없습니다.');
-                    return;
-                };
-            } catch (e) {
-                console.log(e.message);
-                return;
-            };
-        };
-
-        setLoaded(true);
-        const result = await launchImageLibraryAsync({
-            quality: 0.4, // 0~1
-            allowsEditing: true,
-            aspect: [16, 9],
-            exif: true, // 이미지 정보를 추가적으로 가져올 것인가
-            base64: true,
-        });
-
-        if (!result.cancelled) {
-            setImageUri(result.uri);
-            setImageData(result.base64);
-        };
-        setLoaded(false);
-    };
-
-    return (
-        <View style={{ flex: 1 }}>
-            {loaded ? <Loading /> : <></>}
-            <View style={styles.inputBox}>
-                <View style={styles.headerRight}>
-                    <Pressable onPress={() => {
+        navigation.setOptions({
+            headerRight: () => {
+                return (
+                    <View style={{ paddingHorizontal: 4 }}>
+                        <Pressable onPress={() => {
                         const data = {
                             token_id: auth.token,
                             date: date,
@@ -185,16 +103,109 @@ function MemoriesWriteScreen({ navigation, route }) {
 
                         setLoaded(false);
                     }}>
-                        <Ionicons name="checkmark-circle-outline" size={42} color="black" />
-                    </Pressable>
-                </View>
-                <View style={styles.headerLeft}>
+                        <FontAwesome5 name="paper-plane" size={24} color={colors.white} />
+                        </Pressable>
+                    </View>
+                )
+            },
+            headerLeft: () => {
+                return (
+                    <View style={{ paddingHorizontal: 4 }}>
                     <Pressable onPress={() => {
                         navigation.navigate("memoriesList");
                     }}>
-                        <Ionicons name="arrow-back-circle-outline" size={42} color="black" />
+                        <FontAwesome5 name="caret-left" size={24} color={colors.white} />
                     </Pressable>
-                </View>
+                    </View>
+                )
+            }
+        });
+
+        if (route.params?.type) {
+            const currentItem = route.params.item;
+            console.log(currentItem)
+            setDate(new Date(currentItem?.date));
+            setTitle(currentItem?.title)
+            setDesc(currentItem?.description)
+            setPublic(currentItem?.public)
+            setImageUri(currentItem?.image);
+            setLastImageUri(currentItem?.image);
+        } else {
+            setTitle(null);
+            setDesc(null);
+            setImageData(null);
+            setImageUri(null);
+            setLastImageUri(null);
+            setPublic(false);
+        }
+    }, [route.params, isFocused, date, title, description, imageUri, imageData, lastImageUri]);
+
+ 
+    const getFromCamera = async () => {
+        if (cameraStatus.status == PermissionStatus.DENIED || cameraStatus.status == PermissionStatus.UNDETERMINED) {
+            try {
+                const cameraPermission = await requestCameraPermission();
+
+                if (!cameraPermission.granted) {
+                    Alert.alert("", '카메라 접근 권한이 없으면 기능을 사용하실 수 없습니다.');
+                    return;
+                };
+            } catch (e) {
+                console.log(e.message);
+                return;
+            };
+        };
+
+        setLoaded(true);
+        const result = await launchCameraAsync({ // 카메라 이용 권한이 없는데도 실행되어 경고 로그가 뜸. 그래서 위의 permission 설정을 해 줘야함
+            quality: 0.4, // 0~1
+            allowsEditing: true,
+            aspect: [16, 9],
+            base64: true,
+        });
+
+        if (!result.cancelled) { //사진을 찍으려다 취소한 경우, uri가 들어가지 않도록함.
+            setImageUri(result.uri);
+            setImageData(result.base64);
+        };
+        setLoaded(false);
+    };
+
+    const getFromAlbum = async () => {
+        if (albumStatus.status == PermissionStatus.DENIED || albumStatus.status == PermissionStatus.UNDETERMINED) {
+            try {
+                const albumPermission = await requestAlbumPermission();
+
+                if (!albumPermission.granted) {
+                    Alert.alert("", '앨범 접근 권한이 없으면 기능을 사용하실 수 없습니다.');
+                    return;
+                };
+            } catch (e) {
+                console.log(e.message);
+                return;
+            };
+        };
+
+        setLoaded(true);
+        const result = await launchImageLibraryAsync({
+            quality: 0.4, // 0~1
+            allowsEditing: true,
+            aspect: [16, 9],
+            exif: true, // 이미지 정보를 추가적으로 가져올 것인가
+            base64: true,
+        });
+
+        if (!result.cancelled) {
+            setImageUri(result.uri);
+            setImageData(result.base64);
+        };
+        setLoaded(false);
+    };
+
+    return (
+        <View style={{ flex: 1 }}>
+            {loaded ? <Loading /> : <></>}
+            <View style={styles.inputBox}>
                 <View style={styles.headline}>
                     <TextInput style={[globalStyles.input, { borderRadius: 8, padding: 4, paddingHorizontal: 8 }]} placeholder="제목을 입력해주세요." value={title} onChangeText={(text) => {
                         setTitle(text);

@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { ListViewBase, StyleSheet, Text, View, ViewPagerAndroidBase } from "react-native";
+import { Alert, ListViewBase, StyleSheet, Text, View, ViewPagerAndroidBase } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { checkingMedicine, checkingTeeth } from "../api/dog";
 import { weeklyWalkCheck } from "../api/walk";
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Loading from "../customs/loading";
 
 
@@ -34,13 +35,13 @@ function MypageCheckScreen({ navigation, route }) {
     const [TakeGap, setTakeGap] = useState(false);
     const [walkCount, setWalkCount] = useState(4);
     const { auth } = useContext(AppContext);
-    
+
 
 
     useEffect(() => {
-        if(route.params?.currentData) {
+        if (route.params?.currentData) {
             setDogData(route.params.currentData);
-    
+
             const tDay = getLastDate(route.params.currentData.lastTeeth);
             const mDay = getLastDate(route.params.currentData.lastMedicine);
 
@@ -85,29 +86,35 @@ function MypageCheckScreen({ navigation, route }) {
                             </View>
                         </View>
                         <View>
-                            <FontText>{dogData.name}의 양치체크</FontText>
+                            <FontText>{dogData.name}의 치카치카</FontText>
                             <View>
                                 {dogData.lastTeeth ?
                                     <FontText>
+                                    {hasBrush ? `오늘 양치를 했어요!` : `마지막으로 약을 먹은 게 ${brushGap}일 전이에요!`}
                                     </FontText>
                                     : <FontText>
                                         아직 양치 체크를 한 적이 없어요!
                                     </FontText>}
-                                <Pressable onPress={() => {
-                                    checkingTeeth(dogData._id)
-                                        .then((rcv) => {
-                                            if(rcv.result) {
-                                                setBrushGap(0);
-                                                setHasBrush(true);
+                                <BouncyCheckbox isChecked={hasBrush} disableBuiltInState={true} disabled={hasBrush}
+                                    onPress={() => {
+                                        Alert.alert("오늘 양치를 한 것으로 체크할까요?", "체크 후 취소가 불가능해요!", [{
+                                            text: "아니오",
+                                            style: "cancel"
+                                        }, {
+                                            text: "네!",
+                                            onPress: () => {
+                                                checkingTeeth(dogData._id)
+                                                    .then((rcv) => {
+                                                        if (rcv.result) {
+                                                            setBrushGap(0);
+                                                            setHasBrush(true);
+                                                        }
+                                                    }).catch((err) => {
+                                                        console.log(err.message);
+                                                    });
                                             }
-                                        }).catch((err) => {
-                                            console.log(err.message);
-                                        })
-                                }}>
-                                    <FontText>
-                                        오늘의 양치 체크하기
-                                    </FontText>
-                                </Pressable>
+                                        }])
+                                    }} />
                             </View>
                         </View>
                         <View>
@@ -115,27 +122,31 @@ function MypageCheckScreen({ navigation, route }) {
                             <View>
                                 {dogData.lastMedicine ?
                                     <FontText>
-
-
+                                        {hasTake ? `오늘 약을 먹었어요!` : `마지막으로 약을 먹은 게 ${TakeGap}일 전이에요!`}
                                     </FontText>
                                     : <FontText>
                                         아직 약을 먹은 적이 없어요!
                                     </FontText>}
-                                <Pressable onPress={() => {
-                                    checkingMedicine(dogData._id)
-                                        .then((rcv) => {
-                                            if(rcv.result) {
-                                                setTakeGap(0);
-                                                setHasTake(true);
+                                <BouncyCheckbox isChecked={hasTake} disableBuiltInState={true} disabled={hasTake}
+                                    onPress={() => {
+                                        Alert.alert("오늘 약을 먹은 것으로 체크할까요?", "체크 후 취소가 불가능해요!", [{
+                                            text: "아니오",
+                                            style: "cancel"
+                                        }, {
+                                            text: "네!",
+                                            onPress: () => {
+                                                checkingMedicine(dogData._id)
+                                                    .then((rcv) => {
+                                                        if (rcv.result) {
+                                                            setTakeGap(0);
+                                                            setHasTake(true);
+                                                        }
+                                                    }).catch((err) => {
+                                                        console.log(err.message);
+                                                    })
                                             }
-                                        }).catch((err) => {
-                                            console.log(err.message);
-                                        })
-                                }}>
-                                    <FontText>
-                                        오늘의 약 체크하기
-                                    </FontText>
-                                </Pressable>
+                                        },]);
+                                    }} />
                             </View>
                         </View>
                     </View>

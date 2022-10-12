@@ -15,9 +15,14 @@ router.post("/register", async (req, res)=>{ // 회원가입
         const hash = await bcrypt.hash(req.body.password, 10);
         
         try {
-            const result = await Account.create({id: req.body.id, password: hash, name: req.body.name, birth: req.body.birth, contact: req.body.contact});
-            
-            res.json({result: true, data: result});
+            const acclist = await Account.find({}).select("contact");
+            const sameContact = acclist.filter((one) => {one.contact === req.body.contact});
+            if(sameContact.length > 0) {
+                res.json({result: false, msg: "입력하신 번호는 다른 유저가 사용중인 번호입니다."});
+            } else {
+                const result = await Account.create({id: req.body.id, password: hash, name: req.body.name, birth: req.body.birth, contact: req.body.contact});
+                res.json({result: true, data: result});
+            };            
         } catch(err) {
             res.json({result: false, msg: err.message});
         };

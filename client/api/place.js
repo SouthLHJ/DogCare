@@ -39,7 +39,7 @@ export async function likeList(userId) { //
 
 
 export function createStaticMapURI(lat, lng) {
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=17&size=400x450&markers=color:0x0089FF%7C${lat},${lng}&key=${GOOGLE_APP_KEY}`;
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=17&size=400x450&markers=color:0xEC9E81%7C${lat},${lng}&key=${GOOGLE_APP_KEY}`;
 };
 
 export async function getHospital(lat, lng) {

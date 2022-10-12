@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import FontText from "../customs/fontText";
-import globalStyles from "../customs/globalStyle";
+import globalStyles, { colors } from "../customs/globalStyle";
 import Loading from "../customs/loading";
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { AppContext } from "../contexts/app-context";
 import MemoriesItem from "../components/memoriesItem";
 import { getAllList, getMyList } from "../api/memories";
 import { useIsFocused } from "@react-navigation/native";
+import SwitchSelector from "react-native-switch-selector"
 
 function MemoriesListScreen({ navigation, route }) {
     const [refresh, setRefresh] = useState(1);
@@ -69,22 +70,23 @@ function MemoriesListScreen({ navigation, route }) {
                     <FontText>우리들의 추억</FontText>
                 </View> */}
                 <View style={styles.listBox}>
-                    <Pressable style={styles.chooseList} onPress={() => {
-                        switch (listType) {
-                            case "my":
-                                setListType("all");
-                                break;
-                            case "all":
-                                setListType("my");
-                                break;
-                        };
-                    }}>
-                        {listType === "my" ?
-                                <FontText style={{marginHorizontal: 4}}>모두의 이야기 보기</FontText>
-                                : <FontText style={{marginHorizontal: 4}}>우리의 이야기 보기</FontText>
-                            }
-                            <FontAwesome5 name="exchange-alt" size={18} color="black" />
-                    </Pressable>
+                    <View style={styles.chooseList}>
+                            <SwitchSelector
+                            initial={0}
+                            onPress={value => setListType(value)}
+                            textColor={colors.sub}
+                            selectedColor={colors.white}
+                            buttonColor={colors.sub}
+                            borderColor={colors.sub}
+                            hasPadding
+                            options={[
+                                { label: "우리의 이야기", value: "my" },
+                                { label: "모두의 이야기", value: "all" }, 
+                            ]}
+                            testID="listType-switch-selector"
+                            accessibilityLabel="listType-switch-selector"
+                          />
+                    </View>
                     {list.length === 0 ? <FontText>추억을 남겨보세요!</FontText>
                         :
                         <FlatList style={styles.scroll} data={list} renderItem={({ item }) => {
@@ -105,7 +107,6 @@ const styles = StyleSheet.create({
     chooseList: {
         width: "100%",
         padding: 12,
-        flexDirection: "row"
     },
     memoriesBox: {
         flex: 1,
@@ -137,9 +138,10 @@ const styles = StyleSheet.create({
         height: 56,
         width: 56,
         right: 12,
-        bottom: 8,
+        bottom: 12,
         borderRadius: 100,
         padding: 12,
-        elevation: 4
+        elevation: 4,
+        backgroundColor: colors.sub
     }
 });
