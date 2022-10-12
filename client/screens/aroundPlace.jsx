@@ -1,12 +1,13 @@
 import { ActivityIndicator, Image, ImageBackground, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { Entypo, AntDesign, Feather, Ionicons, MaterialCommunityIcons, MaterialIcons,Foundation, FontAwesome5 } from '@expo/vector-icons';
-import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus, requestForegroundPermissionsAsync } from 'expo-location'
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { getHospital, getPark, getPetStore } from "../api/place";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Callout, Marker } from "react-native-maps";
 import Loading from "../customs/loading";
 import PlaceInfoModal from "../components/placeInfoModal";
-import globalStyles from "../customs/globalStyle";
+import globalStyles, { colors } from "../customs/globalStyle";
+import ChoosePlaceModal from "../components/choosePlaceModal";
+import FontText from "../customs/fontText";
 
 
 
@@ -17,62 +18,19 @@ function AroundPlaceScreen({ navigation, route }) {
     const [itemcoordinate, setItemCoordinate] = useState({ lat: 36, lng: 127, setting: false });
     // const [mapURI, setMapURI] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showChooseModal, setShowChooseModal] = useState(false);
     const [list, setList] = useState([]);
     const [category, setCategory] = useState("");
     const [item, setItem] = useState({});
-    const [locationStatus, requestLocationPermission] = useForegroundPermissions();
 
 
-    const verifyPermission = async () => {
-        console.log("locationStatus", locationStatus);
-        if (locationStatus === null) {
-            return false;
-        } else if (locationStatus.status == PermissionStatus.DENIED || locationStatus.status == PermissionStatus.UNDETERMINED) {
-            const result = await requestForegroundPermissionsAsync();
+    useEffect(() => {
+        navigation.setOptions({
+            headerShown: true
+        });
 
-            if (!result.granted) {
-                return false;
-            };
-        }
-        return true;
-    };
+    })
 
-    const getFromLocation = async () => { // 현재 위치값을 가지고 데이터를 받아옴
-        const permmision = await verifyPermission();
-
-        if (!permmision) {
-            return;
-        }
-        setLoaded(true);
-
-
-        if (Platform.OS === "android") {
-            const res = {
-                coords: {
-                    latitude: 35.1619397111,
-                    longitude: 126.851049769
-                }
-            };
-            console.log("여기", res.coords)
-
-            setItemCoordinate({ lat: res.coords.latitude, lng: res.coords.longitude, setting: true });
-            setCoordinate({ lat: res.coords.latitude, lng: res.coords.longitude, setting: true });
-            return { lat: res.coords.latitude, lng: res.coords.longitude, setting: true };
-            // await setMapInformation(res.coords.latitude, res.coords.longitude);
-        } else {
-            try {
-                const locationRes = await getCurrentPositionAsync();
-
-                setItemCoordinate({ lat: locationRes.coords.latitude, lng: locationRes.coords.longitude , setting: true});
-                setCoordinate({ lat: locationRes.coords.latitude, lng: locationRes.coords.longitude , setting: true});
-                console.log("여기", locationRes.coords)
-                return { lat: locationRes.coords.latitude, lng: locationRes.coords.longitude, setting: true };
-            } catch (e) {
-                console.log(e.message);
-                return { setting: false };
-            };
-        }
-    };
 
 
     return (
@@ -82,77 +40,19 @@ function AroundPlaceScreen({ navigation, route }) {
                 setItem({});
                 setShowModal(false);
             }} />
+            <ChoosePlaceModal visible={showChooseModal} category={category} setCategory={(value) => { setCategory(value) }} setList={(value) => { setList(value) }} setItemCoordinate={(value) => { setItemCoordinate(value) }} setCoordinate={(value) => { setCoordinate(value) }} setLoaded={(value) => setLoaded(value)} onCloseModal={() => {
+                setShowChooseModal(false);
+            }} />
+
             <View style={styles.containerInner}>
-
-                <View style={styles.buttonBox}>
-                    <Pressable style={[globalStyles.button, styles.button]} onPress={() => {
-                        !async function () {
-                            setLoaded(true);
-                            getFromLocation()
-                                .then((res) => {
-                                    console.log("res", res);
-                                    getHospital(res.lat, res.lng)
-                                        .then((resInner) => {
-                                            setList(resInner);
-                                            setCategory("hospital")
-                                        }).catch((err) => {
-                                            console.log(err.message);
-                                        })
-                                }).catch((err) => {
-                                    console.log(err.message);
-                                }).finally(() => {
-                                    setLoaded(false);
-                                });
-                        }();
-                    }}>
-                        <FontAwesome5 name="hospital" size={28} color={category === "hospital" ? "white" : "#98CFFE"} />
-                    </Pressable>
-
-                    <Pressable style={[globalStyles.button, styles.button]} onPress={() => {
-                        !async function () {
-                            getFromLocation()
-                                .then((res) => {
-                                    console.log(res);
-                                    getPetStore(res.lat, res.lng)
-                                        .then((resInner) => {
-                                            setList(resInner);
-                                            setCategory("store")
-                                        }).catch((err) => {
-                                            console.log(err.message);
-                                        })
-                                }).catch((err) => {
-                                    console.log(err.message);
-                                }).finally(() => {
-                                    setLoaded(false);
-                                });
-                        }();
-                    }}>
-                        <FontAwesome5 name="shopping-basket" size={26} color={category === "store" ? "white" : "#98CFFE"} />
-                    </Pressable>
-
-                    <Pressable style={[globalStyles.button, styles.button]} onPress={() => {
-                        !async function () {
-                            getFromLocation()
-                                .then((res) => {
-                                    console.log(res);
-                                    getPark(res.lat, res.lng)
-                                        .then((resInner) => {
-                                            setList(resInner);
-                                            setCategory("park");
-                                        }).catch((err) => {
-                                            console.log(err.message);
-                                        })
-                                }).catch((err) => {
-                                    console.log(err.message);
-                                }).finally(() => {
-                                    setLoaded(false);
-                                });
-                        }();
-                    }}>
-                        <Foundation name="guide-dog" size={38} color={category === "park" ? "white" : "#98CFFE"} />
-                    </Pressable>
-                </View>
-
+                <Pressable style={({ pressed }) => pressed ? [styles.modalButton, styles.modalButtonPress] : [styles.modalButton, { elevation: showChooseModal ? 0 : 4 }]} onPress={() => {
+                    if (loaded) {
+                        return;
+                    };
+                    setShowChooseModal(true);
+                }}>
+                    <AntDesign name="caretup" size={24} color="white" />
+                </Pressable>
                 <View style={styles.map}>
                     {itemcoordinate.setting ?
                         <MapView provider="google" mapType="terrain" showsUserLocation={true} region={{
@@ -164,13 +64,27 @@ function AroundPlaceScreen({ navigation, route }) {
 
                             {list.map((one, index) => {
                                 return <Marker onCalloutPress={() => {
-                                    setItemCoordinate({ lat:  one.geometry.location.lat, lng: one.geometry.location.lng, setting: true });
+                                    setItemCoordinate({ lat: one.geometry.location.lat, lng: one.geometry.location.lng, setting: true });
                                     setItem(one);
                                     setShowModal(true);
-                                }} coordinate={{ latitude: one.geometry.location.lat, longitude: one.geometry.location.lng }} key={one.place_id} title={one.name} />
+                                }} coordinate={{ latitude: one.geometry.location.lat, longitude: one.geometry.location.lng }} key={one.place_id} title={one.name}>
+                                    {Platform.OS === "ios" ?
+                                        <Callout onPress={() => {
+                                            setItemCoordinate({ lat: one.geometry.location.lat, lng: one.geometry.location.lng, setting: true });
+                                            setItem(one);
+                                            setShowModal(true);
+                                        }} >
+                                            <Text style={{ fontSize: 18, alignSelf: "center", marginVertical: 4 }}>
+                                                {one.name}
+                                            </Text>
+                                        </Callout>
+                                        : <></>}
+                                </Marker>
                             })}
                         </MapView>
-                        : <></>
+                        : <FontText>
+                            좌측 하단의 카테고리 선택을 통해 검색해주세요!
+                        </FontText>
                     }
                 </View>
             </View>
@@ -188,31 +102,53 @@ const styles = StyleSheet.create({
     },
     containerInner: {
         flex: 1,
-        padding: 12,
         margin: 12,
         flexDirection: "column",
         backgroundColor: "white",
         borderRadius: 12,
-        alignItems: "center"
+        alignItems: "center",
+        overflow: "hidden"
     },
     map: {
         height: "100%",
-        width: "100%"
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center"
     },
     buttonBox: {
         flex: 1,
         zIndex: 10000,
         position: 'absolute',
-        flexDirection: "row",
+        right: 12,
+        bottom: 12,
+        flexDirection: "column",
         alignContent: "space-between",
     },
     button: {
+        backgroundColor: colors.mid,
         height: 56,
         width: 56,
         borderRadius: 100,
         elevation: 4,
-        margin: 32,
         justifyContent: "center",
         alignItems: "center"
-    }
+    },
+    modalButton: {
+        zIndex: 10000,
+        position: 'absolute',
+        right: 12,
+        bottom: 12,
+        borderRadius: 100,
+        backgroundColor: colors.sub,
+        elevation: 4,
+        height: 56,
+        width: 56,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    modalButtonPress: {
+        elevation: 2,
+        backgroundColor: "#E99E75"
+
+    },
 });

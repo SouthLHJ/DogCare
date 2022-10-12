@@ -113,13 +113,13 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
                     <View style={styles.infoBox}>
                         <View style={styles.tableCellTitle}>
                             <FontText style={[globalStyles.textNomal]}>연락처</FontText>
-                            <FontText style={[globalStyles.textNomal]}>직선거리</FontText>
+                            <FontText style={[globalStyles.textNomal]}>거리</FontText>
                             <FontText style={[globalStyles.textNomal]}>웹사이트</FontText>
                         </View>
                         <View style={styles.tableCellContent}>
                             <FontText style={[globalStyles.textNomal]}>{moreInfo?.international_phone_number ? "0" + String(moreInfo?.international_phone_number).split(" ")[1] : "연락처가 존재하지 않습니다."}</FontText>
                             <FontText style={[globalStyles.textNomal]}>{distance}km</FontText>
-                            <FontText style={[globalStyles.textNomal]}>{moreInfo?.website}</FontText>
+                            <FontText style={[globalStyles.textNomal]}>{moreInfo?.website ? moreInfo?.website : "웹사이트가 존재하지 않습니다." }</FontText>
                         </View>
 
                     </View>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     mapImage: {
-        width: 370,
+        width: "100%",
         height: 250,
         justifyContent: "flex-end",
     },
