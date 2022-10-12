@@ -10,8 +10,7 @@ const memoriesSchema = new mongoose.Schema({
     image: { type: String, default: null },
     public: { type: Boolean, required: true },
     view : {type : Number},
-    heart  : {type : Object},
-    comment : {type : Object}
+    heart  : {type : Array},
 });
 
 

@@ -3,7 +3,8 @@ import {Buffer} from 'buffer'
 
 
 
-const ip = "http://192.168.4.56:8080/util/memories";
+// const ip = "http://192.168.4.56:8080/util/memories";
+const ip = "http://192.168.35.47:8080/util/memories";
 
 
 
@@ -119,7 +120,6 @@ export async function deleteMemory(id) {
     try{
         const createRes = await axios.get(`${ip}/delete?id=${id}`);
 
-
         return createRes.data;
     } catch (e) {
         console.log(e.message);
@@ -127,20 +127,14 @@ export async function deleteMemory(id) {
 };
 
 /** data : {view}*/
-export async function plusViewMemory(_id,data){
+export async function plusViewMemory(_id, data){
     const res = await axios.post(`${ip}/view?_id=${_id}`,data);
     return res.data;
 }
 
 /** data : {heart , name}*/
-export async function updateHeartMemory(_id,data){
-    const res = await axios.post(`${ip}/heart?_id=${_id}`,data);
-    return res.data;
-}
+export async function heartReq(memories_id, userId, pushLike){
+    const res = await axios.post(`${ip}/heart`, {memories_id, userId, pushLike});
 
-/** data  : {name , comment , allcomment} */
-export async function addCommentMemory(_id,data){
-    // console.log(_id, data)
-    const res = await axios.post(`${ip}/comment?_id=${_id}`,data);
     return res.data;
 }

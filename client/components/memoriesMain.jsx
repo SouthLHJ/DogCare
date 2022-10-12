@@ -1,7 +1,7 @@
 //상단 탭
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { colors, header } from '../customs/globalStyle';
+import { colors } from '../customs/globalStyle';
+import header from '../customs/header';
 const Stack = createNativeStackNavigator();
 
 import MemoriesDetailScreen from '../screens/memoriesDetail';
