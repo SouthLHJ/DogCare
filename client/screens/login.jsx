@@ -32,6 +32,9 @@ function LoginScreen() {
                 )
                 context.dispatch({type : "login", payload : {id : id, pw : pw, token : rcv.token}})
             }else{
+                Alert.alert(
+                    "",`${rcv.msg}`
+                )
                 console.log(rcv)
             }
          }).catch(e=>console.log(e))
