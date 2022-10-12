@@ -62,15 +62,16 @@ function RegisterScreen() {
                 if(rcv.result){
                     Alert.alert(
                         "성공", "가입에 성공하셨습니다.",[{
-                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setChkPw(false); setNick(null); setDate(new Date()); setContact(null)}
+                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null)}
                         }]
                     )
                 }else{
                     Alert.alert(
                         "실패", "가입에 실패하셨습니다. 다시 시도해 주세요",[{
-                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setChkPw(false); setNick(null); setDate(new Date()); setContact(null)}
+                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null)}
                         }]
                     )
+                    console.log("sendRegister server => ",rcv.msg)
                 }
              })
              .catch((err)=>{
@@ -86,7 +87,7 @@ function RegisterScreen() {
     let idAlarm = (<FontText></FontText>)
     if(id){
         if(!(/[a-z0-9]{4,}/.test(id))){
-            idAlarm = (<FontText style={[globalStyles.textAlarm,{fontSize : 10,textAlign :"right"}]}>5~20자의 영문 소문자만 사용가능합니다.</FontText>)
+            idAlarm = (<FontText style={[globalStyles.textAlarm,{fontSize : 10,textAlign :"right"}]}>4~20자의 영문 소문자만 사용가능합니다.</FontText>)
         }
     }
     let passwordAlarm = (<FontText></FontText>)

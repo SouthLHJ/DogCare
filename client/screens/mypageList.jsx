@@ -6,11 +6,13 @@ import { Ionicons, Feather } from '@expo/vector-icons';
 import { deletetDog, getDogInfo } from "../api/dog";
 import { useIsFocused } from "@react-navigation/native";
 import Loading from "../customs/loading";
+import CustomButton from "../customs/customButton";
+import globalStyles from "../customs/globalStyle";
 
 function MypageListScreen({ navigation, route }) {
     const [loaded, setLoaded] = useState(false);
     const [myDog, setMyDog] = useState(null);
-    const { auth } = useContext(AppContext)
+    const { auth, dispatch } = useContext(AppContext)
     const isFocused = useIsFocused();
 
 
@@ -67,6 +69,16 @@ function MypageListScreen({ navigation, route }) {
         };
 
         return checking[g];
+    }
+
+    const onLogout = ()=>{
+        Alert.alert(
+            "","로그아웃 하시겠습니까?",[{
+                text : "취소"
+            },{
+                text : "확인", onPress : ()=>dispatch({type:"logout"})
+            }]
+        )
     }
 
 
@@ -144,6 +156,9 @@ function MypageListScreen({ navigation, route }) {
                         <FontText style={styles.listText}>계정관리</FontText>
                     </TouchableOpacity>
                 </View>
+            </View>
+            <View>
+                <CustomButton onPress={()=>onLogout()} styleBtn={[globalStyles.button]} styleText={[globalStyles.buttonText]}>로그아웃</CustomButton>
             </View>
         </View>
     );
