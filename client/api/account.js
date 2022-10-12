@@ -1,7 +1,7 @@
 import axios  from "axios";
 
 
-const ip = "http://192.168.4.56:8080/util/account";
+const ip = "http://192.168.4.35:8080/util/account";
 // const ip = "http://192.168.35.47:8080/util/account";
 
 
@@ -26,5 +26,10 @@ export const readUserProfile = async(id)=>{
 
 export const editUserProfile = async(id,data)=>{
     const res = await axios.post(`${ip}/edit`,{...data, id: id});
+    return res.data
+}
+
+export const readUserId = async(_id)=>{
+    const res = await axios.post (`${ip}/userId`,{_id: _id});
     return res.data
 }

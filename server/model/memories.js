@@ -8,7 +8,10 @@ const memoriesSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     image: { type: String, default: null },
-    public: { type: Boolean, required: true }
+    public: { type: Boolean, required: true },
+    view : {type : Number},
+    heart  : {type : Object},
+    comment : {type : Object}
 });
 
 

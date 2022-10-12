@@ -9,7 +9,7 @@ const ip = "http://192.168.4.56:8080/util/memories";
 
 
 export async function getMyList(token) {
-    console.log(token)
+    // console.log(token)
     try{
         const res = await axios.get(`${ip}/myList?token_id=${token}`);
 
@@ -102,7 +102,7 @@ export async function editMemories(data, image, id) {
 
 
 export async function checkAuth(token, id) {
-    console.log(token+  "그리고" +id);
+    // console.log(token+  "그리고" +id);
     try{
         const createRes = await axios.post(`${ip}/checkAuth`, {token_id: token, userId: id});
 
@@ -125,3 +125,22 @@ export async function deleteMemory(id) {
         console.log(e.message);
     };
 };
+
+/** data : {view}*/
+export async function plusViewMemory(_id,data){
+    const res = await axios.post(`${ip}/view?_id=${_id}`,data);
+    return res.data;
+}
+
+/** data : {heart , name}*/
+export async function updateHeartMemory(_id,data){
+    const res = await axios.post(`${ip}/heart?_id=${_id}`,data);
+    return res.data;
+}
+
+/** data  : {name , comment , allcomment} */
+export async function addCommentMemory(_id,data){
+    // console.log(_id, data)
+    const res = await axios.post(`${ip}/comment?_id=${_id}`,data);
+    return res.data;
+}

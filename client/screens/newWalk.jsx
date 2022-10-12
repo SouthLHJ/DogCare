@@ -15,6 +15,7 @@ import globalStyles from "../customs/globalStyle";
 import Loading from "../customs/loading";
 import WalkRegister from '../components/walkRegister';
 import { latlng_xy_convert } from '../customs/latlng2xy';
+import { useIsFocused } from '@react-navigation/native';
 
 
 function NewWalkScreen() { 
@@ -23,6 +24,7 @@ function NewWalkScreen() {
     const latRef = useRef();
     const lngRef = useRef();
     const [weather,setWeather] = useState(null);
+    const isfocus = useIsFocused();
 
 
     const time1 = useRef();
@@ -32,23 +34,7 @@ function NewWalkScreen() {
     const [modal, setModal] = useState(false);
 
     useEffect(()=>{
-        
-        async function location(){
-
-            try{
-                // if(locationPermission.status === PermissionStatus.UNDETERMINED ||
-                //     locationPermission.status === PermissionStatus.DENIED){
-                //         const permission = await requestLocationPermission();
-                //         if(!permission.granted){
-                //             return ;
-                //         }
-                // }
-                await takeLatLng();
-                onRefreshWeather();
-            }catch(e){
-
-            }
-        }
+        onRefreshWeather();
         async function load(){
             try{
                 const start = await AsyncStorage.getItem("walkStart")
@@ -62,8 +48,7 @@ function NewWalkScreen() {
             }
         }
         load();
-        location();
-    },[])
+    },[isfocus])
 
     //func
     const onWalkingStart = ()=>{
@@ -94,16 +79,34 @@ function NewWalkScreen() {
 
     }
     
+    const location = async()=>{
+        try{
+            if(locationPermission.status === PermissionStatus.UNDETERMINED ||
+                locationPermission.status === PermissionStatus.DENIED){
+                    const permission = await requestLocationPermission();
+                    if(!permission.granted){
+                        return ;
+                    }
+                }
+                await takeLatLng();
+                onRefreshWeather(1);
+        }catch(e){
+            console.log("location => ",e)
+        }
+    }
+
     let pty = "없음"
-    const onRefreshWeather = ()=>{
+    const onRefreshWeather = (t)=>{
         const timeIndex = ["02", "05", "08", "11", "14", "17", "20", "23"];
         const time = `${new Date().getHours()}`.padStart(2,"0")
         const idx = timeIndex.findIndex((one)=>{
             return (one >= time)
         })
-        
-        const llxy = latlng_xy_convert("toXY",latRef.current,lngRef.current);
-        readWeather(timeIndex[idx-1],llxy.x,llxy.y)
+        let llxy;
+        if(t){
+            llxy = latlng_xy_convert("toXY",latRef?.current ?? 126,lngRef?.current ?? 35);
+        }
+        readWeather(timeIndex[idx-1],llxy?.x ?? 55,llxy?.y ?? 126)
         .then((rcv)=>{
             setWeather(rcv);
         })
@@ -111,8 +114,6 @@ function NewWalkScreen() {
     }
 
     const takeLatLng = async() =>{
-        
-
         try{
             const rcv =  await getCurrentPositionAsync();
             latRef.current = rcv.coords.latitude;
@@ -150,13 +151,13 @@ function NewWalkScreen() {
     <View style={globalStyles.container}>
         <View style={styles.weatherContainer}>
             <FontText>{pty}</FontText>
-            <FontText>{weather[9].fcstValue}</FontText>
+            <FontText>{weather[9]?.fcstValue}</FontText>
             <FontText>{weather[0].fcstValue}℃</FontText>
         </View>
         <View style={{flexDirection : "row", justifyContent :"flex-end", alignItems : "center"}}>
             <FontText style={{fontSize : 10}}>정보제공 : 기상청,</FontText>
             <FontText style={{fontSize : 10}}>발표 : {weather[0].baseDate}.{weather[0].baseTime.slice(0,2)}시 </FontText>
-            <TouchableOpacity onPress={()=>onRefreshWeather()}>
+            <TouchableOpacity onPress={()=>location()}>
                 <MaterialCommunityIcons name="reload" size={15} color="black" />
             </TouchableOpacity>
         </View>

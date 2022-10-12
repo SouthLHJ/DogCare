@@ -18,13 +18,13 @@ function MemoriesListScreen({ navigation, route }) {
     const isFocused = useIsFocused();
 
     useEffect(() => {
-        console.log(auth);
+        // console.log(auth);
 
         if (listType === "all") {
             getAllList(auth.token)
                 .then((rcv) => {
                     if (rcv.result) {
-                        console.log(rcv.list)
+                        // console.log(rcv.list)
                         setList(rcv.list);
                     } else {
                         Alert.alert("", rcv.msg);
@@ -39,7 +39,7 @@ function MemoriesListScreen({ navigation, route }) {
             getMyList(auth.token)
                 .then((rcv) => {
                     if (rcv.result) {
-                        console.log(rcv.list)
+                        // console.log(rcv.list)
                         setList(rcv.list);
                     } else {
                         Alert.alert("", "리스트를 가져오는 데 실패했습니다. 01");
@@ -60,7 +60,7 @@ function MemoriesListScreen({ navigation, route }) {
             {loaded ? <Loading /> : <></>}
             <View style={styles.memoriesBox}>
                 <Pressable style={[globalStyles.button, styles.button]} onPress={() => {
-                    console.log("작성");
+                    // console.log("작성");
                     navigation.navigate("memoriesWrite");
                 }}>
                     <MaterialIcons name="add" size={32} color="white" />

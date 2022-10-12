@@ -6,7 +6,7 @@ function EyeIcon({isPublic, onSetPublic}) {
     const [eye, setEye] = useState(false);
 
     useEffect(() => {
-        console.log(isPublic)
+        // console.log(isPublic)
         setEye(isPublic);
     }, [isPublic])
 
