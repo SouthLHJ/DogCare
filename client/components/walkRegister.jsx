@@ -158,6 +158,8 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
             visible={modal}
         >
            <View style={styles.area}>
+                <Pressable style={{flex:1,width : "100%"}} onPress={()=>onCloseModal()}>
+                </Pressable>
                 <View style={styles.container}>
                     <View style={styles.topContainer}>
                         <View style={styles.topTitle}> 
@@ -230,13 +232,12 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
 export default WalkRegister;
 
 const styles = StyleSheet.create({
-    area : {flex:1, justifyContent :"flex-end"},
-    container : {height : "70%", backgroundColor : "white", borderTopRightRadius : 15 , borderTopLeftRadius : 15 , borderWidth: 1, overflow : "hidden" },
+    area : {flex:1, justifyContent :"flex-end",backgroundColor : "rgba(0, 0, 0, 0.38)"},
+    container : {height : "70%", backgroundColor : "white", borderTopRightRadius : 15 , borderTopLeftRadius : 15 , overflow : "hidden" },
     topContainer :{
         height  : 50,
         flexDirection : "row",
         alignItems :"center",
-        borderBottomWidth : 1
     },
     topTitle : {flex:1,marginRight : -50, alignItems :"center"},
     topClose: {width : 50, alignItems : "center"},

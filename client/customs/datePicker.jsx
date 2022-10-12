@@ -47,4 +47,7 @@ const styles = StyleSheet.create({
     datePoinContainer:{
         flexDirection : "row"
     },
+    text : {
+        fontSize : 13
+    }
 });

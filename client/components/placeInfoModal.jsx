@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Image, ImageBackground, Modal, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Alert, FlatList, Image, ImageBackground, Modal, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import { createStaticMapURI, getPlaceInfo, likeAdd, sendLikeCheckRequest } from "../api/place";
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
 import Loading from "../customs/loading";
 import { AntDesign } from '@expo/vector-icons';
+import globalStyles from "../customs/globalStyle";
+import PlaceReviewItem from "./placeReviewItem";
 
 function Dist(lat1, lng1, lat2, lon2) {
     const rad = function (x) { return x * Math.PI / 180; };
@@ -65,7 +67,7 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
 
     }, [item_id, currentCoords])
 
-
+    // console.log(moreInfo);
     return (
         <Modal animationType="slide" visible={visible} transparent={true}>
             <Pressable onPress={() => {
@@ -109,9 +111,31 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
                         : <Loading />
                     }
                     <View style={styles.infoBox}>
-                        <FontText style={{ fontSize: 13 }}>{moreInfo?.international_phone_number ? "0" + String(moreInfo?.international_phone_number).split(" ")[1] : "연락처가 존재하지 않습니다."}</FontText>
-                        <FontText style={{ fontSize: 13 }}>{distance}km</FontText>
+                        <View style={styles.tableCellTitle}>
+                            <FontText style={[globalStyles.textNomal]}>연락처</FontText>
+                            <FontText style={[globalStyles.textNomal]}>직선거리</FontText>
+                            <FontText style={[globalStyles.textNomal]}>웹사이트</FontText>
+                        </View>
+                        <View style={styles.tableCellContent}>
+                            <FontText style={[globalStyles.textNomal]}>{moreInfo?.international_phone_number ? "0" + String(moreInfo?.international_phone_number).split(" ")[1] : "연락처가 존재하지 않습니다."}</FontText>
+                            <FontText style={[globalStyles.textNomal]}>{distance}km</FontText>
+                            <FontText style={[globalStyles.textNomal]}>{moreInfo?.website}</FontText>
+                        </View>
+
                     </View>
+                    {moreInfo?.reviews ?
+                    <View style={styles.reviewBox}>
+                        <FlatList
+                            data={moreInfo.reviews}
+                            renderItem={({item})=>{
+                                return (<PlaceReviewItem item={item}/>)
+                            }}
+                        />
+                    </View> 
+                    :
+                    <FontText style={[globalStyles.textNomal]}>리뷰가 없습니다.</FontText>
+                    }
+
                 </Pressable>
             </Pressable>
         </Modal>
@@ -156,8 +180,21 @@ const styles = StyleSheet.create({
         alignItems: "flex-end",
     },
     infoBox: {
+        width : "100%",
+        
+        flexDirection : "row",
+        justifyContent : "space-around"
+    },
+    tableCell:{
 
     },
+    tableCellContent:{
+
+    },
+    reviewBox :{
+        width : "100%",
+        flex : 1
+    }
 })
 
 export default PlaceInfoModal;
