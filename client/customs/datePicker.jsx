@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
         flexDirection : "row"
     },
     text : {
-        fontSize : 13
+        fontSize : 14
     }
 });

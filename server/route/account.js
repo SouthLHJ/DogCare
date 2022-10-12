@@ -60,6 +60,15 @@ router.post("/read",async(req,res)=>{
     }
 })
 
+router.post("/userId", async(req,res)=>{
+    try{
+        const findAccount = await Account.findOne({_id: req.body._id}).select("name").lean();
+        res.json({result : true, data : findAccount})
+    }catch(e){
+        res.json({result : false, msg : e.message})
+    }
+})
+
 router.post("/edit",async(req,res)=>{
     try{
         const edit = await Account.findOneAndUpdate({id : req.body.id},{

@@ -45,15 +45,15 @@ const globalStyles = StyleSheet.create({
         color: colors.white
     },
 
-    textNomal: {
-        fontSize: 15
+    textNomal :{
+        fontSize : 14
     },
-    textTitle: {
-        fontSize: 15
+    textTitle :{
+        fontSize : 20
     },
-    textAlarm: {
-        fontSize: 15,
-        color: "red"
+    textAlarm : {
+        fontSize : 14,
+        color : "red"
     },
     loading: {
         backgroundColor: `rgba(50,50,50,0.5)`

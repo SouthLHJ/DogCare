@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
-import { checkAuth, deleteMemory } from "../api/memories";
+import { Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View, Platform } from "react-native";
+import { checkAuth, deleteMemory, plusViewMemory } from "../api/memories";
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
 import { Feather } from '@expo/vector-icons';
@@ -26,9 +26,24 @@ function MemoriesItem({ item, onRefresh }) {
             })
     }, [item])
 
+    //func
+    const moveDetail = ()=>{
+        plusViewMemory(item._id,{ view : item?.view ?? 0})
+         .then((rcv)=>{
+            if(rcv.result){
+
+            }else{
+                console.log("moveDetail  server= >",rcv.msg)
+            }
+            // console.log(rcv)
+         })
+         .catch(err => console.log("moveDetail =>",err))
+        navigation.navigate("memoriesDetail",{item : item})
+    }
+
     return (
         <View style={styles.itemBox}>
-            <View style={{ flex: 1}}>
+            <TouchableOpacity style={{flex : 1, flexDirection : "row"}} onPress={()=>moveDetail()}>
                 <View style={{flexDirection: "row", alignItems: "baseline", margin: 4}}>
                     <FontText title={true} style={{fontSize: 24, marginRight: 8}}>{item.title}</FontText>
                     <FontText style={{color: colors.dark}}>/ {((item.date.split("T")[0]).replace("-", ".")).replace("-", ".")}</FontText>
@@ -67,17 +82,17 @@ function MemoriesItem({ item, onRefresh }) {
                     }}>
                         <Feather name="trash" size={20} color={colors.dark} />
                         <FontText bold={true} style={{color: colors.dark, fontSize: 14}}>삭제</FontText>
-                    </Pressable>
+                        </Pressable>
                     </View>
+                    : <></>}
                 </View>
-                : <></>}
-            </View>
-            <View>
+                <View>
                 {item.image ?
                     <Image source={{ uri: item.image }} style={{ height: 88, width: 88, borderRadius: 8, marginLeft: 12 }}  />
                     : <View style={{height: 88, width: 88, borderRadius: 8, marginLeft: 12}}></View>
                 }
-            </View>
+                </View>
+            </TouchableOpacity>
         </View>
     );
 };
