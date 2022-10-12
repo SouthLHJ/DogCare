@@ -42,8 +42,7 @@ function WalkListScreen() {
     }
 
     return (  
-    <View style={globalStyles.container}>
-        
+    <View style={[globalStyles.container]}>
         {list.length === 0 ? <FontText style={{textAlign : "center"}}>아직 산책 기록이 없습니다.</FontText>
             :
             <FlatList style={styles.scroll} data={list} renderItem={({ item }) => {
@@ -57,5 +56,6 @@ function WalkListScreen() {
 export default WalkListScreen;
 
 const styles = StyleSheet.create({
-    
+    container : {
+    }
 });

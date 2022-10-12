@@ -37,31 +37,33 @@ function WalkItem({ item, onRefresh }) {
         ])
     }
     return (
-        <View style={styles.itemBox}>
-            <View style={{flex :1,justifyContent : "space-between"}}>
-                <View>
-                    <FontText>{item.date.split("T")[0]}</FontText>
+        <View style={styles.container}>
+            <View style={[styles.itemBox]}>
+                <View style={{flex :1,justifyContent : "space-between"}}>
+                    <View>
+                        <FontText>{item.date.split("T")[0]}</FontText>
+                    </View>
+                    <View>
+                        <FontText>{((item.time2-item.time1)/(1000*60*60)).toFixed(0)}시간 {((item.time2-item.time1)/(1000*60)).toFixed(0)}분 {((item.time2-item.time1)/(1000)).toFixed(0)}초</FontText>
+                    </View>
+                    <View style={styles.iconBox}>
+                        <Pressable onPress={() => { setModal(true)}}>
+                            <Feather name="edit" size={18} color="black" />
+                        </Pressable>
+                        <Pressable onPress={() =>onDelete()}>
+                            <Feather name="trash" size={18} color="black" />
+                        </Pressable>
+                    </View>
                 </View>
-                <View>
-                    <FontText>{((item.time2-item.time1)/(1000*60*60)).toFixed(0)}시간 {((item.time2-item.time1)/(1000*60)).toFixed(0)}분 {((item.time2-item.time1)/(1000)).toFixed(0)}초</FontText>
+                <View style={{flex :1}}>
+                    <FontText>{item.memo}</FontText>
                 </View>
-                <View style={styles.iconBox}>
-                    <Pressable onPress={() => { setModal(true)}}>
-                        <Feather name="edit" size={18} color="black" />
-                    </Pressable>
-                    <Pressable onPress={() =>onDelete()}>
-                        <Feather name="trash" size={18} color="black" />
-                    </Pressable>
+                {modal &&<WalkRegister modal={modal} setModal={setModal} time1={item.time1} time2={item.time2} image={item?.image} memo={item?.memo} edit={true} id={item._id}/> }
+                <View style={{ flex: 1, alignItems: "flex-end" }}>
+                    {item.image ? <Image source={{ uri: item.image }} style={{ height: "100%", width: 78, borderRadius: 8 }} />
+                        : <></>
+                    }
                 </View>
-            </View>
-            <View style={{flex :1}}>
-                <FontText>{item.memo}</FontText>
-            </View>
-            {modal &&<WalkRegister modal={modal} setModal={setModal} time1={item.time1} time2={item.time2} image={item?.image} memo={item?.memo} edit={true} id={item._id}/> }
-            <View style={{ flex: 1, alignItems: "flex-end" }}>
-                {item.image ? <Image source={{ uri: item.image }} style={{ height: "100%", width: 78, borderRadius: 8 }} />
-                    : <></>
-                }
             </View>
         </View>
     );
@@ -69,9 +71,10 @@ function WalkItem({ item, onRefresh }) {
 export default WalkItem;
 
 const styles = StyleSheet.create({
+    container : {alignItems : "center"},
     itemBox: {
         height: 86,
-        width: 328,
+        width: "98%",
         flexDirection: "row",
         borderWidth: 2,
         borderColor: "#0089FF",
