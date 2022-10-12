@@ -7,7 +7,7 @@ import { launchCameraAsync, launchImageLibraryAsync, useCameraPermissions, useMe
 import FontText from "../customs/fontText";
 import Checkbox from "react-native-bouncy-checkbox";
 import CodeModal from "../components/codeModal";
-import {AppContext} from "../contexts/app-context";
+import { AppContext } from "../contexts/app-context";
 import { addDog, addDogImage, editDog, editDogImage } from "../api/dog";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -26,13 +26,13 @@ function MypagePetRegisterScreen({ navigation, route }) {
     const [dateShow, setDateShow] = useState(false);
     const [albumStatus, requestAlbumPermission] = useMediaLibraryPermissions();
     const isFocused = useIsFocused();
-    const {auth} = useContext(AppContext);
+    const { auth } = useContext(AppContext);
 
     useEffect(() => {
         if (route.params?.editMode) {
             console.log("route", route.params)
             const { currentData } = route.params;
-  
+
             setImageUri(currentData.image);
             setLastFile(currentData.image);
             setName(currentData.name);
@@ -85,7 +85,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                 setGender(datas.gender);
                 setName(datas.name);
                 setSpecies(datas.species);
-                }} closeModal={() => setShowCodeModal(false)} /> : <></>}
+            }} closeModal={() => setShowCodeModal(false)} /> : <></>}
             <View style={styles.mainBox}>
                 <View style={styles.body}>
                     <View style={styles.imageBox}>
@@ -97,24 +97,25 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                 <MaterialIcons name="photo-library" size={32} color="white" />
                             </Pressable>}
                         <View style={styles.nameInputBox}>
-                            <TextInput placeholder="name" style={{fontSize: 18, margin: 8, marginBottom: 2}} value={name} onChangeText={(text) => {
+                            <TextInput placeholder="name" style={{ fontSize: 18, margin: 8, marginBottom: 2 }} value={name} onChangeText={(text) => {
                                 if (code) {
                                     return;
                                 } else {
                                     setName(text);
                                 }
                             }} />
+                    </View>
+                    <View style={styles.inputList}>
+                        <FontText style={styles.label}>등록번호</FontText>
+                        <View style={[styles.inputBox, { flexDirection: "row" }]} placeholder="code" onChangeText={(text) => setCode(text)}>
+                            <Text style={[styles.input, { paddingVertical: 4, flex: 1, marginRight: 4 }]}>{code ? code : " - "}</Text>
+                            <TouchableOpacity onPress={() => setShowCodeModal(true)}>
+                                <FontAwesome5 name="search" size={24} color="#555555" />
+                            </TouchableOpacity>
                         </View>
-                        <View style={styles.inputList}><FontText style={styles.label}>등록번호</FontText>
-                            <View style={[styles.inputBox, { flexDirection: "row" }]} placeholder="code" onChangeText={(text) => setCode(text)}>
-                                <Text style={[styles.input, { paddingVertical: 4,flex: 1, marginRight: 4 }]}>{code ? code : " - " }</Text>
-                                <TouchableOpacity onPress={() => setShowCodeModal(true)}>
-                                    <FontAwesome5 name="search" size={24} color="#555555" />
-                                </TouchableOpacity>
-                            </View>
-                            <FontText style={styles.label}>생년월일</FontText>
-                            <View style={[styles.inputBox, { flexDirection: "row" }]}>
-                                <Text style={[styles.input, { paddingVertical: 4,flex: 1, marginRight: 4 }]}>{`${birth.getFullYear()}-${Number(birth.getMonth()) + 1}-${birth.getDate()}`}</Text>
+                        <FontText style={styles.label}>생년월일</FontText>
+                        <View style={[styles.inputBox, { flexDirection: "row" }]}>
+                                <Text style={[styles.input, { paddingVertical: 4, flex: 1, marginRight: 4 }]}>{`${birth.getFullYear()}-${Number(birth.getMonth()) + 1}-${birth.getDate()}`}</Text>
                                 <TouchableOpacity disabled={code ? true : false} onPress={() => {
                                     if (dateShow) {
                                         setDateShow(false);
@@ -136,66 +137,66 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                 }
                             </View>
                             <FontText style={styles.label}>성별</FontText>
-                            <View style={[styles.inputBox, {flexDirection: "row", justifyContent: "space-between"}]}>
-                                <View style={{justifyContent: "space-between", height: 42}}>
-                                <Checkbox fillColor="#0089FF" isChecked={gender === "male" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>수컷</FontText>} onPress={()=> {
-                                    if(gender == "male") {
-                                        setGender(null);
-                                    } else {
-                                        setGender("male");
-                                    };
-                                }} />
-                                <Checkbox fillColor="#0089FF"  isChecked={gender === "_male" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>수컷(중성화)</FontText>} onPress={()=> {
-                                    if(gender == "_male") {
-                                        setGender(null);
-                                    } else {
-                                        setGender("_male");
-                                    };
-                                }} />
+                            <View style={[styles.inputBox, { flexDirection: "row", justifyContent: "space-between" }]}>
+                                <View style={{ justifyContent: "space-between", height: 42 }}>
+                                    <Checkbox fillColor="#0089FF" isChecked={gender === "male" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>수컷</FontText>} onPress={() => {
+                                        if (gender == "male") {
+                                            setGender(null);
+                                        } else {
+                                            setGender("male");
+                                        };
+                                    }} />
+                                    <Checkbox fillColor="#0089FF" isChecked={gender === "_male" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>수컷(중성화)</FontText>} onPress={() => {
+                                        if (gender == "_male") {
+                                            setGender(null);
+                                        } else {
+                                            setGender("_male");
+                                        };
+                                    }} />
                                 </View>
-                                <View style={{justifyContent: "space-between", height: 42}}>
-                                <Checkbox fillColor="#0089FF" isChecked={gender === "female" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>암컷</FontText>} onPress={()=> {
-                                    if(gender == "female") {
-                                        setGender(null);
-                                    } else {
-                                        setGender("female");
-                                    };
-                                }} />
-                                <Checkbox fillColor="#0089FF" isChecked={gender === "_female" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>암컷(중성화)</FontText>} onPress={()=> {
-                                    if(gender == "_female") {
-                                        setGender(null);
-                                    } else {
-                                        setGender("_female");
-                                    };
-                                }} />
+                                <View style={{ justifyContent: "space-between", height: 42 }}>
+                                    <Checkbox fillColor="#0089FF" isChecked={gender === "female" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>암컷</FontText>} onPress={() => {
+                                        if (gender == "female") {
+                                            setGender(null);
+                                        } else {
+                                            setGender("female");
+                                        };
+                                    }} />
+                                    <Checkbox fillColor="#0089FF" isChecked={gender === "_female" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>암컷(중성화)</FontText>} onPress={() => {
+                                        if (gender == "_female") {
+                                            setGender(null);
+                                        } else {
+                                            setGender("_female");
+                                        };
+                                    }} />
                                 </View>
-                                <View style={{justifyContent: "space-between", height: 42}}>
-                                <Checkbox fillColor="#0089FF" isChecked={gender === "unknown" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>모름</FontText>} onPress={()=> {
-                                    if(gender == "unknown") {
-                                        setGender(null);
-                                    } else {
-                                        setGender("unknown");
-                                    };
-                                }} />
+                                <View style={{ justifyContent: "space-between", height: 42 }}>
+                                    <Checkbox fillColor="#0089FF" isChecked={gender === "unknown" ? true : false} disableBuiltInState={true} disabled={code ? true : false} size={18} textComponent={<FontText>모름</FontText>} onPress={() => {
+                                        if (gender == "unknown") {
+                                            setGender(null);
+                                        } else {
+                                            setGender("unknown");
+                                        };
+                                    }} />
                                 </View>
                             </View>
                             <FontText style={styles.label}>품종</FontText>
                             <View style={styles.inputBox}>
                                 <TextInput style={styles.input} placeholder="species" value={species} onChangeText={(text) => {
-                                    if(code) {
+                                    if (code) {
                                         return;
                                     } else {
                                         setSpecies(text);
                                     };
-                                    }} />
+                                }} />
                             </View>
                             <FontText style={styles.label}>특이사항</FontText>
                             <View style={styles.inputBox}>
                                 <TextInput style={styles.input} placeholder="special note" value={extra} onChangeText={(text) => {
-                                        setExtra(text);
-                                    }} />
+                                    setExtra(text);
+                                }} />
                             </View>
-                            
+
                         </View>
                     </View>
 
@@ -226,7 +227,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                 if (imageUri && imageData) {// 사진까지 수정
                                     editDogImage(dogData, imageData, imageUri, lastFile)
                                         .then((rcv) => {
-                                            if(rcv.result) {
+                                            if (rcv.result) {
                                                 navigation.navigate("mypageList");
                                             } else {
                                                 console.log(rcv.msg);
@@ -238,7 +239,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                 } else { // 사진 빼고 수정
                                     editDog(dogData)
                                         .then((rcv) => {
-                                            if(rcv.result) {
+                                            if (rcv.result) {
                                                 navigation.navigate("mypageList");
                                             } else {
                                                 console.log(rcv.msg);
@@ -252,7 +253,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                 if (imageUri && imageData) { // 사진까지 등록
                                     addDogImage(dogData, imageData, imageUri)
                                         .then((rcv) => {
-                                            if(rcv.result) {
+                                            if (rcv.result) {
                                                 navigation.navigate("mypageList");
                                             } else {
                                                 console.log(rcv.msg);
@@ -263,7 +264,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                 } else { // 사진 빼고 등록
                                     addDog(dogData)
                                         .then((rcv) => {
-                                            if(rcv.result) {
+                                            if (rcv.result) {
                                                 navigation.navigate("mypageList");
                                             } else {
                                                 console.log(rcv.msg);

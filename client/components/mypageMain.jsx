@@ -1,24 +1,27 @@
 //상단 탭
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-const TopTab = createMaterialTopTabNavigator();
+const Stack = createNativeStackNavigator();
 
 import MypageCheckScreen from '../screens/mypageCheck';
 import MypageListScreen from '../screens/mypageList';
 import MypagePetRegisterScreen from '../screens/mypagePetRegister';
 import MypageLikePlaceScreen from '../screens/mypageLikePlace';
 import MypageAccountScreen from '../screens/mypageAccount';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { colors } from '../customs/globalStyle';
+import header from '../customs/header';
 
 
 
 function MypageMain() {
     return (  
-        <TopTab.Navigator screenOptions={{tabBarStyle  :  {display: 'none'}, swipeEnabled: false}} animationEnabled={false}>
-            <TopTab.Screen name="mypageList" component={MypageListScreen}/>
-            <TopTab.Screen name="dogRegister" component={MypagePetRegisterScreen}/>
-            <TopTab.Screen name="checkList" component={MypageCheckScreen}/>
-            <TopTab.Screen name="likePlace" component={MypageLikePlaceScreen}/>
-            <TopTab.Screen name="account" component={MypageAccountScreen}/>
-        </TopTab.Navigator>
+        <Stack.Navigator screenOptions={{headerBackVisible: false, headerBackground: {color: colors.main}, headerTitle: header}} animationEnabled={false}>
+            <Stack.Screen name="mypageList" component={MypageListScreen}/>
+            <Stack.Screen name="dogRegister" component={MypagePetRegisterScreen}/>
+            <Stack.Screen name="checkList" component={MypageCheckScreen}/>
+            <Stack.Screen name="likePlace" component={MypageLikePlaceScreen}/>
+            <Stack.Screen name="account" component={MypageAccountScreen}/>
+        </Stack.Navigator>
     );
 }
 

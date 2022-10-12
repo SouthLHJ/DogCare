@@ -9,7 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { sendRegister } from "../api/account";
 import CustomDatePicker from "../customs/datePicker";
 
-function RegisterScreen() {
+function RegisterScreen({navigation}) {
     const [id,setId] = useState(null);
     const [pw,setPw] = useState(null);
     const [rePw,setRePw] = useState(null);
@@ -19,7 +19,6 @@ function RegisterScreen() {
     const [contact,setContact] = useState(null);
 
 
-    const navigation = useNavigation();
 
     //func
     const moveLogin = ()=>{
@@ -61,13 +60,13 @@ function RegisterScreen() {
              .then((rcv)=>{
                 if(rcv.result){
                     Alert.alert(
-                        "성공", "가입에 성공하셨습니다.",[{
-                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null)}
+                        "가입 성공!", "로그인해서 내새꾸 앱을 즐겨보세요!",[{
+                            text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null); navigation.navigate("login")}
                         }]
                     )
                 }else{
                     Alert.alert(
-                        "실패", "가입에 실패하셨습니다. 다시 시도해 주세요",[{
+                        "가입 실패!", "가입에 실패했어요... 다시 시도 해 주세요.",[{
                             text : "확인", onPress : ()=>{setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null)}
                         }]
                     )
@@ -104,43 +103,46 @@ function RegisterScreen() {
     }
 
     return (  
-    <View style={globalStyles.container}>
-        <ScrollView style={styles.inputContain}>
-            <FontText style={[globalStyles.textTitle]} bold={"semi"}>아이디</FontText>
+        <View style={styles.container}>
+            <View style={[globalStyles.innerContainer]}>
+                <View style={{alignItems: "flex-start", width: 320}}>
+            <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>아이디</FontText>
             <TextInput  style={[globalStyles.input]}  onChangeText={(text)=>setId(text)} autoCapitalize="none"
             value={id}   keyboardType="email-address"/>
             { idAlarm }
 
-            <FontText style={[globalStyles.textTitle]} bold={"semi"}>비밀번호</FontText>
+            <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>비밀번호</FontText>
             <TextInput  style={[globalStyles.input]}  onChangeText={(text)=>setPw(text)} secureTextEntry={true} autoCapitalize="sentences"
             value={pw} />
             {passwordAlarm}
 
-            <FontText style={[globalStyles.textTitle]} bold={"semi"}>비밀번호 재확인</FontText>
+            <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>비밀번호 재확인</FontText>
             <TextInput  style={[globalStyles.input]}  onChangeText={(text)=>setRePw(text)} secureTextEntry={true} autoCapitalize="sentences"
             value={rePw} />
             { ( (rePw !== pw)&& rePw) ? <FontText style={[globalStyles.textAlarm,{fontSize : 10,textAlign :"right"}]}>비밀번호가 일치하지않습니다.</FontText> : <FontText></FontText>}
 
-            <FontText style={[globalStyles.textTitle]} bold={"semi"}>닉네임</FontText>
+            <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>닉네임</FontText>
             <TextInput  style={[globalStyles.input,styles.input]}  onChangeText={(text)=>setNick(text)}
             value={nick}   keyboardType="email-address"/>
 
             <View style={{marginBottom : 15}}>
-                <FontText style={[globalStyles.textTitle]} bold={"semi"}>생년월일</FontText>
+                <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>생년월일</FontText>
                 <CustomDatePicker start={true} end={false} startPoint={date} setStartPoint={setDate}/>
             </View>
 
-            <FontText style={[globalStyles.textTitle]} bold={"semi"}>전화번호</FontText>
+            <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>전화번호</FontText>
             <TextInput  style={[globalStyles.input]}  onChangeText={(text)=>setContact(text)}
             value={contact}   keyboardType="number-pad"/>
             {contactAlarm}
 
-            <CustomButton onPress={()=>onRegister()} styleBtn={[globalStyles.button]} styleText={[globalStyles.buttonText]}>가입</CustomButton>
-        </ScrollView>
+        </View>
 
+            <CustomButton onPress={()=>onRegister()} styleBtn={[globalStyles.button, styles.button]} styleText={[globalStyles.buttonText]}>가입</CustomButton>
+            
         <TouchableOpacity onPress={moveLogin} style={styles.register}>
                 <FontText style={[styles.text]}>로그인 하시겠습니까?</FontText>
         </TouchableOpacity>
+                            </View>
     </View>
     );
 }
@@ -163,5 +165,10 @@ const styles = StyleSheet.create({
     },
     text : {
         textAlign : "center"
-    }
+    },
+    button: {
+        width: 120,
+        alignSelf: "center",
+        marginTop: 24
+    },
 });

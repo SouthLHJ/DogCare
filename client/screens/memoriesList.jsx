@@ -119,9 +119,7 @@ const styles = StyleSheet.create({
     },
     listBox: {
         flex: 1,
-        alignContent: "center",
         backgroundColor: "white",
-        justifyContent: "center",
         marginVertical: 0,
         borderRadius: 12,
         width: "100%",

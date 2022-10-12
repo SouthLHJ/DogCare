@@ -104,7 +104,7 @@ router.post("/checkAuth", (req, res) => {
     } catch(err) {
         res.json({result: false, msg: err.message});
     };
-})
+});
 
 router.post("/view",async(req,res)=>{
     try {
@@ -120,35 +120,13 @@ router.post("/view",async(req,res)=>{
 
 router.post("/heart",async(req,res)=>{
     try {
-        const postId = req.query._id;
-        const heart = req.body.heart;
-        let newHeart = [];
-        const name =  req.body.name;
-        if(heart.includes(name)){
-            newHeart = heart.filter((one)=>{
-                return one !== name;
-            })
-        }else{
-            newHeart = [...heart, name]
-        }
-        const rcv =  await Memories.findOneAndUpdate({_id : postId},{heart : newHeart},{returnDocument : "after"})
-        res.json({result: true, data : rcv}); 
-    } catch(err) {
-        res.json({result: false, msg: err.message});
-    };
-})
+        if (req.body.pushLike) {
+            const push = await Memories.findByIdAndUpdate(req.body.memories_id, {$push: {like: req.body.userId}});
+        } else {
+            const pull = await Memories.findByIdAndUpdate(req.body.memories_id, {$pull: {like: req.body.userId}});
+        };
 
-router.post("/comment", async(req,res)=>{
-    try {
-        const postId = req.query._id;
-        const all = req.body.allcomment;
-        const name = req.body.name;
-        const comment = req.body.comment;
-
-        const newArr = [...all,{name, comment}]
-
-        const rcv =  await Memories.findOneAndUpdate({_id  : postId},{comment : newArr},{returnDocument : "after"})
-        res.json({result: true, data : rcv}); 
+        res.json({result: true}); 
     } catch(err) {
         res.json({result: false, msg: err.message});
     };
