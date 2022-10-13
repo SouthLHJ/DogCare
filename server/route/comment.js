@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import Comment from "../model/comment";
-import Account from "../model/account";
+import Comment from "../model/comment.js";
+import Account from "../model/account.js";
 
 const router = express.Router();
 
@@ -9,8 +9,8 @@ router.post("/write", async (req, res)=>{
     const verifyToken = jwt.verify(req.body.token_id, process.env.SECRET_KEY);
     
     try {
-        const user = await Account.findById(verifyToken.token_id).select("name");
-        const newComment = await Comment.create({userName: user.name, memoriesId: req.body.memories_Id, date: new Date(), comment: req.body.comment})
+        const user = await Account.findById(verifyToken.token_id).select("id name");
+        const newComment = await Comment.create({userName: user.name, userId: user.id, memoriesId: req.body.memories_Id, date: new Date(), comment: req.body.comment})
 
         res.json({result: true, comment: newComment });
     } catch(err) {
