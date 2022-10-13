@@ -63,7 +63,7 @@ function ConsumeChartScreen() {
     return (
         <View style={globalStyles.container}>
             <TouchableOpacity onPress={()=>onSwitch()} style={styles.swithContainer}>
-                <FontText style={[globalStyles.textNomal,{marginHorizontal: 4 ,color : colors.black}]}>{chartAll ? "누적 소비 차트" : "기간 소비 차트"}</FontText>
+                <FontText style={[globalStyles.textNomal,{marginHorizontal: 4 ,color : colors.black}]}bold={true} title={true}>{chartAll ? "누적 소비 차트" : "기간 소비 차트"}</FontText>
                 <FontAwesome5 name="exchange-alt" size={18} color={colors.black} />
             </TouchableOpacity>
 

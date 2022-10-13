@@ -29,7 +29,7 @@ function MypageAccountScreen() {
                     <Pressable onPress={() => {
                         moveBack()
                     }}>
-                        <AntDesign name="left" size={24} color={colors.white} />
+                        <AntDesign name="left" size={24} color={colors.mid} />
                     </Pressable>
                 )
             },
@@ -38,7 +38,7 @@ function MypageAccountScreen() {
                     <Pressable onPress={() => {
                         onEditButton()
                     }}>
-                        <AntDesign name="checkcircleo" size={24} color={colors.white} />
+                        <AntDesign name="checkcircleo" size={24} color={colors.mid} />
                     </Pressable>
                 )
             }

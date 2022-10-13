@@ -46,10 +46,10 @@ function ConsumeListScreen() {
     }
 
     return (  
-    <View style={globalStyles.container}>
+    <View style={styles.container}>
         <View style={styles.searchDateContainer}>
             <View style={{flex :1,height : "100%",justifyContent : "center", alignItems :"center", borderBottomColor : colors.mid, borderBottomWidth : 1, }}>
-                <CustomDatePicker start={true} end={true} startPoint={date1} setStartPoint={setDate1} endPoint={date2} setEndPoint={setDate2}/>
+                <CustomDatePicker start={true} end={true} startPoint={date1} setStartPoint={setDate1} endPoint={date2} setEndPoint={setDate2} textStyle={{fontSize : 14}}/>
             </View>
             <TouchableOpacity style={{backgroundColor : colors.mid, paddingVertical : 5, paddingHorizontal :10, borderRadius : 10}} onPress={()=>onSearch()}>
                 <FontText style={[globalStyles.textNomal,{color : colors.white}]}>검색</FontText>
@@ -65,6 +65,10 @@ function ConsumeListScreen() {
 export default ConsumeListScreen;
 
 const styles = StyleSheet.create({
+    container : {
+
+    },
+
     plusIcon : {
         marginVertical : 5,
         alignItems  : "flex-end"

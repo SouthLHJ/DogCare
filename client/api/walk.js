@@ -1,8 +1,10 @@
 import axios from "axios";
 import {Buffer} from 'buffer'
 
-const ip  = `http://192.168.4.56:8080/util/walk`;
+// const ip  = `http://192.168.4.56:8080/util/walk`;
 // const ip = "http://192.168.35.47:8080/util/walk";
+const ip  = "http://221.156.95.190:8080/util/walk";
+
 
 
 // 응답 코드 체크용 (기억용)

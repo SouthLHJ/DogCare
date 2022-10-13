@@ -23,20 +23,19 @@ import FontText from '../customs/fontText';
 import { colors } from '../customs/globalStyle';
 
 function NoneUser (){
-    const {main, white} = colors;
+    const {main, white, mid} = colors;
     return (
         <>
-            <Stack.Navigator screenOptions={{tabBarStyle  :  {display: 'none'}, headerStyle: {backgroundColor: main}, headerTitleAlign: "center", headerBackVisible: false , swipeEnabled : false, headerTitle: () => {
-                return (<View style={{ alignItems: "center", justifyContent: "center",  flexDirection: "row"}}>
-                <FontAwesome name="heart" size={18} color={white} />
-                    <FontText title={true} style={{fontSize: 24, color: white}}>
-                        내새꾸
-                    </FontText>
-                    <FontAwesome name="heart" size={18} color={white} />
-                </View>)
+            <Stack.Navigator screenOptions={{tabBarActiveTintColor: mid, headerShown : false, unmountOnBlur: true, headerStyle: {backgroundColor: "white"}, headerTitleAlign: "center", headerTitle: () => {
+                return (<View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
+                <FontText title={true} bold={true} style={{ fontSize: 24, color: colors.dark, marginHorizontal: 2 }}>
+                    내새꾸
+                </FontText>
+                <Ionicons name="md-paw" size={24} color={colors.dark} />
+            </View>)
             }}}>
-                <Stack.Screen name="login" component={LoginScreen}/>
-                <Stack.Screen name="register" component={RegisterScreen}/>
+                <Stack.Screen name="login" component={LoginScreen} options={{headerShown:true,}}/>
+                <Stack.Screen name="register" component={RegisterScreen} options={{headerShown:true,}}/>
             </Stack.Navigator>
         </>
     );

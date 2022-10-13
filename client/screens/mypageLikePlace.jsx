@@ -36,7 +36,7 @@ function MypageLikePlaceScreen() {
                     <Pressable onPress={() => {
                         navigation.navigate("mypageList")
                     }}>
-                        <AntDesign name="left" size={24} color={colors.white} />
+                        <AntDesign name="left" size={24} color={colors.mid} />
                     </Pressable>
                 )
             }

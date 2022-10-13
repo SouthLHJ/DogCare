@@ -3,8 +3,10 @@ import {Buffer} from 'buffer'
 
 
 
-const ip = "http://192.168.4.56:8080/util/memories";
+// const ip = "http://192.168.4.56:8080/util/memories";
 // const ip = "http://192.168.35.47:8080/util/memories";
+const ip  = "http://221.156.95.190:8080/util/memories";
+
 
 
 
