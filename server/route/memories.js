@@ -121,9 +121,9 @@ router.post("/view",async(req,res)=>{
 router.post("/heart",async(req,res)=>{
     try {
         if (req.body.pushLike) {
-            const push = await Memories.findByIdAndUpdate(req.body.memories_id, {$push: {like: req.body.userId}});
+            const push = await Memories.findByIdAndUpdate(req.body.memories_id, {$push: {heart: req.body.userId}});
         } else {
-            const pull = await Memories.findByIdAndUpdate(req.body.memories_id, {$pull: {like: req.body.userId}});
+            const pull = await Memories.findByIdAndUpdate(req.body.memories_id, {$pull: {heart: req.body.userId}});
         };
 
         res.json({result: true}); 

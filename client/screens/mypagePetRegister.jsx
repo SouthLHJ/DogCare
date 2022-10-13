@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Loading from "../customs/loading";
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -10,6 +10,7 @@ import CodeModal from "../components/codeModal";
 import { AppContext } from "../contexts/app-context";
 import { addDog, addDogImage, editDog, editDogImage } from "../api/dog";
 import { useIsFocused } from "@react-navigation/native";
+import { colors } from "../customs/globalStyle";
 
 function MypagePetRegisterScreen({ navigation, route }) {
     const [loaded, setLoaded] = useState(false);
@@ -115,18 +116,12 @@ function MypagePetRegisterScreen({ navigation, route }) {
                         </View>
                         <FontText style={styles.label}>생년월일</FontText>
                         <View style={[styles.inputBox, { flexDirection: "row" }]}>
-                                <Text style={[styles.input, { paddingVertical: 4, flex: 1, marginRight: 4 }]}>{`${birth.getFullYear()}-${Number(birth.getMonth()) + 1}-${birth.getDate()}`}</Text>
-                                <TouchableOpacity disabled={code ? true : false} onPress={() => {
-                                    if (dateShow) {
-                                        setDateShow(false);
-                                    } else {
+                                <TouchableOpacity style={Platform.OS === "ios" ? {width: 100} : [ styles.input, { paddingVertical: 4, flex: 1, marginRight: 4 }]} disabled={code ? true : false} onPress={() => {
                                         setDateShow(true);
-                                    }
                                 }}>
-                                    <FontAwesome5 name="calendar-alt" size={24} color="#555555" />
-                                </TouchableOpacity>
-                                {dateShow ?
-                                    <DateTimePicker locale="ko" testID="dateTimePicker" value={birth} mode="date" is24Hour={true} onChange={(d) => {
+                                {Platform.OS === "ios" ? <></> : <FontText>{`${birth.getFullYear()}-${Number(birth.getMonth()) + 1}-${birth.getDate()}`}</FontText>}
+                                {dateShow || Platform.OS === "ios" ?
+                                    <DateTimePicker accentColor={colors.sub} locale="ko" testID="dateTimePicker" value={birth} mode="date" is24Hour={true} onChange={(d) => {
                                         if (d.type === "set") {
                                             setBirth(new Date(d.nativeEvent.timestamp));
                                         };
@@ -135,6 +130,8 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                     }} />
                                     : <></>
                                 }
+                                   
+                                </TouchableOpacity>
                             </View>
                             <FontText style={styles.label}>성별</FontText>
                             <View style={[styles.inputBox, { flexDirection: "row", justifyContent: "space-between" }]}>

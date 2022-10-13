@@ -25,7 +25,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.use("/storage", express.static("storage"));
-
+ 
 app.use("/util/account", account);
 app.use("/util/walk", walk); 
 app.use("/util/memories", memories);
