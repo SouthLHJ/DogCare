@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { ImageBackground,  Modal, Pressable, StyleSheet, TextInput, TouchableOpacity, View, Keyboard, Alert } from "react-native";
 import FontText from "../customs/fontText";
 import Loading from '../customs/loading';
-import globalStyles from '../customs/globalStyle';
+import globalStyles, { colors } from '../customs/globalStyle';
 import CustomButton from '../customs/customButton';
 import { AppContext } from '../contexts/app-context';
 import { editWalk, writeWalk, writeWalkImage } from '../api/walk';
@@ -188,7 +188,7 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                                 }
                             </View>
                             <View style={styles.imageButtonBox}>
-                                <Pressable style={[styles.imageButton, { marginLeft: 2 }]} onPress={() => {
+                                <Pressable style={[styles.imageButton]} onPress={() => {
                                     getFromAlbum();
                                 }}>
                                     <MaterialIcons name="photo-library" size={24} color="white" />
@@ -217,8 +217,8 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                         </>
                         }
                     </View>
-                    <View style={{paddingHorizontal : 3 }}>
-                        <View style={{ paddingHorizontal: 5, width: "100%", marginVertical: 10 ,height : 80, justifyContent : "flex-end"}} >
+                    <View style={{paddingHorizontal : 4 }}>
+                        <View style={{width: "100%", marginVertical: 10 ,height : 80, justifyContent : "flex-end"}} >
                             <TextInput style={[globalStyles.input,styles.commentText]} onChangeText={(text)=>setComment(text)} value={comment}  multiline={true} placeholder="산책 기록에 남기고 싶은 내용을 적어보세요"/>
                         </View>
                         <CustomButton onPress={()=>onRegister()}>기록하기</CustomButton>        
@@ -249,8 +249,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     imageButton: {
-        flex: 2,
-        backgroundColor: "#0089FF",
+        flex: 1,
+        backgroundColor: colors.mid,
         marginVertical: 4,
         alignItems: "center",
         paddingVertical: 2,

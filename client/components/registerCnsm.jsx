@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import {  StyleSheet, Text, TextInput, TouchableOpacity,View } from "react-native";
 import { useContext, useState } from 'react';
-import globalStyles from '../customs/globalStyle';
+import globalStyles, { colors } from '../customs/globalStyle';
 import FontText from '../customs/fontText';
 import { AppContext } from '../contexts/app-context';
 import { readConsumeAll, writeConsume } from '../api/consume';
@@ -33,21 +33,22 @@ function RegisterConsume() {
             <View style={{flexDirection : "row", justifyContent : "center"}}>
                 <CustomDatePicker end={false} setStartPoint={setDate} startPoint={date}/>
             </View>,
-            <View style={{flexDirection : "row", justifyContent : "center"}}>
-                <FontText>{selectedItem?.title}</FontText>
-                <TouchableOpacity onPress={()=>setSelectedItemShow(!selectedItemShow)} style={[styles.register,{marginLeft : 10}]}>
-                    <FontText style={{color : "blue"}}>선택</FontText>
+            <View style={{alignItems : "center"}}>
+                <TouchableOpacity onPress={()=>setSelectedItemShow(!selectedItemShow)} style={[styles.register]}>
+                    <FontText style={[styles.textRow,{color : 'white'}]}>{selectedItem?.title}</FontText>
                 </TouchableOpacity>
             </View>,
             <View style={{flexDirection : "row", justifyContent : "center"}}>
-                <TextInput  keyboardType='number-pad' onChangeText={(text)=>setPrice(text)} value={price}/>
+                <TextInput style={styles.textRow}  keyboardType='number-pad' onChangeText={(text)=>setPrice(text)} value={price}/>
             </View>,
             <View style={{flexDirection : "row", justifyContent : "center"}}>
-                <TextInput  keyboardType='email-address'  onChangeText={(text)=>setComment(text)} value={comment}/>
+                <TextInput style={styles.textRow} keyboardType='email-address'  onChangeText={(text)=>setComment(text)} value={comment}/>
             </View>,
-            <TouchableOpacity onPress={()=>onRegister()} style={[styles.register,{flexDirection : "row", justifyContent : "center"}]}>
-                <FontText style={styles.text}>등록하기</FontText>
-            </TouchableOpacity>
+            <View style={{alignItems : "center"}}>
+                <TouchableOpacity onPress={()=>onRegister()} style={[styles.register,]}>
+                    <FontText style={[styles.textRow,{color : 'white'}]}>등록</FontText>
+                </TouchableOpacity>
+            </View>
         ]
     ]
 
@@ -83,16 +84,16 @@ function RegisterConsume() {
          .catch(err=>console.log("onRefresh readConsumeAll = > ", err))
     }
     const tableTitle = [
-        <FontText style={styles.text}>날짜</FontText>,
-        <FontText style={styles.text}>카테고리</FontText>,
-        <FontText style={styles.text}>소비가격</FontText>,
-        <FontText style={styles.text}>내용</FontText>,
-        <FontText style={styles.text}>등록</FontText>,
+        <FontText style={styles.textTitle}>날짜</FontText>,
+        <FontText style={styles.textTitle}>카테고리</FontText>,
+        <FontText style={styles.textTitle}>소비가격</FontText>,
+        <FontText style={styles.textTitle}>내용</FontText>,
+        <FontText style={styles.textTitle}>등록</FontText>,
     ]
 
     return (  
         <>
-            <Text>1. 등록</Text>
+            <FontText style={globalStyles.textNomal}>등록</FontText>
             <View style={styles.tableContainer}>
                 <Table>
                     <Row data={tableTitle} flexArr={[1, 1, 1, 1,1]} style={styles.head} />
@@ -124,12 +125,22 @@ function RegisterConsume() {
 export default RegisterConsume;
 
 const styles = StyleSheet.create({
-    register : {
+    register :{
+        width : "60%",
+        flexDirection : "row", 
+        justifyContent : "center",
+        alignItems :"center",
+
+        paddingVertical : 2,
+
+        backgroundColor : colors.main,
+        borderRadius : 8,
     },
 
     // 표
-    tableContainer: { marginBottom : 30,backgroundColor: '#fff' },
-    head: {  height: 40,  backgroundColor: '#f1f8ff', borderWidth : 1  },
-    row: {  height: 30 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1  },
-    text: { textAlign: 'center' }
+    tableContainer: { marginBottom : 30,backgroundColor: '#fff', },
+    head: {  height: 40,  backgroundColor: colors.main, borderColor : colors.main , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
+    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.main , },
+    textTitle : { textAlign: 'center' , color : colors.white },
+    textRow : { textAlign: 'center' , color : colors.black }
 });

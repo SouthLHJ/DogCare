@@ -7,6 +7,7 @@ import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FontText from '../customs/fontText';
 import { deleteOneConsume, readConsumeAll } from '../api/consume';
 import { AppContext } from '../contexts/app-context';
+import globalStyles, { colors } from '../customs/globalStyle';
 
 function DeleteConsume() {
     const context = useContext(AppContext);
@@ -22,13 +23,17 @@ function DeleteConsume() {
             // console.log(arr)
             const combineArr = arr.map((one)=>{
                 // console.log(one)
-                return [<FontText style={styles.text}>{one.date.slice(0,10)}</FontText>,
-                <FontText style={styles.text}>{one.category}</FontText>,
-                <FontText style={styles.text}>{one.ammount}</FontText>, 
-                <FontText style={styles.text}>{one.description}</FontText>,
-                <TouchableOpacity onPress={()=>onDelete(one._id)}>
-                    <FontText style={[styles.text,{textAlign :"center"}]}>삭제</FontText>
-                </TouchableOpacity>]
+                return [
+                <FontText style={styles.textRow}>{one.date.slice(0,10)}</FontText>,
+                <FontText style={styles.textRow}>{one.category}</FontText>,
+                <FontText style={styles.textRow}>{one.ammount}</FontText>, 
+                <FontText style={styles.textRow}>{one.description}</FontText>,
+                <View style={{alignItems : "center"}}>
+                    <TouchableOpacity onPress={()=>onDelete(one._id)} style={[styles.register]}>
+                        <FontText style={[styles.textRow,{color : 'white'}]}>삭제</FontText>
+                    </TouchableOpacity>
+                </View>
+                ]
             }) 
             // 실행해서 나온 값을 저장하게한다.
             setData(combineArr)
@@ -69,11 +74,11 @@ function DeleteConsume() {
     }
 
     const tableTitle = [
-        <FontText style={styles.text}>날짜</FontText>,
-        <FontText style={styles.text}>카테고리</FontText>,
-        <FontText style={styles.text}>소비가격</FontText>,
-        <FontText style={styles.text}>내용</FontText>,
-        <FontText style={styles.text}>삭제</FontText>,
+        <FontText style={styles.textTitle}>날짜</FontText>,
+        <FontText style={styles.textTitle}>카테고리</FontText>,
+        <FontText style={styles.textTitle}>소비가격</FontText>,
+        <FontText style={styles.textTitle}>내용</FontText>,
+        <FontText style={styles.textTitle}>삭제</FontText>,
     ]
 
     if(!data){
@@ -84,6 +89,7 @@ function DeleteConsume() {
 
     return (  
         <View style={styles.tableContainer}>
+            <FontText style={globalStyles.textNomal}>삭제</FontText>
             <Table>
                 <Row data={tableTitle} flexArr={[1, 1, 1, 1, 1]} style={styles.head}/>
                 <Rows data={data} flexArr={[1, 1, 1, 1, 1]} style={styles.row} />
@@ -95,13 +101,22 @@ function DeleteConsume() {
 export default DeleteConsume;
 
 const styles = StyleSheet.create({
-    register : {
+    register :{
+        width : "60%",
+        flexDirection : "row", 
+        justifyContent : "center",
+        alignItems :"center",
+
+        paddingVertical : 2,
+
+        backgroundColor : colors.main,
+        borderRadius : 8,
     },
 
     // 표
-    tableContainer: {marginBottom : 30,backgroundColor: '#fff' },
-    head: {  height: 40,  backgroundColor: '#f1f8ff', borderWidth : 1  },
-    row: {  height: 30 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1  },
-    text: { textAlign: 'center' }
-    
+    tableContainer: { marginBottom : 30,backgroundColor: '#fff', },
+    head: {  height: 40,  backgroundColor: colors.main, borderColor : colors.main , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
+    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.main , },
+    textTitle : { textAlign: 'center' , color : colors.white },
+    textRow : { textAlign: 'center' , color : colors.black }
 });

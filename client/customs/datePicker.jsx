@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import FontText from './fontText';
 
-function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint,setEndPoint}) {
+function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint,setEndPoint , textStyle}) {
     const [dateShow1,setDateShow1] = useState(false);
     const [dateShow2,setDateShow2] = useState(false);
 
@@ -11,14 +11,14 @@ function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint
         <View style={styles.datePoinContainer}>
             { start && 
             <TouchableOpacity onPress={() => setDateShow1(true)} style={styles.register}>
-                <FontText style={styles.text}>{startPoint.getFullYear()}-{`${startPoint.getMonth() + 1}`.padStart(2,"0")}-{`${startPoint.getDate()}`.padStart(2,"0")}</FontText>
+                <FontText style={textStyle ?? styles.text}>{startPoint.getFullYear()}-{`${startPoint.getMonth() + 1}`.padStart(2,"0")}-{`${startPoint.getDate()}`.padStart(2,"0")}</FontText>
             </TouchableOpacity>
             }
             { end &&
             <>
             <FontText>~</FontText>
             <TouchableOpacity onPress={() => setDateShow2(true)} style={styles.register}>
-                <FontText style={styles.text}>{endPoint.getFullYear()}-{endPoint.getMonth() + 1}-{endPoint.getDate()}</FontText>
+                <FontText style={textStyle  ?? styles.text}>{endPoint.getFullYear()}-{endPoint.getMonth() + 1}-{endPoint.getDate()}</FontText>
             </TouchableOpacity>
             </>
             }
@@ -45,9 +45,10 @@ export default CustomDatePicker;
 
 const styles = StyleSheet.create({
     datePoinContainer:{
-        flexDirection : "row"
+        flexDirection : "row",
+        alignItems : "center"
     },
     text : {
-        fontSize : 14
+        fontSize : 12
     }
 });

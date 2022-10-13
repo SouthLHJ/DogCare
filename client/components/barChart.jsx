@@ -3,6 +3,9 @@ import { Dimensions, View } from 'react-native';
 import {BarChart} from 'react-native-chart-kit'
 import { ConsumeContext, SearchContext } from '../contexts/consume-context';
 import Loading from '../customs/loading';
+import globalStyles, { colors } from "../customs/globalStyle";
+import FontText from '../customs/fontText';
+
 
 function ConsumeBarChart() {
     const consumeContext = useContext(ConsumeContext);
@@ -34,27 +37,28 @@ function ConsumeBarChart() {
                     labels: ["용품", "간식", "사료", "위생", "약", "치료비", "기타"],
                     datasets: [{data: data}]
                 }}
-                width={Dimensions.get('screen').width}
+                width={Dimensions.get('screen').width-20}
                 height={200}
                 yAxisSuffix="만원"
                 chartConfig={{
                     barPercentage : 0.6,
-                    backgroundColor: "white",
-                    backgroundGradientFrom: "#0089FF", // 배경색깔 그라데이션용 (왼쪽)
-                    backgroundGradientTo: "#0088FF",    // 배경색깔 그라데이션용 (오른쪽)
+                    backgroundColor: colors.sub,
+                    backgroundGradientFrom: colors.sub, // 배경색깔 그라데이션용 (왼쪽)
+                    backgroundGradientTo: colors.sub,    // 배경색깔 그라데이션용 (오른쪽)
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // 그래프 내부 색상 투명도
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(222, 89, 18, 1)`,
                     propsForVerticalLabels : {},
                 }}
-                yLabelsOffset={0}
+                yLabelsOffset={5}
                 showValuesOnTopOfBars={true}
                 // horizontalLabelRotation={-30}
                 verticalLabelRotation={0} // 라벨 글자 기울기 정도
                 style={{
+
                     marginVertical: 8,
                     borderRadius: 10,
-                    marginLeft : -4
+                    // marginLeft : -5
                 }}
             />
 

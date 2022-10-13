@@ -34,27 +34,28 @@ function ConsumeBarChartDate() {
                     labels: ["용품", "간식", "사료", "위생", "약", "치료비", "기타"],
                     datasets: [{data: data}]
                 }}
-                width={Dimensions.get('screen').width}
+                width={Dimensions.get('screen').width-20}
                 height={200}
                 yAxisSuffix="만원"
                 chartConfig={{
                     barPercentage : 0.6,
-                    backgroundColor: "white",
-                    backgroundGradientFrom: "#0089FF", // 배경색깔 그라데이션용 (왼쪽)
-                    backgroundGradientTo: "#0088FF",    // 배경색깔 그라데이션용 (오른쪽)
+                    backgroundColor: "#f0854c",
+                    backgroundGradientFrom: "#f0854c", // 배경색깔 그라데이션용 (왼쪽)
+                    backgroundGradientTo: "#f0854c",    // 배경색깔 그라데이션용 (오른쪽)
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // 그래프 내부 색상 투명도
                     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     propsForVerticalLabels : {},
                 }}
-                yLabelsOffset={0}
-                // horizontalLabelRotation={-30}
+                yLabelsOffset={5}
                 showValuesOnTopOfBars={true}
+                // horizontalLabelRotation={-30}
                 verticalLabelRotation={0} // 라벨 글자 기울기 정도
                 style={{
+
                     marginVertical: 8,
                     borderRadius: 10,
-                    marginLeft : -4
+                    // marginLeft : -5
                 }}
             />
 

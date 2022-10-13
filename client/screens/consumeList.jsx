@@ -8,7 +8,7 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 //icon
 
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import globalStyles from '../customs/globalStyle';
+import globalStyles, { colors } from '../customs/globalStyle';
 import { useContext, useEffect, useState } from 'react';
 import Loading from '../customs/loading';
 import { AppContext } from '../contexts/app-context';
@@ -48,9 +48,11 @@ function ConsumeListScreen() {
     return (  
     <View style={globalStyles.container}>
         <View style={styles.searchDateContainer}>
-            <CustomDatePicker start={true} end={true} startPoint={date1} setStartPoint={setDate1} endPoint={date2} setEndPoint={setDate2}/>
-            <TouchableOpacity onPress={()=>onSearch()}>
-                <FontText>검색</FontText>
+            <View style={{flex :1, alignItems :"center"}}>
+                <CustomDatePicker start={true} end={true} startPoint={date1} setStartPoint={setDate1} endPoint={date2} setEndPoint={setDate2}/>
+            </View>
+            <TouchableOpacity style={{backgroundColor : colors.main, paddingVertical : 5, paddingHorizontal :10, borderRadius : 10}} onPress={()=>onSearch()}>
+                <FontText style={[globalStyles.textNomal,{color : colors.white}]}>검색</FontText>
             </TouchableOpacity>
         </View>
         <ScrollView style={{height : 200}}>
@@ -70,12 +72,8 @@ const styles = StyleSheet.create({
 
     searchDateContainer :{
         flexDirection : "row",
-        justifyContent: "space-around",
+        alignItems :"center",
         marginBottom : 8
     },
         
-    // 표
-    head: {  height: 40,  backgroundColor: '#f1f8ff'  },
-    row: {  height: 28  },
-    text: { textAlign: 'center' }
 });
