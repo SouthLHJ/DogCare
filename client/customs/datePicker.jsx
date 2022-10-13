@@ -16,7 +16,9 @@ function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint
             }
             { end &&
             <>
-            <FontText>~</FontText>
+            <View style={{marginHorizontal : 10}}>
+                <FontText>~</FontText>
+            </View>
             <TouchableOpacity onPress={() => setDateShow2(true)} style={styles.register}>
                 <FontText style={textStyle  ?? styles.text}>{endPoint.getFullYear()}-{endPoint.getMonth() + 1}-{endPoint.getDate()}</FontText>
             </TouchableOpacity>

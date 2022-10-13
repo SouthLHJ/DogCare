@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { checkAuth, deleteMemory } from "../api/memories";
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
@@ -40,32 +40,32 @@ function WalkItem({ item, onRefresh }) {
     return (
         <View style={styles.container}>
             <View style={[styles.itemBox]}>
-                <View style={{flexDirection : "row", alignItems: "center"}}>
-                    <FontText bold={"semi"} style={{ fontSize: 13, marginRight: 4 }}>산책 </FontText>
-                    <FontText style={{ color: colors.dark }}>{item.date.split("T")[0]}</FontText>
-                    { ((item.time2-item.time1)/(1000*60*60)).toFixed(0) != 0 && <FontText>{((item.time2-item.time1)/(1000*60*60)).toFixed(0)}시간</FontText>}
+                <View style={{flexDirection : "row", alignItems: "baseline", margin: 4,}}>
+                    <FontText title={true} bold={true} style={{ fontSize: 18, marginRight: 4 }}>산책 </FontText>
+                    <FontText style={{ color: colors.dark }}>/ {item.date.split("T")[0]} /</FontText>
+                    { ((item.time2-item.time1)/(1000*60*60)).toFixed(0) != 0 && <FontText> {((item.time2-item.time1)/(1000*60*60)).toFixed(0)}시간</FontText>}
                     { ((item.time2-item.time1)/(1000*60)).toFixed(0) != 0 && <FontText> {((item.time2-item.time1)/(1000*60)).toFixed(0)}분</FontText>}
                     <FontText style={{ color: colors.dark }}> {((item.time2-item.time1)/(1000)).toFixed(0)}초</FontText>
                 </View>
-                <View style={{flexDirection :"row"}}>
-                    <View style={{ flex: 1, alignItems: "flex-start" }}>
-                        {item.image ? <Image source={{ uri: item.image }} style={{ height: "88%", width: 78, borderRadius: 8 }} />
+                <View style={{flexDirection :"row", flex : 1}}>
+                    <View style={{width : "30%", alignItems: "flex-start" }}>
+                        {item.image ? <Image source={{ uri: item.image }} style={{ height: "100%", width: "90%", borderRadius: 8 }} />
                             : <></>
                         }
                     </View>
-                    <View style={{flex :1}}>
-                        <View style={{flex :1}}>
-                            <FontText style={{ color: colors.black, fontSize: 14 }}>{item.memo}</FontText>
-                        </View>
-                        <View style={{alignItems: "flex-end", marginBottom : 5 }}>
+                    <View style={{flex :2}}>
+                        <ScrollView style={{height : "90%"}}>
+                            <FontText bold={true} style={{ color: colors.black, fontSize: 14 }}>{item.memo}</FontText>
+                        </ScrollView>
+                        <View style={{alignItems: "flex-end"}}>
                             <View style={styles.iconBox}>
                                 <Pressable style={{ flexDirection: "row", alignItems: "baseline" }}  onPress={() => { setModal(true)}}>
                                     <Feather name="edit" size={18} color={colors.dark} />
-                                    <FontText bold={true} style={{ color: colors.dark, fontSize: 13 }}>수정</FontText>
+                                    <FontText bold={true} style={{ color: colors.dark, fontSize: 14 }}>수정</FontText>
                                 </Pressable>
                                 <Pressable style={{ flexDirection: "row", alignItems: "baseline" }} onPress={() =>onDelete()}>
                                     <Feather name="trash" size={18} color={colors.dark} />
-                                    <FontText bold={true} style={{ color: colors.dark, fontSize: 13 }}>삭제</FontText>
+                                    <FontText bold={true} style={{ color: colors.dark, fontSize: 14 }}>삭제</FontText>
                                 </Pressable>
                             </View>
                         </View>
@@ -81,9 +81,9 @@ export default WalkItem;
 const styles = StyleSheet.create({
     container : {alignItems : "center"},
     itemBox: {
-        height: 108,
-        width: 342,
-        borderWidth: 2,
+        height: 140,
+        width : "100%",
+        borderWidth: 3,
         borderColor: "white",
         padding: 8,
         borderRadius: 8,

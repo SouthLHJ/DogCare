@@ -131,19 +131,19 @@ function NewWalkScreen() {
     }
     switch(weather[6]?.fcstValue){
         case "0":
-            pty = <FontAwesome name="sun-o" size={24} color={colors.main} />
+            pty = <FontAwesome name="sun-o" size={24} color={colors.black} />
             break;
         case "1":
-            pty = <MaterialCommunityIcons name="weather-rainy" size={24} color={colors.main} />
+            pty = <MaterialCommunityIcons name="weather-rainy" size={24} color={colors.black} />
             break;
         case "2":
-            pty = <MaterialCommunityIcons name="weather-snowy-rainy" size={24} color={colors.main} />
+            pty = <MaterialCommunityIcons name="weather-snowy-rainy" size={24} color={colors.black} />
             break;
         case "3":
-            pty = <MaterialCommunityIcons name="weather-snowy" size={24} color={colors.main} />
+            pty = <MaterialCommunityIcons name="weather-snowy" size={24} color={colors.black} />
             break;
         case "4":
-            pty = <MaterialCommunityIcons name="weather-pouring" size={24} color={colors.main} />
+            pty = <MaterialCommunityIcons name="weather-pouring" size={24} color={colors.black} />
             break;
     }
 
@@ -165,11 +165,11 @@ function NewWalkScreen() {
             }
             {startIcon ?
             <TouchableOpacity style={styles.button} onPress={()=>onWalkingStop()}>
-                <FontAwesome name="stop" size={24} color={colors.main} />
+                <FontAwesome name="stop" size={24} color={colors.black} />
             </TouchableOpacity>
             :
             <TouchableOpacity  style={styles.button}  onPress={()=>onWalkingStart()}>
-                <AntDesign name="caretright" size={24} color={colors.main} />
+                <AntDesign name="caretright" size={24} color={colors.black} />
             </TouchableOpacity>
             }
         </View>
@@ -178,9 +178,9 @@ function NewWalkScreen() {
             <View style={styles.weatherContainer}>
                 <View style={{flexDirection :"row", alignItems :"center"}}>
                     <FontText>{pty}</FontText>
-                    <FontText style={[globalStyles.textNomal,{color : colors.main}]} bold={"semi"}>{weather[0].fcstValue}℃</FontText>
+                    <FontText style={[globalStyles.textNomal,{color : colors.black}]} bold={"semi"}>{weather[0].fcstValue}℃</FontText>
                 </View>
-                <FontText style={[globalStyles.textNomal,{color : colors.main}]} bold={"semi"}>{weather[9]?.fcstValue}</FontText>
+                <FontText style={[globalStyles.textNomal,{color : colors.black}]} bold={"semi"}>{weather[9]?.fcstValue}</FontText>
             </View>
         </View>
         {modal && <WalkRegister modal={modal} setModal={setModal} time1={time1.current} time2={time2.current}/>}
@@ -199,14 +199,14 @@ const styles = StyleSheet.create({
         paddingVertical: 7,
         marginTop : 10,
 
-        borderColor : colors.main,
+        borderColor : colors.black,
         borderWidth: 1,
         borderRadius : 12
     },
 
     img : {
         height : 400,
-        width  : 300,
+        width  : "85%",
     },
 
     buttonContainer :{
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     },
     button : {
         padding : 5,
-        borderColor : colors.main,
+        borderColor : colors.black,
         borderRadius : 20,
         borderWidth : 2,
     }

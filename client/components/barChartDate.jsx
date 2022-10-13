@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Dimensions, View } from 'react-native';
 import {BarChart} from 'react-native-chart-kit'
 import { ConsumeContext, SearchContext } from '../contexts/consume-context';
+import { colors } from '../customs/globalStyle';
 import Loading from '../customs/loading';
 
 function ConsumeBarChartDate() {
@@ -39,9 +40,9 @@ function ConsumeBarChartDate() {
                 yAxisSuffix="만원"
                 chartConfig={{
                     barPercentage : 0.6,
-                    backgroundColor: "#f0854c",
-                    backgroundGradientFrom: "#f0854c", // 배경색깔 그라데이션용 (왼쪽)
-                    backgroundGradientTo: "#f0854c",    // 배경색깔 그라데이션용 (오른쪽)
+                    backgroundColor: colors.mid,
+                    backgroundGradientFrom: colors.mid, // 배경색깔 그라데이션용 (왼쪽)
+                    backgroundGradientTo: colors.mid,    // 배경색깔 그라데이션용 (오른쪽)
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // 그래프 내부 색상 투명도
                     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,

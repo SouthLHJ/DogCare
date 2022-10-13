@@ -48,10 +48,10 @@ function ConsumeListScreen() {
     return (  
     <View style={globalStyles.container}>
         <View style={styles.searchDateContainer}>
-            <View style={{flex :1, alignItems :"center"}}>
+            <View style={{flex :1,height : "100%",justifyContent : "center", alignItems :"center", borderBottomColor : colors.mid, borderBottomWidth : 1, }}>
                 <CustomDatePicker start={true} end={true} startPoint={date1} setStartPoint={setDate1} endPoint={date2} setEndPoint={setDate2}/>
             </View>
-            <TouchableOpacity style={{backgroundColor : colors.main, paddingVertical : 5, paddingHorizontal :10, borderRadius : 10}} onPress={()=>onSearch()}>
+            <TouchableOpacity style={{backgroundColor : colors.mid, paddingVertical : 5, paddingHorizontal :10, borderRadius : 10}} onPress={()=>onSearch()}>
                 <FontText style={[globalStyles.textNomal,{color : colors.white}]}>검색</FontText>
             </TouchableOpacity>
         </View>
@@ -71,8 +71,9 @@ const styles = StyleSheet.create({
     },
 
     searchDateContainer :{
+        height : 30,
         flexDirection : "row",
-        alignItems :"center",
+        alignItems :"flex-end",
         marginBottom : 8
     },
         

@@ -160,14 +160,12 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
            <View style={styles.area}>
                 <Pressable style={{flex:1,width : "100%"}} onPress={()=>onCloseModal()}>
                 </Pressable>
+
                 <View style={styles.container}>
                     <View style={styles.topContainer}>
                         <View style={styles.topTitle}> 
-                            <FontText>기록</FontText>
+                            <FontText style={globalStyles.textNomal}>기록</FontText>
                         </View>
-                        <TouchableOpacity style={styles.topClose} onPress={()=>onCloseModal()}>
-                            <AntDesign name="closesquare" size={24} color="black" />
-                        </TouchableOpacity>
                     </View>
                     <View  style={styles.bodyContainer}>
                         {hide ?
@@ -233,15 +231,13 @@ export default WalkRegister;
 
 const styles = StyleSheet.create({
     area : {flex:1, justifyContent :"flex-end",backgroundColor : "rgba(0, 0, 0, 0.38)"},
-    container : {height : "70%", backgroundColor : "white", borderTopRightRadius : 15 , borderTopLeftRadius : 15 , overflow : "hidden" },
+    container : {height : "70%", backgroundColor : "white", borderTopRightRadius : 15 , borderTopLeftRadius : 15 , overflow : "hidden" , paddingHorizontal : 5},
     topContainer :{
         height  : 50,
         flexDirection : "row",
         alignItems :"center",
     },
-    topTitle : {flex:1,marginRight : -50, alignItems :"center"},
-    topClose: {width : 50, alignItems : "center"},
-
+    topTitle : {flex:1, alignItems :"center"},
     bodyContainer:{
         paddingHorizontal : 4
     },
@@ -259,7 +255,7 @@ const styles = StyleSheet.create({
     imageShow: {
         height: 180,
         width: "100%",
-        backgroundColor: "#DDDDDD",
+        backgroundColor: colors.light,
         borderRadius: 4,
         alignItems: "center",
         justifyContent: "center"
