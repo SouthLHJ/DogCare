@@ -16,8 +16,9 @@ export async function getDogInfo(token) {
 };
 
 export async function addDogImage(data, fileData, fileURI) {
-    const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1) + "/" + data.name;
+    const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1);
 
+    console.log(fileName);
     try{
         const storageURI = `${ip}/storage/${fileName}`;
 
@@ -52,7 +53,7 @@ export async function addDog(data) {
 };
 
 export async function editDogImage(data, fileData, fileURI, lastFile) {
-    const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1) + "/" + data.name;
+    const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1);
 
     try{
         const storageURI = `${ip}/storage/${fileName}`;

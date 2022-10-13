@@ -56,6 +56,10 @@ function MemoriesItem({ item, onRefresh }) {
                         : <View></View>
                     }
                 </View>
+                <View style={{flex: 1, marginLeft: item.image ? 8 : 0, padding: 6, backgroundColor: "white", borderRadius: 6}}>
+                    <FontText style={{flex: 1}}>
+                        {item.description}
+                    </FontText>
                 {myMemory ?
                     <View style={styles.iconBox}>
                         <View style={[styles.icon, { marginRight: 12 }]}>
@@ -93,6 +97,7 @@ function MemoriesItem({ item, onRefresh }) {
                         </View>
                     </View>
                     : <></>}
+                    </View>
 </View>
 
             </TouchableOpacity>
@@ -103,13 +108,14 @@ function MemoriesItem({ item, onRefresh }) {
 const styles = StyleSheet.create({
     itemBox: {
         minHeight: 108,
-        width: Platform.OS === "ios" ? 348 : 366,
+        width: "94%",
         flexDirection: "row",
         borderWidth: 3,
         borderColor: "white",
         padding: 8,
         borderRadius: 8,
-        backgroundColor: colors.light
+        backgroundColor: colors.light,
+        alignSelf: "center"
     },
     iconBox: {
         flexDirection: "row",

@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     scroll: {
         flex: 1,
         flexDirection: "column",
+        width: "100%",
 
     },
     button: {

@@ -104,7 +104,7 @@ function MemoriesWriteScreen({ navigation, route }) {
 
                         setLoaded(false);
                     }}>
-                        <AntDesign name="checkcircleo" size={24} color={colors.white} />
+                        <AntDesign name="checkcircleo" size={24} color={colors.mid} />
                     </Pressable>
                 )
             },
@@ -113,7 +113,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                     <Pressable onPress={() => {
                         navigation.navigate("memoriesList");
                     }}>
-                        <AntDesign name="left" size={24} color={colors.white} />
+                        <AntDesign name="left" size={24} color={colors.mid} />
                     </Pressable>
                 )
             }
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 6,
         paddingTop: 14,
-        backgroundColor: colors.white,
+        backgroundColor: "white",
         borderRadius: 12,
         flexDirection: "column",
         alignContent: "center",
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     },
     imageButton: {
         flex: 1,
-        backgroundColor: colors.mid,
+        backgroundColor: colors.sub,
         marginVertical: 4,
         alignItems: "center",
         paddingVertical: 2,
