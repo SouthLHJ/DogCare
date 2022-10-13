@@ -81,8 +81,8 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
                         <ImageBackground source={{ uri: mapURI }} style={styles.mapImage}>
                             <View style={styles.mapBox}>
                             <View style={styles.mapTextBox}>
-                                <FontText title={true} style={{ fontSize: 24 }}>{moreInfo?.name || "-"}</FontText>
-                                <FontText bold={true} style={{ fontSize: 14, color: "gray" }}>{moreInfo?.formatted_address || "-"}</FontText>
+                                <FontText title={true} bold={true} style={{ fontSize: 24 }}>{moreInfo?.name || "-"}</FontText>
+                                <FontText bold={true} style={{ fontSize: 14, color: "gray", marginTop: 4 }}>{moreInfo?.formatted_address || "-"}</FontText>
                             </View>
                             <Pressable style={styles.mapLike} onPress={() => {
                                 likeAdd(auth.id, item_id, likeCheck ? false : true)
@@ -112,14 +112,14 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
                     }
                     <View style={styles.infoBox}>
                         <View style={styles.tableCellTitle}>
-                            <FontText style={[globalStyles.textNomal]}>연락처</FontText>
-                            <FontText style={[globalStyles.textNomal]}>거리</FontText>
-                            <FontText style={[globalStyles.textNomal]}>웹사이트</FontText>
+                            <FontText style={[globalStyles.textNomal, styles.textLabel]}>연락처</FontText>
+                            <FontText style={[globalStyles.textNomal, styles.textLabel]}>거리</FontText>
+                            <FontText style={[globalStyles.textNomal, styles.textLabel]}>웹사이트</FontText>
                         </View>
                         <View style={styles.tableCellContent}>
-                            <FontText style={[globalStyles.textNomal]}>{moreInfo?.international_phone_number ? "0" + String(moreInfo?.international_phone_number).split(" ")[1] : "연락처가 존재하지 않습니다."}</FontText>
-                            <FontText style={[globalStyles.textNomal]}>{distance}km</FontText>
-                            <FontText style={[globalStyles.textNomal]}>{moreInfo?.website ? moreInfo?.website : "웹사이트가 존재하지 않습니다." }</FontText>
+                            <FontText style={[globalStyles.textNomal, styles.textLabel]}>{moreInfo?.international_phone_number ? "0" + String(moreInfo?.international_phone_number).split(" ")[1] : "연락처가 존재하지 않습니다."}</FontText>
+                            <FontText style={[globalStyles.textNomal, styles.textLabel]}>{distance}km</FontText>
+                            <FontText style={[globalStyles.textNomal, styles.textLabel]}>{moreInfo?.website ? moreInfo?.website : "웹사이트가 존재하지 않습니다." }</FontText>
                         </View>
 
                     </View>
@@ -133,7 +133,7 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
                         />
                     </View> 
                     :
-                    <FontText style={[globalStyles.textNomal]}>리뷰가 없습니다.</FontText>
+                    <FontText style={[globalStyles.textNomal, {marginTop: 18}]}>리뷰가 없습니다.</FontText>
                     }
 
                 </Pressable>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
     infoBox: {
         width : "100%",
-        
+        marginVertical: 6,
         flexDirection : "row",
         justifyContent : "space-around"
     },
@@ -193,7 +193,12 @@ const styles = StyleSheet.create({
     },
     reviewBox :{
         width : "100%",
-        flex : 1
+        flex : 1,
+        marginTop: 8,
+        paddingLeft: 8
+    },
+    textLabel: {
+        marginBottom: 4
     }
 })
 

@@ -7,7 +7,7 @@ import { deletetDog, getDogInfo } from "../api/dog";
 import { useIsFocused } from "@react-navigation/native";
 import Loading from "../customs/loading";
 import CustomButton from "../customs/customButton";
-import globalStyles from "../customs/globalStyle";
+import globalStyles, { colors } from "../customs/globalStyle";
 
 function MypageListScreen({ navigation, route }) {
     const [loaded, setLoaded] = useState(false);
@@ -131,7 +131,7 @@ function MypageListScreen({ navigation, route }) {
                         : <TouchableOpacity style={styles.addCard} onPress={() => {
                             navigation.navigate("dogRegister");
                         }}>
-                            <Ionicons name="add-circle" size={32} color="#0089FF" />
+                            <Ionicons name="add-circle" size={32} color={colors.sub} />
                         </TouchableOpacity>
                     }
                 </View>
@@ -143,17 +143,21 @@ function MypageListScreen({ navigation, route }) {
                             Alert.alert("", "이 기능을 이용하려면 반려견을 등록 해 주세요!");
                         }
                     }}>
-                        <FontText style={styles.listText}>내새꾸와의 약속</FontText>
+                        <FontText bold="semi" style={styles.listText}>내새꾸와의 약속</FontText>
                     </TouchableOpacity>
+                    <View style={styles.listDiv}>
+                    </View>
                     <TouchableOpacity style={styles.listItem} onPress={() => {
                         navigation.navigate("likePlace");
                     }}>
-                        <FontText style={styles.listText}>즐겨찾는 곳</FontText>
+                        <FontText bold="semi" style={styles.listText}>즐겨찾는 곳</FontText>
                     </TouchableOpacity>
+                    <View style={styles.listDiv}>
+                    </View>
                     <TouchableOpacity style={styles.listItem} onPress={() => {
                         navigation.navigate("account");
                     }}>
-                        <FontText style={styles.listText}>계정관리</FontText>
+                        <FontText bold="semi" style={styles.listText}>계정관리</FontText>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -188,7 +192,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderWidth: 2,
         borderRadius: 4,
-        borderColor: "#0089FF",
+        borderColor: colors.sub,
         height: 138
     },
     card: {
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         borderWidth: 2,
         borderRadius: 4,
-        borderColor: "#0089FF",
+        borderColor: colors.sub,
         height: 138
     },
     dogInfoBox: {
@@ -219,13 +223,17 @@ const styles = StyleSheet.create({
     listBox: {
         flex: 1,
         flexDirection: "column",
+        marginHorizontal: 12
     },
     listItem: {
-        paddingVertical: 8,
-        backgroundColor: "#DDDDDD",
+        paddingVertical: 18,
         marginVertical: 4
     },
     listText: {
-        fontSize: 14
+        fontSize: 16,
+    },
+    listDiv: {
+        height: 1,
+        backgroundColor: colors.light
     },
 });

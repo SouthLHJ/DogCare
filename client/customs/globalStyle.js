@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
 
 export const colors = {
-    main: "#82ABDF",
-    sub: "#F5AD85",
-    mid: "#FAD476",
+    main: "#92B4EC",
+    sub: "#FFD24C",
+    mid: "#FC8C5D",
     black: "#444249",
     white: "#FCFBF3",
     dark: "#757889",
@@ -40,6 +40,7 @@ const globalStyles = StyleSheet.create({
         padding: 2,
         paddingHorizontal: 4,
         borderColor: colors.dark,
+        height: 34
     },
     button: {
         backgroundColor: colors.mid,

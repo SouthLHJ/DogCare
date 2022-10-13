@@ -13,7 +13,7 @@ function EyeIcon({isPublic, onSetPublic}) {
 
 
     return (
-        <Pressable onPress={() => {
+        <Pressable style={{padding: 4, paddingRight: 6}} onPress={() => {
             if(isPublic) {
                 onSetPublic(false);
             } else {
@@ -21,8 +21,8 @@ function EyeIcon({isPublic, onSetPublic}) {
             };
         }} >
             {isPublic ? 
-            <Ionicons name="md-eye-outline" size={28} color={colors.black} /> :
-            <Ionicons name="md-eye-off-outline" size={28} color={colors.semi} />
+            <Ionicons name="md-eye-outline" size={24} color={colors.black} /> :
+            <Ionicons name="md-eye-off-outline" size={24} color={colors.semi} />
             }
         </Pressable>
         );

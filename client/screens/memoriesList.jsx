@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import FontText from "../customs/fontText";
 import globalStyles, { colors } from "../customs/globalStyle";
 import Loading from "../customs/loading";

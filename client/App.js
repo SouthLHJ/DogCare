@@ -26,6 +26,8 @@ export default function App() {
     'GothicA1-Thin': require('./assets/fonts/GothicA1-Thin.ttf'),
     "BlackHanSans-Regular"  : require('./assets/fonts/BlackHanSans-Regular.ttf'),
     "Jua-Regular" :  require('./assets/fonts/Jua-Regular.ttf'),
+    "Hyemin-Bold"  : require('./assets/fonts/IM_Hyemin-Bold.ttf'),
+    "Hyemin-Regular" :  require('./assets/fonts/IM_Hyemin-Regular.ttf'),
   });
 
   if (!fontsLoaded) {

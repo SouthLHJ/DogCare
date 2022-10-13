@@ -43,11 +43,18 @@ function MemoriesItem({ item, onRefresh }) {
 
     return (
         <View style={styles.itemBox}>
-            <TouchableOpacity style={{ flex: 1, flexDirection: "row" }} onPress={() => moveDetail()}>
-                <View style={{ flexDirection: "row", alignItems: "baseline", margin: 4 }}>
-                    <FontText title={true} style={{ fontSize: 24, marginRight: 8 }}>{item.title}</FontText>
+            <TouchableOpacity style={{ flex: 1}} onPress={() => moveDetail()}>
+                <View style={{ flexDirection: "row", alignItems: "baseline", margin: 4, }}>
+                    <FontText title={true} bold={true} style={{ fontSize: 18, marginRight: 4 }}>{item.title}</FontText>
                     <FontText style={{ color: colors.dark }}>/ {((item.date.split("T")[0]).replace("-", ".")).replace("-", ".")}</FontText>
 
+                </View>
+                <View style={{flexDirection: "row", flex: 1, justifyContent: "space-between", margin: 4}}>
+                <View>
+                    {item.image ?
+                        <Image source={{ uri: item.image }} style={{ height: 88, width: 88, borderRadius: 8}} />
+                        : <View></View>
+                    }
                 </View>
                 {myMemory ?
                     <View style={styles.iconBox}>
@@ -55,7 +62,7 @@ function MemoriesItem({ item, onRefresh }) {
                             <Pressable style={{ flexDirection: "row", alignItems: "baseline" }} onPress={() => {
                                 navigation.navigate("memoriesWrite", { type: true, item: item })
                             }}>
-                                <Feather name="edit" size={20} color={colors.dark} />
+                                <Feather name="edit" size={18} color={colors.dark} />
                                 <FontText bold={true} style={{ color: colors.dark, fontSize: 14 }}>수정</FontText>
                             </Pressable>
                         </View>
@@ -80,19 +87,14 @@ function MemoriesItem({ item, onRefresh }) {
                                     }
                                 ])
                             }}>
-                                <Feather name="trash" size={20} color={colors.dark} />
+                                <Feather name="trash" size={18} color={colors.dark} />
                                 <FontText bold={true} style={{ color: colors.dark, fontSize: 14 }}>삭제</FontText>
                             </Pressable>
                         </View>
                     </View>
                     : <></>}
+</View>
 
-                <View>
-                    {item.image ?
-                        <Image source={{ uri: item.image }} style={{ height: 88, width: 88, borderRadius: 8, marginLeft: 12 }} />
-                        : <View style={{ height: 88, width: 88, borderRadius: 8, marginLeft: 12 }}></View>
-                    }
-                </View>
             </TouchableOpacity>
         </View>
     );
@@ -100,19 +102,18 @@ function MemoriesItem({ item, onRefresh }) {
 
 const styles = StyleSheet.create({
     itemBox: {
-        height: 108,
-        width: 342,
+        minHeight: 108,
+        width: Platform.OS === "ios" ? 348 : 366,
         flexDirection: "row",
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: "white",
         padding: 8,
         borderRadius: 8,
         backgroundColor: colors.light
     },
     iconBox: {
-        flex: 1,
         flexDirection: "row",
-        margin: 4,
+        marginVertical: 4,
     },
     icon: {
         justifyContent: "flex-end"
