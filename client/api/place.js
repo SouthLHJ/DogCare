@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const GOOGLE_APP_KEY = "AIzaSyAYhpmoUdICrtRsjJhBScxxR2cdY4gzpBM";
-// const ip = "http://192.168.4.56:8080/util/place";
-const ip = "http://192.168.35.47:8080/util/place";
+const ip = "http://192.168.4.56:8080/util/place";
+// const ip = "http://192.168.35.47:8080/util/place";
 
 
 export async function sendLikeCheckRequest(userId, place_id) {

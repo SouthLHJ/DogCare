@@ -15,7 +15,7 @@ import header from '../customs/header';
 
 function MypageMain() {
     return (  
-        <Stack.Navigator screenOptions={{headerBackVisible: false, headerBackground: {color: colors.main}, headerTitle: header}} animationEnabled={false}>
+        <Stack.Navigator screenOptions={{headerBackVisible: false, headerStyle: {backgroundColor: colors.main}, headerTitleAlign: "center", headerTitle: header}} animationEnabled={false}>
             <Stack.Screen name="mypageList" component={MypageListScreen}/>
             <Stack.Screen name="dogRegister" component={MypagePetRegisterScreen}/>
             <Stack.Screen name="checkList" component={MypageCheckScreen}/>

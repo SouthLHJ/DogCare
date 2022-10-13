@@ -1,8 +1,8 @@
 import axios  from "axios";
 import {Buffer} from 'buffer'
 
-// const ip = "http://192.168.4.56:8080/util/dog";
-const ip = "http://192.168.35.47:8080/util/dog";
+const ip = "http://192.168.4.56:8080/util/dog";
+// const ip = "http://192.168.35.47:8080/util/dog";
 
 
 export async function getDogInfo(token) {
