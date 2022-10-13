@@ -54,10 +54,10 @@ function User(){
                 <Ionicons name="md-paw" size={24} color={colors.dark} />
             </View>)
             }}} initialRouteName="memoriesMain">
-                <BottomTab.Screen name="walkRecordMain" component={WalkMain} options={{title :"산책",tabBarIcon :({color})=>{return <FontAwesome5 name="walking" size={24} color={color} />} }}/>
+                <BottomTab.Screen name="walkRecordMain" component={WalkMain} options={{title :"산책", headerShown:true, tabBarIcon :({color})=>{return <FontAwesome5 name="walking" size={24} color={color} />} }}/>
                 <BottomTab.Screen name="aroundPlace" component={AroundPlaceScreen} options={{title :"장소",tabBarIcon :({color})=>{return <FontAwesome name="map" size={18}  color={color}  />} }}/>
                 <BottomTab.Screen name="memoriesMain" component={MemoriesMain}options={{title :"추억",tabBarIcon :({color})=>{return <MaterialIcons name="history-edu" size={24} color={color} />} }}/>
-                <BottomTab.Screen name="consumeMain" component={ConsumeMain}options={{title :"소비",tabBarIcon :({color})=>{return <FontAwesome name="dollar" size={24} color={color} />} }}/>
+                <BottomTab.Screen name="consumeMain" component={ConsumeMain}options={{title :"소비", headerShown:true,tabBarIcon :({color})=>{return <FontAwesome name="dollar" size={24} color={color} />} }}/>
                 <BottomTab.Screen name="mypageMain" component={MypageMainScreen}options={{title :"마이페이지",tabBarIcon :({color})=>{return <FontAwesome name="user" size={24}  color={color} />} }}/>
             </BottomTab.Navigator>
         </>
