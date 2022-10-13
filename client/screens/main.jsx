@@ -8,7 +8,7 @@ const BottomTab = createBottomTabNavigator();
 import { StyleSheet, Text, View } from "react-native";
 
 //icon
-import { FontAwesome5, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5, FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 import LoginScreen from './login';
 import RegisterScreen from './register';
@@ -43,17 +43,16 @@ function NoneUser (){
 }
 
 function User(){
-    const {main, white} = colors;
+    const {main, white, mid} = colors;
     return (
         <>
-            <BottomTab.Navigator screenOptions={{tabBarActiveTintColor:main, headerShown : false, unmountOnBlur: true, headerStyle: {backgroundColor: main}, headerTitleAlign: "center", headerTitle: () => {
-                return (<View style={{flex: 1, alignItems: "center", justifyContent: "center",  flexDirection: "row"}}>
-                <FontAwesome name="heart" size={18} color={white} />
-                    <FontText title={true} bold={true} style={{fontSize: 24, color: white}}>
-                        내새꾸
-                    </FontText>
-                    <FontAwesome name="heart" size={18} color={white} />
-                </View>)
+            <BottomTab.Navigator screenOptions={{tabBarActiveTintColor: mid, headerShown : false, unmountOnBlur: true, headerStyle: {backgroundColor: "white"}, headerTitleAlign: "center", headerTitle: () => {
+                return (<View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
+                <FontText title={true} bold={true} style={{ fontSize: 24, color: colors.dark, marginHorizontal: 2 }}>
+                    내새꾸
+                </FontText>
+                <Ionicons name="md-paw" size={24} color={colors.dark} />
+            </View>)
             }}} initialRouteName="memoriesMain">
                 <BottomTab.Screen name="walkRecordMain" component={WalkMain} options={{title :"산책",tabBarIcon :({color})=>{return <FontAwesome5 name="walking" size={24} color={color} />} }}/>
                 <BottomTab.Screen name="aroundPlace" component={AroundPlaceScreen} options={{title :"장소",tabBarIcon :({color})=>{return <FontAwesome name="map" size={18}  color={color}  />} }}/>

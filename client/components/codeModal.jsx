@@ -3,6 +3,7 @@ import { Alert, Modal, Pressable, StyleSheet, TextInput, View } from "react-nati
 import { searchCode } from "../api/dog";
 import CustomButton from "../customs/customButton";
 import FontText from "../customs/fontText";
+import { colors } from "../customs/globalStyle";
 
 function CodeModal({ visible, setDatas, closeModal }) {
     const [ownerName, setOwnerName] = useState(null);
@@ -18,21 +19,33 @@ function CodeModal({ visible, setDatas, closeModal }) {
                 closeModal();
             }} >
                 <Pressable style={styles.sub}>
-                    <TextInput style={styles.input} value={ownerName} onChangeText={(text) => {
+                    <View style={styles.label}>
+                        <FontText title={true} bold={true}>보호자 이름</FontText>
+                        </View>
+                    <TextInput style={styles.input} value={ownerName} placeholder="보호자 이름 또는 생년월일 중 하나 필수" onChangeText={(text) => {
                         setOwnerName(text);
                     }} />
-                    <TextInput style={styles.input} value={ownerBirth} onChangeText={(text) => {
+                    <View style={styles.label}>
+                        <FontText title={true} bold={true}>보호자 생년월일</FontText>
+                        </View>
+                    <TextInput style={styles.input} value={ownerBirth} placeholder="보호자 이름 또는 생년월일 중 하나 필수" onChangeText={(text) => {
                         setOwnerBirth(text);
                     }} />
-                    <TextInput style={styles.input} value={regNo} onChangeText={(text) => {
+                    <View style={styles.label}>
+                        <FontText title={true} bold={true}>반려견 등록번호</FontText>
+                        </View>
+                    <TextInput style={styles.input} value={regNo} placeholder="반려견 등록번호 또는 RFID 중 하나 필수" onChangeText={(text) => {
                         setRegNo(text);
                     }} />
-                    <TextInput style={styles.input} value={rfid} onChangeText={(text) => {
+                    <View style={styles.label}>
+                        <FontText title={true} bold={true}>반려견 RFID</FontText>
+                        </View>
+                    <TextInput style={styles.input} value={rfid} placeholder="반려견 등록번호 또는 RFID 중 하나 필수" onChangeText={(text) => {
                         setRfid(text);
                     }} />
 
                     <View style={styles.buttonBox}>
-                        <FontText style={{color: hasData? "green" : "red"}}>{hasData ? "등록번호 확인에 성공하였습니다." : "등록번호를 검색 해 주세요."}</FontText>
+                        <FontText style={{color: hasData? "green" : "red", marginVertical: 18}}>{hasData ? "등록번호 확인에 성공하였습니다." : "등록번호를 검색 해 주세요."}</FontText>
                         { hasData ? 
                         <CustomButton onPress={() => closeModal()}>확인</CustomButton>
                         : <CustomButton onPress={() => {
@@ -83,29 +96,44 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.4)"
     },
     sub: {
         width: 320,
         backgroundColor: "white",
-        borderWidth: 2,
-        borderColor: "#0089FF",
+        borderWidth: 1,
+        borderColor: colors.main,
         borderRadius: 18,
         padding: 18
     },
-    input: {
-        borderWidth: 1,
-        borderColor: "black",
-        margin: 8,
-        borderRadius: 8,
-        padding: 4
-    },
     buttonBox: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 18,
-        alignItems: "center",
-        marginTop: 18
+        alignItems: 'center'
+    },
+    label: {
+        borderBottomWidth: 1,
+        borderBottomColor: colors.dark,
+        fontSize: 16,
+        margin: 4,
+        marginTop: 12,
+        color: colors.dark,
+        alignSelf: "flex-start",
+        marginVertical: 8
+
+    },
+    inputBox: {
+        width: "100%",
+        marginVertical: 4
+    },
+    input: {
+        width: "100%",
+        borderWidth: 1,
+        borderRadius: 8,
+        borderColor: "gray",
+        padding: 6,
+        paddingHorizontal: 8,
+        height: 32,
+        justifyContent: "center",
     },
 })
 

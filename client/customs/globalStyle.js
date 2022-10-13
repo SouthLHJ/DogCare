@@ -1,13 +1,23 @@
 import { StyleSheet, View } from "react-native";
 
+// export const colors = {
+//     main: "#92B4EC",
+//     sub: "#F8888E",
+//     mid: "#FFBD41",
+//     black: "#444249",
+//     white: "#FCFBF3",
+//     dark: "#757889",
+//     semi: "#BEC0CD",
+//     light: "#ECECED"
+// };
 export const colors = {
-    main: "#92B4EC",
-    sub: "#FFD24C",
-    mid: "#FC8C5D",
+    main: "#2757A5",
+    sub: "#FF9973",
+    mid: "#7ECFE0",
     black: "#444249",
     white: "#FCFBF3",
-    dark: "#757889",
-    semi: "#BEC0CD",
+    dark: "#222A59",
+    semi: "#D1D2DA",
     light: "#ECECED"
 };
 

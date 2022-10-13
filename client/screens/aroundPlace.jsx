@@ -82,9 +82,14 @@ function AroundPlaceScreen({ navigation, route }) {
                                 </Marker>
                             })}
                         </MapView>
-                        : <FontText>
-                            좌측 하단의 카테고리 선택을 통해 검색해주세요!
+                        : <>
+                        <FontText title={true} bold={true} style={{fontSize: 16}}>
+                            어디로 갈까요?
                         </FontText>
+                        <FontText title={true}  style={{fontSize: 16}}>
+                            우측 하단의 버튼을 눌러 카테고리를 설정 해 주세요!
+                        </FontText>
+                        </>
                     }
                 </View>
             </View>

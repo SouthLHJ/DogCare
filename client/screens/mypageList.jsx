@@ -99,22 +99,22 @@ function MypageListScreen({ navigation, route }) {
                         <Pressable style={styles.card} onPress={() => {
                             navigation.navigate("dogRegister", { currentData: myDog, editMode: true });
                         }}>
-                            <Image source={{ uri: myDog.image }} style={{ width: 100, height: 100, marginRight: 24, borderRadius: 100, borderWidth: 2, borderColor: "#0089FF" }} resizeMode="center" />
+                            <Image source={{ uri: myDog.image }} style={{ width: 100, height: 100, marginRight: 24, borderRadius: 100, borderWidth: 1, borderColor: colors.semi, }} resizeMode="center" />
                             <View style={styles.dogInfoBox}>
                                 <View style={styles.dogInfoList}>
-                                    <FontText style={styles.dogInfoLabel}>이름</FontText>
+                                    <FontText title={true} bold={true} style={styles.dogInfoLabel}>이름</FontText>
                                     <FontText>{myDog.name}</FontText>
                                 </View>
                                 <View style={styles.dogInfoList}>
-                                    <FontText style={styles.dogInfoLabel}>나이</FontText>
+                                    <FontText title={true} bold={true} style={styles.dogInfoLabel}>나이</FontText>
                                     <FontText>{getDogsYear(myDog.birth)} / {getDogsOlder(myDog.birth)}살</FontText>
                                 </View>
                                 <View style={styles.dogInfoList}>
-                                    <FontText style={styles.dogInfoLabel}>성별</FontText>
+                                    <FontText title={true} bold={true} style={styles.dogInfoLabel}>성별</FontText>
                                     <FontText>{genderCheck(myDog.gender)}</FontText>
                                 </View>
                                 <View style={styles.dogInfoList}>
-                                    <FontText style={styles.dogInfoLabel}>특이사항</FontText>
+                                    <FontText title={true} bold={true} style={styles.dogInfoLabel}>특이사항</FontText>
                                     <FontText>{myDog.extra}</FontText>
                                 </View>
                             </View>
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderWidth: 2,
-        borderRadius: 4,
+        borderRadius: 8,
         borderColor: colors.sub,
         height: 138
     },
@@ -207,10 +207,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        borderWidth: 2,
-        borderRadius: 4,
-        borderColor: colors.sub,
-        height: 138
+        borderRadius: 8,
+        height: 138,
+        backgroundColor: colors.light
     },
     dogInfoBox: {
         flex: 1
@@ -222,8 +221,10 @@ const styles = StyleSheet.create({
     },
     dogInfoLabel: {
         borderBottomWidth: 1,
+        borderBottomColor: colors.dark,
         marginRight: 12,
-        fontSize: 14
+        fontSize: 14,
+        marginVertical: 2
     },
     listBox: {
         flex: 1,

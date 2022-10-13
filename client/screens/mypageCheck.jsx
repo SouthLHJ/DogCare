@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, ListViewBase, StyleSheet, Text, View, ViewPagerAndroidBase } from "react-native";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { Alert, ListViewBase, StyleSheet, Text, View, ViewPagerAndroidBase, Pressable } from "react-native";
 import { checkingMedicine, checkingTeeth } from "../api/dog";
 import { weeklyWalkCheck } from "../api/walk";
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Loading from "../customs/loading";
+import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { useIsFocused } from "@react-navigation/native";
+import { colors } from "../customs/globalStyle";
 
 
 const getLocaleDate = (d) => {
@@ -33,8 +35,24 @@ function MypageCheckScreen({ navigation, route }) {
     const [hasTake, setHasTake] = useState(false);
     const [brushGap, setBrushGap] = useState(false);
     const [TakeGap, setTakeGap] = useState(false);
-    const [walkCount, setWalkCount] = useState(4);
+    const [walkCount, setWalkCount] = useState([]);
     const { auth } = useContext(AppContext);
+    const isFocused = useIsFocused();
+
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => {
+                return (
+                    <Pressable onPress={() => {
+                        navigation.navigate("mypageList");
+                    }}>
+                        <AntDesign name="left" size={24} color={colors.mid} />
+                    </Pressable>
+                )
+            }
+        });
+    }, [isFocused]);
 
 
 
@@ -53,22 +71,26 @@ function MypageCheckScreen({ navigation, route }) {
 
         weeklyWalkCheck(auth.token)
             .then((rcv) => {
-                rcv.result ? setWalkCount(rcv.list.length) : console.log(rcv.msg);
+                rcv.result ? setWalkCount(rcv.list) : console.log(rcv.msg);
             }).catch((err) => {
                 console.log(err.message);
             })
     }, [route.params]);
 
-
-    if (!dogData || !(typeof walkCount === "number")) {
-        <Loading />
-    } else {
-        return (
-            <View style={styles.mainBox}>
+    return (
+        <View style={styles.mainBox}>
+            {!dogData ?
+                <Loading />
+                :
                 <View style={styles.body}>
-                    <View style={{ width: 319, alignSelf: "center" }}>
-                        <View>
-                            <FontText>{dogData.name}의 산책습관</FontText>
+                    <View style={{ width: 319, alignSelf: "center", paddingVertical: 12 }}>
+                        <View style={{}}>
+                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12 }}>{dogData.name}의 산책습관</FontText>
+                            <View style={{top: -18}}>
+                            <View style={styles.countBox}>
+                                <FontText title={true} bold={true} style={{ fontSize: 24, color: colors.sub }}>{walkCount.length}</FontText>
+                                <FontText style={{ fontSize: 16, color: colors.dark }}>/ 7</FontText>
+                            </View>
                             <View style={styles.outerBar}>
                                 <View style={styles.lines}>
                                     {new Array(8).fill(1).map((o, i) => {
@@ -78,24 +100,15 @@ function MypageCheckScreen({ navigation, route }) {
                                         );
                                     })}
                                 </View>
-                                <View style={[styles.innerBar, { width: 45 * walkCount }]}></View>
+                                <View style={[styles.innerBar, { width: 45 * walkCount.length }]}></View>
                             </View>
-                            <View style={styles.countBox}>
-                                <FontText style={{ fontSize: 18 }}>{walkCount}</FontText>
-                                <FontText>/7</FontText>
                             </View>
                         </View>
+                        <View style={[styles.hrLine, {marginTop: 0}]}></View>
                         <View>
-                            <FontText>{dogData.name}의 치카치카</FontText>
-                            <View>
-                                {dogData.lastTeeth ?
-                                    <FontText>
-                                    {hasBrush ? `오늘 양치를 했어요!` : `마지막으로 약을 먹은 게 ${brushGap}일 전이에요!`}
-                                    </FontText>
-                                    : <FontText>
-                                        아직 양치 체크를 한 적이 없어요!
-                                    </FontText>}
-                                <BouncyCheckbox isChecked={hasBrush} disableBuiltInState={true} disabled={hasBrush}
+                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12  }}>{dogData.name}의 치카치카</FontText>
+                            <View style={{flexDirection: "row", alignItems: "center"}}>
+                                <BouncyCheckbox style={{marginRight: -8}} fillColor={colors.mid} isChecked={hasBrush} disableBuiltInState={true} disabled={hasBrush}
                                     onPress={() => {
                                         Alert.alert("오늘 양치를 한 것으로 체크할까요?", "체크 후 취소가 불가능해요!", [{
                                             text: "아니오",
@@ -115,19 +128,20 @@ function MypageCheckScreen({ navigation, route }) {
                                             }
                                         }])
                                     }} />
+                                {dogData.lastTeeth ?
+                                    <FontText style={{ fontSize: 14 }} title={true}>
+                                        {hasBrush ? `오늘 양치를 했어요!` : `마지막으로 약을 먹은 게 ${brushGap}일 전이에요!`}
+                                    </FontText>
+                                    : <FontText style={{ fontSize: 14 }} title={true}>
+                                        아직 양치 체크를 한 적이 없어요!
+                                    </FontText>}
                             </View>
                         </View>
+                        <View style={styles.hrLine}></View>
                         <View>
-                            <FontText>{dogData.name}의 건강체크</FontText>
-                            <View>
-                                {dogData.lastMedicine ?
-                                    <FontText>
-                                        {hasTake ? `오늘 약을 먹었어요!` : `마지막으로 약을 먹은 게 ${TakeGap}일 전이에요!`}
-                                    </FontText>
-                                    : <FontText>
-                                        아직 약을 먹은 적이 없어요!
-                                    </FontText>}
-                                <BouncyCheckbox isChecked={hasTake} disableBuiltInState={true} disabled={hasTake}
+                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12  }}>{dogData.name}의 건강체크</FontText>
+                            <View style={{flexDirection: "row", alignItems: "center"}}>
+                                <BouncyCheckbox style={{marginRight: -8}} fillColor={colors.mid} isChecked={hasTake} disableBuiltInState={true} disabled={hasTake}
                                     onPress={() => {
                                         Alert.alert("오늘 약을 먹은 것으로 체크할까요?", "체크 후 취소가 불가능해요!", [{
                                             text: "아니오",
@@ -147,13 +161,20 @@ function MypageCheckScreen({ navigation, route }) {
                                             }
                                         },]);
                                     }} />
+                                {dogData.lastMedicine ?
+                                    <FontText style={{ fontSize: 14 }} title={true}>
+                                        {hasTake ? `오늘 약을 먹었어요!` : `마지막으로 약을 먹은 게 ${TakeGap}일 전이에요!`}
+                                    </FontText>
+                                    : <FontText style={{ fontSize: 14 }} title={true}>
+                                        아직 약을 먹은 적이 없어요!
+                                    </FontText>}
                             </View>
                         </View>
                     </View>
                 </View>
-            </View>
-        );
-    };
+            }
+        </View>
+    );
 }
 
 export default MypageCheckScreen;
@@ -175,7 +196,7 @@ const styles = StyleSheet.create({
     },
     outerBar: {
         borderWidth: 2,
-        borderColor: "black",
+        borderColor: colors.dark,
         borderRadius: 6,
         overflow: "hidden",
         width: 319,
@@ -190,17 +211,25 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     barLine: {
-        backgroundColor: "black",
+        backgroundColor: colors.dark,
+        opacity: 0.5,
         width: 1,
         height: "100%"
     },
     innerBar: {
-        backgroundColor: "blue",
+        backgroundColor: colors.mid,
         height: "100%"
     },
     countBox: {
         flexDirection: "row",
-        alignItems: "baseline"
+        alignItems: "baseline",
+        justifyContent: "flex-end",
+        margin: 4
+    },
+    hrLine :{
+        height: 1,
+        backgroundColor: colors.semi,
+        marginVertical: 12 
     },
 
 });

@@ -109,11 +109,11 @@ function MemoriesDetailScreen({navigation}) {
                 <View>
                     {liked ?
                             <TouchableOpacity onPress={() => onHeart(false)}>
-                                <Ionicons name="heart-sharp" size={18} color={colors.sub} />
+                                <Ionicons name="heart-sharp" size={18} color={colors.mid} />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={() => onHeart(true)}>
-                                <Ionicons name="heart-outline" size={18} color={colors.sub} />
+                                <Ionicons name="heart-outline" size={18} color={colors.mid} />
                             </TouchableOpacity>
                     }
                 </View>
@@ -125,7 +125,7 @@ function MemoriesDetailScreen({navigation}) {
                 : <></>
             }
             <View style={styles.descriptionBox}>
-                <FontText style={[globalStyles.textNomal]}>{item?.description}</FontText>
+                <FontText title={true} style={[globalStyles.textNomal]}>{item?.description}</FontText>
             </View>
             <View style={{ alignItems: "flex-end" }}>
                 {item?.public && <FontText style={styles.textSmall}>공개글</FontText>}
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     },
     titleBox: {
         borderBottomWidth: 1,
-        borderBottomColor: "#0089FF",
+        borderBottomColor: colors.main,
         paddingBottom: 5,
         marginBottom: 5
     },

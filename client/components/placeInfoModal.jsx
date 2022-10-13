@@ -70,13 +70,15 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
     // console.log(moreInfo);
     return (
         <Modal animationType="slide" visible={visible} transparent={true}>
+                    <View style={styles.back}>
             <Pressable onPress={() => {
                 setMapURI(false);
                 setMoreInfo({});
                 setDistance(null);
                 onCloseModal();
-                }} style={styles.back}>
-                <Pressable onPress={() => { }} style={styles.body} >
+                }} style={{flex: 1}}>
+                </Pressable>
+                <View style={styles.body} >
                     {mapURI ?
                         <ImageBackground source={{ uri: mapURI }} style={styles.mapImage}>
                             <View style={styles.mapBox}>
@@ -136,8 +138,8 @@ function PlaceInfoModal({ visible, item_id, currentCoords, onCloseModal }) {
                     <FontText style={[globalStyles.textNomal, {marginTop: 18}]}>리뷰가 없습니다.</FontText>
                     }
 
-                </Pressable>
-            </Pressable>
+                </View>
+                </View>
         </Modal>
     );
 };
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
         right: 0,
         left: 0,
         backgroundColor: "white",
-        height: 586,
+        height: "80%",
         borderTopRightRadius: 32,
         borderTopLeftRadius: 32,
         flexDirection: "column",

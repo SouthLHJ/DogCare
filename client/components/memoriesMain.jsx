@@ -11,7 +11,7 @@ import MemoriesWriteScreen from '../screens/memoriesWrite';
 
 function MemoriesMain() {
     return (  
-        <Stack.Navigator screenOptions={{headerShown: true, headerBackTitleVisible: false, headerBackVisible: false, headerStyle: {backgroundColor: colors.main}, headerTitleAlign: "center", headerTitle: header,}} >
+        <Stack.Navigator screenOptions={{headerShown: true, headerBackTitleVisible: false, headerBackVisible: false, headerStyle: {backgroundColor: "white"}, headerTitleAlign: "center", headerTitle: header,}} >
             <Stack.Screen  name="memoriesList" component={MemoriesListScreen}/>
             <Stack.Screen  name="memoriesWrite" component={MemoriesWriteScreen}/>
             <Stack.Screen  name="memoriesDetail" component={MemoriesDetailScreen}/>
