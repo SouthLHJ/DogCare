@@ -37,7 +37,7 @@ function ConsumeBarChart() {
                     labels: ["용품", "간식", "사료", "위생", "약", "치료비", "기타"],
                     datasets: [{data: data}]
                 }}
-                width={Dimensions.get('screen').width-20}
+                width={Dimensions.get('screen').width-40}
                 height={200}
                 yAxisSuffix="만원"
                 chartConfig={{
