@@ -11,12 +11,13 @@ function ConsumeRegisterScreen() {
     return (  
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={globalStyles.container}>
-        <RegisterConsume />
-        <Text>2. 삭제</Text>
+        <View style={{marginBottom : 10}}>
+            <RegisterConsume />
+        </View>
+
         <ScrollView style={{flex : 1}}>
             <DeleteConsume />
         </ScrollView>
-        <Text>3. 수정</Text>
     </View>
     </TouchableWithoutFeedback>
     );
@@ -27,10 +28,4 @@ export default ConsumeRegisterScreen;
 const styles = StyleSheet.create({
     register : {
     },
-
-    // 표
-    tableContainer: { marginBottom : 30,backgroundColor: '#fff' },
-    head: {  height: 40,  backgroundColor: '#f1f8ff', borderWidth : 1  },
-    row: {  height: 30 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1  },
-    text: { textAlign: 'center' }
 });

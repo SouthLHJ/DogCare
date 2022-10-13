@@ -11,7 +11,7 @@ import {getCurrentPositionAsync,useForegroundPermissions,PermissionStatus} from 
 
 import { readWeather } from "../api/walk";
 import FontText from "../customs/fontText";
-import globalStyles from "../customs/globalStyle";
+import globalStyles, { colors } from "../customs/globalStyle";
 import Loading from "../customs/loading";
 import WalkRegister from '../components/walkRegister';
 import { latlng_xy_convert } from '../customs/latlng2xy';
@@ -131,29 +131,25 @@ function NewWalkScreen() {
     }
     switch(weather[6]?.fcstValue){
         case "0":
-            pty = <FontAwesome name="sun-o" size={24} color="black" />
+            pty = <FontAwesome name="sun-o" size={24} color={colors.main} />
             break;
         case "1":
-            pty = <MaterialCommunityIcons name="weather-rainy" size={24} color="black" />
+            pty = <MaterialCommunityIcons name="weather-rainy" size={24} color={colors.main} />
             break;
         case "2":
-            pty = <MaterialCommunityIcons name="weather-snowy-rainy" size={24} color="black" />
+            pty = <MaterialCommunityIcons name="weather-snowy-rainy" size={24} color={colors.main} />
             break;
         case "3":
-            pty = <MaterialCommunityIcons name="weather-snowy" size={24} color="black" />
+            pty = <MaterialCommunityIcons name="weather-snowy" size={24} color={colors.main} />
             break;
         case "4":
-            pty = <MaterialCommunityIcons name="weather-pouring" size={24} color="black" />
+            pty = <MaterialCommunityIcons name="weather-pouring" size={24} color={colors.main} />
             break;
     }
 
     return (  
     <View style={globalStyles.container}>
-        <View style={styles.weatherContainer}>
-            <FontText>{pty}</FontText>
-            <FontText>{weather[9]?.fcstValue}</FontText>
-            <FontText>{weather[0].fcstValue}℃</FontText>
-        </View>
+       
         <View style={{flexDirection : "row", justifyContent :"flex-end", alignItems : "center"}}>
             <FontText style={{fontSize : 10}}>정보제공 : 기상청,</FontText>
             <FontText style={{fontSize : 10}}>발표 : {weather[0].baseDate}.{weather[0].baseTime.slice(0,2)}시 </FontText>
@@ -161,29 +157,33 @@ function NewWalkScreen() {
                 <MaterialCommunityIcons name="reload" size={15} color="black" />
             </TouchableOpacity>
         </View>
-        <View style={{height : 400,alignItems : "center"}}>
+        <View style={{flex: 1,alignItems : "center"}}>
             {startIcon ?
             <Image source={require("../assets/puppy.gif")} style={styles.img} resizeMode="contain"/>
             :    
             <Image source={require("../assets/puppy_stop.gif")} style={styles.img} resizeMode="contain"/>
             }
+            {startIcon ?
+            <TouchableOpacity style={styles.button} onPress={()=>onWalkingStop()}>
+                <FontAwesome name="stop" size={24} color={colors.main} />
+            </TouchableOpacity>
+            :
+            <TouchableOpacity  style={styles.button}  onPress={()=>onWalkingStart()}>
+                <AntDesign name="caretright" size={24} color={colors.main} />
+            </TouchableOpacity>
+            }
         </View>
 
         <View style={styles.buttonContainer}>
-                {startIcon ?
-                <TouchableOpacity style={styles.button} onPress={()=>onWalkingStop()}>
-                    <FontAwesome name="stop" size={24} color="#0070d1" />
-                </TouchableOpacity>
-                :
-                <TouchableOpacity  style={styles.button}  onPress={()=>onWalkingStart()}>
-                    <AntDesign name="caretright" size={24} color="#0070d1" />
-                </TouchableOpacity>
-                }
-
+            <View style={styles.weatherContainer}>
+                <View style={{flexDirection :"row", alignItems :"center"}}>
+                    <FontText>{pty}</FontText>
+                    <FontText style={[globalStyles.textNomal,{color : colors.main}]} bold={"semi"}>{weather[0].fcstValue}℃</FontText>
+                </View>
+                <FontText style={[globalStyles.textNomal,{color : colors.main}]} bold={"semi"}>{weather[9]?.fcstValue}</FontText>
+            </View>
         </View>
-        <SafeAreaView>
-            {modal && <WalkRegister modal={modal} setModal={setModal} time1={time1.current} time2={time2.current}/>}
-        </SafeAreaView>
+        {modal && <WalkRegister modal={modal} setModal={setModal} time1={time1.current} time2={time2.current}/>}
     </View>
     );
 }
@@ -192,13 +192,16 @@ export default NewWalkScreen;
 
 const styles = StyleSheet.create({
     weatherContainer :{
+        width : "90%",
         flexDirection : "row",
         justifyContent : "space-around",
         alignItems : "center",
         paddingVertical: 7,
+        marginTop : 10,
 
-        borderColor : "#0070d1",
-        borderBottomWidth: 1,
+        borderColor : colors.main,
+        borderWidth: 1,
+        borderRadius : 12
     },
 
     img : {
@@ -207,11 +210,12 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer :{
-        alignItems : "center"        ,
+        width : "100%",
+        alignItems : "center",
     },
     button : {
         padding : 5,
-        borderColor : "#0070d1",
+        borderColor : colors.main,
         borderRadius : 20,
         borderWidth : 2,
     }

@@ -16,7 +16,7 @@ import { readConsumeAll } from "../api/consume";
 import { AppContext } from '../contexts/app-context';
 import { ConsumeContext, SearchContext } from '../contexts/consume-context';
 import CustomDatePicker from "../customs/datePicker";
-import globalStyles from "../customs/globalStyle";
+import globalStyles, { colors } from "../customs/globalStyle";
 import Loading from "../customs/loading";
 import FontText from '../customs/fontText';
 import ConsumeBarChart from '../components/barChart';
@@ -62,14 +62,12 @@ function ConsumeChartScreen() {
 
     return (
         <View style={globalStyles.container}>
-            <View style={styles.swithContainer}>
-                <FontText style={{marginHorizontal: 4}}>{chartAll ? "누적 소비 차트" : "기간 소비 차트"}</FontText>
-                <TouchableOpacity onPress={()=>onSwitch()}>
-                    <FontAwesome5 name="exchange-alt" size={18} color="black" />
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={()=>onSwitch()} style={styles.swithContainer}>
+                <FontText style={[globalStyles.textNomal,{marginHorizontal: 4 ,color : colors.black}]}>{chartAll ? "누적 소비 차트" : "기간 소비 차트"}</FontText>
+                <FontAwesome5 name="exchange-alt" size={18} color={colors.black} />
+            </TouchableOpacity>
 
-            <View>
+            <View style={{alignItems : "center"}}>
                 {chartAll ?
                 <ConsumeBarChart/>
                 :

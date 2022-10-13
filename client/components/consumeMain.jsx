@@ -16,7 +16,15 @@ import Header from './header';
 function ConsumeInner() {
     return(
         <ConsumeContextProvider>
-            <TopTab.Navigator screenOptions={{tabBarStyle  :  {display: 'flex'}, }}>
+            <TopTab.Navigator  screenOptions={{tabBarStyle  :  {display: 'flex' , backgroundColor : "white", height : 40 ,shadowColor : "white"}, 
+                tabBarActiveTintColor: colors.white,
+                tabBarInactiveTintColor: "#5d91d5",
+                tabBarLabelStyle :{marginTop : 0, marginLeft : 0},
+                tabBarIndicatorStyle: { backgroundColor: "#5d91d5",width: '48%', height: '90%' , borderRadius : 20, marginBottom : 4 ,marginHorizontal : 3 },
+                tabBarIndicatorContainerStyle : {marginTop:2,borderColor : "#5d91d5", borderWidth : 1, padding : 2, borderRadius : 20, height : 40},
+                tabBarPressColor: colors.main,
+                tabBarPressOpacity: 1,
+            }}>
                 <TopTab.Screen  name="consumeChart" component={ConsumeChartScreen} options={{title : "목록"}}/>
                 <TopTab.Screen  name="consumeRegister" component={ConsumeRegisterScreen} options={{title : "관리"}}/>
             </TopTab.Navigator>
@@ -28,7 +36,7 @@ function ConsumeInner() {
 function ConsumeMain() {
     return (
         <Stack.Navigator screenOptions={{headerBackVisible: false, headerStyle: {backgroundColor: colors.main}, headerTitleAlign: "center", headerTitle: header}} animationEnabled={false}>
-            <Stack.Screen name="consumeMain" component={ConsumeInner} />
+            <Stack.Screen name="consumeInner" component={ConsumeInner} />
         </Stack.Navigator>
     );
 }
