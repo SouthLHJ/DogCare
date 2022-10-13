@@ -31,7 +31,7 @@ function RegisterConsume() {
     const tableInput = [
         [
             <View style={{flexDirection : "row", justifyContent : "center", borderBottomColor  : colors.mid, borderBottomWidth : 1, marginHorizontal : 1}}>
-                <CustomDatePicker end={false} setStartPoint={setDate} startPoint={date}/>
+                <CustomDatePicker end={false} setStartPoint={setDate} startPoint={date} textStyle={{fontSize : 10}}/>
             </View>,
             <View style={{alignItems : "center"}}>
                 <TouchableOpacity onPress={()=>setSelectedItemShow(!selectedItemShow)} style={[styles.register]}>

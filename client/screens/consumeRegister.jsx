@@ -1,6 +1,6 @@
 import {  Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { useState } from 'react';
-import globalStyles from '../customs/globalStyle';
+import globalStyles, { colors } from '../customs/globalStyle';
 import FontText from '../customs/fontText';
 import RegisterConsume from "../components/registerCnsm";
 import DeleteConsume from "../components/deletCnsm";
@@ -11,7 +11,7 @@ function ConsumeRegisterScreen() {
     return (  
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={globalStyles.container}>
-        <View style={{marginVertical : 10,}}>
+        <View style={{marginVertical : 10, paddingBottom : 17, borderBottomColor : colors.light, borderBottomWidth : 2}}>
             <RegisterConsume />
         </View>
 

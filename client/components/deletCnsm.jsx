@@ -24,7 +24,7 @@ function DeleteConsume() {
             const combineArr = arr.map((one)=>{
                 // console.log(one)
                 return [
-                <FontText style={styles.textRow}>{one.date.slice(0,10)}</FontText>,
+                <FontText style={[styles.textRow,{fontSize : 11}]}>{one.date.slice(0,10)}</FontText>,
                 <FontText style={styles.textRow}>{one.category}</FontText>,
                 <FontText style={styles.textRow}>{one.ammount}</FontText>, 
                 <FontText style={styles.textRow}>{one.description}</FontText>,
@@ -90,10 +90,12 @@ function DeleteConsume() {
     return (  
         <View style={styles.tableContainer}>
             <FontText style={globalStyles.textNomal} bold={true} title={true}>삭제</FontText>
-            <Table>
-                <Row data={tableTitle} flexArr={[1, 1, 1, 1, 1]} style={styles.head}/>
-                <Rows data={data} flexArr={[1, 1, 1, 1, 1]} style={styles.row} />
-            </Table>
+            <View style={styles.tableContainer}>
+                <Table>
+                    <Row data={tableTitle} flexArr={[1, 1, 1, 1, 1]} style={styles.head}/>
+                    <Rows data={data} flexArr={[1, 1, 1, 1, 1]} style={styles.row} />
+                </Table>
+            </View>
         </View>
     );
 }
@@ -114,9 +116,9 @@ const styles = StyleSheet.create({
     },
 
     // 표
-    tableContainer: { marginBottom : 30,backgroundColor: '#fff', },
+    tableContainer: { marginBottom : 30,backgroundColor: '#fff', marginTop  : 5  },
     head: {  height: 40,  backgroundColor: colors.mid, borderColor : colors.mid , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
     row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.mid},
     textTitle : { textAlign: 'center' , color : colors.white },
-    textRow : { textAlign: 'center' , color : colors.black }
+    textRow : { textAlign: 'center' , color : colors.black, fontSize : 12 }
 });

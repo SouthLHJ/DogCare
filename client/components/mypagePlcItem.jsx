@@ -55,7 +55,7 @@ function MyPagePlaceItem({item}) {
     return (  
         <>
         <View style={styles.itemBox}>
-            <View style={{flex :2,justifyContent : "space-between"}}>
+            <View style={{flex :2,justifyContent : "space-around"}}>
                 <TouchableOpacity onPress={()=>setModal(true)}>
                     <View style={{flexDirection : "row", alignItems: "baseline", margin: 4,}}>
                         <FontText style={styles.titleText} title={true} bold={true}>{item.name}</FontText>
@@ -68,13 +68,15 @@ function MyPagePlaceItem({item}) {
                     </View>
                 </TouchableOpacity>
                 {item?.opening_hours ?
-                <View style = {{flexDirection : "row", alignItems : "center"}}>
+                <View style = {{flexDirection : "row", alignItems : "center", margin: 4, }}>
                     {leftIcon}
                     <FontText style={styles.text}>{item?.opening_hours?.weekday_text[day]}</FontText>
                     {rightIcon}
                 </View>    
                 :
-                <FontText style={styles.text}>영업시간 미등록</FontText>
+                <View style = {{flexDirection : "row", alignItems : "center", margin: 4, }}>
+                    <FontText style={styles.text}>영업시간 미등록</FontText>
+                </View>
                 }
             </View>
             <TouchableOpacity style={{ flex: 1, alignItems: "flex-end" }} onPress={()=>setModal(true)}>
@@ -84,7 +86,7 @@ function MyPagePlaceItem({item}) {
                         likeAdd(auth.id, item.place_id, likeCheck ? false : true)
                         .then((rcv) => {
                             if(rcv.result) {
-                                setLikecheck(likeCheck ? false : true)
+                                // setLikecheck(likeCheck ? false : true)
                                 navigation.navigate("likePlace",{refresh : 1})
                             } else {
                                 Alert.alert("" , rcv.msg);
