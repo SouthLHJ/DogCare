@@ -89,7 +89,7 @@ function DeleteConsume() {
 
     return (  
         <View style={styles.tableContainer}>
-            <FontText style={globalStyles.textNomal}>삭제</FontText>
+            <FontText style={globalStyles.textNomal} bold={true} title={true}>삭제</FontText>
             <Table>
                 <Row data={tableTitle} flexArr={[1, 1, 1, 1, 1]} style={styles.head}/>
                 <Rows data={data} flexArr={[1, 1, 1, 1, 1]} style={styles.row} />
@@ -109,14 +109,14 @@ const styles = StyleSheet.create({
 
         paddingVertical : 2,
 
-        backgroundColor : colors.main,
+        backgroundColor : colors.mid,
         borderRadius : 8,
     },
 
     // 표
     tableContainer: { marginBottom : 30,backgroundColor: '#fff', },
-    head: {  height: 40,  backgroundColor: colors.main, borderColor : colors.main , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
-    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.main , },
+    head: {  height: 40,  backgroundColor: colors.mid, borderColor : colors.mid , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
+    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.mid},
     textTitle : { textAlign: 'center' , color : colors.white },
     textRow : { textAlign: 'center' , color : colors.black }
 });

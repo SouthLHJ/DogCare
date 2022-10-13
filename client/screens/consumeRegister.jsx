@@ -11,7 +11,7 @@ function ConsumeRegisterScreen() {
     return (  
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={globalStyles.container}>
-        <View style={{marginBottom : 10}}>
+        <View style={{marginVertical : 10,}}>
             <RegisterConsume />
         </View>
 

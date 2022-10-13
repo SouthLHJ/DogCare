@@ -4,7 +4,7 @@ import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { deletetDog, getDogInfo } from "../api/dog";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import Loading from "../customs/loading";
 import CustomButton from "../customs/customButton";
 import globalStyles, { colors } from "../customs/globalStyle";
@@ -27,7 +27,15 @@ function MypageListScreen({ navigation, route }) {
             }).catch((err) => {
                 console.log("getDog === ", err.message);
             });
-
+        navigation.setOptions({
+            headerRight: () => {
+                return (
+                    <Pressable onPress={() => onLogout()}>
+                        <FontText style={{color: colors.white, fontSize : 14}} bold={true} title={true}>로그아웃</FontText>
+                    </Pressable>
+                )
+            }
+        });
 
     }, [isFocused]);
 
@@ -160,9 +168,6 @@ function MypageListScreen({ navigation, route }) {
                         <FontText bold="semi" style={styles.listText}>계정관리</FontText>
                     </TouchableOpacity>
                 </View>
-            </View>
-            <View>
-                <CustomButton onPress={()=>onLogout()} styleBtn={[globalStyles.button]} styleText={[globalStyles.buttonText]}>로그아웃</CustomButton>
             </View>
         </View>
     );

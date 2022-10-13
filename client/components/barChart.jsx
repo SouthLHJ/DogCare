@@ -42,12 +42,12 @@ function ConsumeBarChart() {
                 yAxisSuffix="만원"
                 chartConfig={{
                     barPercentage : 0.6,
-                    backgroundColor: colors.sub,
-                    backgroundGradientFrom: colors.sub, // 배경색깔 그라데이션용 (왼쪽)
-                    backgroundGradientTo: colors.sub,    // 배경색깔 그라데이션용 (오른쪽)
+                    backgroundColor: colors.mid,
+                    backgroundGradientFrom: colors.mid, // 배경색깔 그라데이션용 (왼쪽)
+                    backgroundGradientTo: colors.mid,    // 배경색깔 그라데이션용 (오른쪽)
                     decimalPlaces: 2, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // 그래프 내부 색상 투명도
-                    labelColor: (opacity = 1) => `rgba(222, 89, 18, 1)`,
+                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     propsForVerticalLabels : {},
                 }}
                 yLabelsOffset={5}

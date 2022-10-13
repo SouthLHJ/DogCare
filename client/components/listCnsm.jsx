@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
 
     // 표
     tableContainer: { marginBottom : 30,backgroundColor: '#fff', },
-    head: {  height: 40,  backgroundColor: colors.main, borderColor : colors.main , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
-    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.main},
+    head: {  height: 40,  backgroundColor: colors.mid, borderColor : colors.mid , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
+    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.mid},
     textTitle : { textAlign: 'center' , color : colors.white },
     textRow : { textAlign: 'center' , color : colors.black }
 });

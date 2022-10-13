@@ -30,7 +30,7 @@ function RegisterConsume() {
 
     const tableInput = [
         [
-            <View style={{flexDirection : "row", justifyContent : "center"}}>
+            <View style={{flexDirection : "row", justifyContent : "center", borderBottomColor  : colors.mid, borderBottomWidth : 1, marginHorizontal : 1}}>
                 <CustomDatePicker end={false} setStartPoint={setDate} startPoint={date}/>
             </View>,
             <View style={{alignItems : "center"}}>
@@ -93,7 +93,7 @@ function RegisterConsume() {
 
     return (  
         <>
-            <FontText style={globalStyles.textNomal}>등록</FontText>
+            <FontText style={globalStyles.textNomal} bold={true} title={true}>등록</FontText>
             <View style={styles.tableContainer}>
                 <Table>
                     <Row data={tableTitle} flexArr={[1, 1, 1, 1,1]} style={styles.head} />
@@ -133,14 +133,14 @@ const styles = StyleSheet.create({
 
         paddingVertical : 2,
 
-        backgroundColor : colors.main,
+        backgroundColor : colors.mid,
         borderRadius : 8,
     },
 
     // 표
-    tableContainer: { marginBottom : 30,backgroundColor: '#fff', },
-    head: {  height: 40,  backgroundColor: colors.main, borderColor : colors.main , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
-    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.main , },
+    tableContainer: { marginBottom : 30,backgroundColor: '#fff', marginTop  : 5 },
+    head: {  height: 40,  backgroundColor: colors.mid, borderColor : colors.mid , borderWidth : 1, borderTopLeftRadius : 5 , borderTopRightRadius : 5  },
+    row: {  height: 35 , borderLeftWidth :1, borderBottomWidth :1 , borderRightWidth : 1 , borderColor : colors.mid},
     textTitle : { textAlign: 'center' , color : colors.white },
     textRow : { textAlign: 'center' , color : colors.black }
 });

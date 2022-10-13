@@ -18,11 +18,11 @@ function ConsumeInner() {
         <ConsumeContextProvider>
             <TopTab.Navigator  screenOptions={{tabBarStyle  :  {display: 'flex' , backgroundColor : "white", height : 40 ,shadowColor : "white"}, 
                 tabBarActiveTintColor: colors.white,
-                tabBarInactiveTintColor: "#5d91d5",
+                tabBarInactiveTintColor: colors.sub,
                 tabBarLabelStyle :{marginTop : 0, marginLeft : 0},
-                tabBarIndicatorStyle: { backgroundColor: "#5d91d5",width: '48%', height: '90%' , borderRadius : 20, marginBottom : 4 ,marginHorizontal : 3 },
-                tabBarIndicatorContainerStyle : {marginTop:2,borderColor : "#5d91d5", borderWidth : 1, padding : 2, borderRadius : 20, height : 40},
-                tabBarPressColor: colors.main,
+                tabBarIndicatorStyle: { backgroundColor: colors.sub,width: '48%', height: '90%' , borderRadius : 20, marginBottom : 2 ,marginHorizontal : 2 },
+                tabBarIndicatorContainerStyle : {marginTop:2,borderColor : colors.sub, borderWidth : 1, padding : 0, borderRadius : 20, height : 40},
+                tabBarPressColor: colors.sub,
                 tabBarPressOpacity: 1,
             }}>
                 <TopTab.Screen  name="consumeChart" component={ConsumeChartScreen} options={{title : "목록"}}/>
