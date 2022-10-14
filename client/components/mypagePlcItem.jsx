@@ -64,7 +64,7 @@ function MyPagePlaceItem({item}) {
                         <FontText style={styles.text}>{item?.formatted_address}</FontText>
                     </View>
                     <View style={{flexDirection : "row", alignItems: "baseline", margin: 4,}}>
-                        <FontText style={styles.text}>{item?.formatted_phone_number}</FontText>
+                        <FontText style={styles.text}>{item?.formatted_phone_number ?? "전화번호 미등록"}</FontText>
                     </View>
                 </TouchableOpacity>
                 {item?.opening_hours ?
@@ -79,36 +79,43 @@ function MyPagePlaceItem({item}) {
                 </View>
                 }
             </View>
-            <TouchableOpacity style={{ flex: 1, alignItems: "flex-end" }} onPress={()=>setModal(true)}>
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
                 {mapURI ?
                 <ImageBackground source={{ uri: mapURI }} style={{ height: "100%", width: "100%", borderRadius: 8 }} >
-                    <Pressable style={styles.mapLike} onPress={() => {
-                        likeAdd(auth.id, item.place_id, likeCheck ? false : true)
-                        .then((rcv) => {
-                            if(rcv.result) {
-                                // setLikecheck(likeCheck ? false : true)
-                                navigation.navigate("likePlace",{refresh : 1})
-                            } else {
-                                Alert.alert("" , rcv.msg);
-                            };
-                        }).catch((err) => {
-                            Alert.alert("ERROR", "");
-                            console.log("likecheckError   ===   " + err.message);
-                        });
-                    }}>
-                        {likeCheck ? 
-                        <View >
-                            <AntDesign name="star" size={28} color="#F7C447" />
-                        </View>
-                        : <View >
-                            <AntDesign name="staro" size={28} color="gray" />
-                        </View>
-                        }
-                    </Pressable>
+                        <Pressable style={styles.mapLike} onLongPress={() => {
+                            Alert.alert(
+                                "","즐겨찾는 곳에서 제외하겠습니까?", [
+                                    {
+                                        text : "취소"
+                                    },
+                                    {
+                                        text : "확인", onPress : ()=>{
+                                            likeAdd(auth.id, item.place_id, likeCheck ? false : true)
+                                            .then((rcv) => {
+                                                if(rcv.result) {
+                                                    // setLikecheck(likeCheck ? false : true)
+                                                    navigation.navigate("likePlace",{refresh : 1})
+                                                } else {
+                                                    Alert.alert("" , rcv.msg);
+                                                };
+                                            }).catch((err) => {
+                                                Alert.alert("ERROR", "");
+                                                console.log("likecheckError   ===   " + err.message);
+                                            });
+                                        }
+                                    }
+                                ]
+                            )
+                            
+                        }}>
+                            <View >
+                                <AntDesign name="star" size={28} color="#F7C447" />
+                            </View>
+                        </Pressable>
                 </ImageBackground>
-                    : <></>
+                    : <View></View>
                 }
-            </TouchableOpacity>
+            </View>
         </View>
             <PlaceInfoModal currentCoords={item.geometry.location} item_id={item?.place_id} visible={modal} onCloseModal={() => {
                 setModal(false);
