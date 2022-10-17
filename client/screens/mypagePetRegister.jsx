@@ -66,7 +66,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                     });
 
                             } else { // 사진 빼고 수정
-                                editDog(dogData)
+                                editDog({...dogData, image: imageUri})
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             navigation.navigate("mypageList");

@@ -2,11 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
-import { Ionicons, Feather } from '@expo/vector-icons';
+import { Ionicons, Feather, FontAwesome } from '@expo/vector-icons';
 import { deletetDog, getDogInfo } from "../api/dog";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import Loading from "../customs/loading";
-import CustomButton from "../customs/customButton";
 import globalStyles, { colors } from "../customs/globalStyle";
 
 function MypageListScreen({ navigation, route }) {
@@ -31,7 +30,7 @@ function MypageListScreen({ navigation, route }) {
             headerRight: () => {
                 return (
                     <Pressable onPress={() => onLogout()}>
-                        <FontText style={{color: colors.white, fontSize : 14}} bold={true} title={true}>로그아웃</FontText>
+                        <FontAwesome name="sign-out" size={24} color={colors.mid} />
                     </Pressable>
                 )
             }

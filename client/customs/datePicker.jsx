@@ -1,20 +1,22 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FontText from './fontText';
 
 function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint,setEndPoint , textStyle}) {
     const [dateShow1,setDateShow1] = useState(false);
     const [dateShow2,setDateShow2] = useState(false);
 
+    const checkPlatform = Platform.OS === "ios";
+
     return (
         <View style={styles.datePoinContainer}>
-            { start && 
+            { (start && !checkPlatform) && 
             <TouchableOpacity onPress={() => setDateShow1(true)} style={styles.register}>
                 <FontText style={textStyle ?? styles.text}>{startPoint.getFullYear()}-{`${startPoint.getMonth() + 1}`.padStart(2,"0")}-{`${startPoint.getDate()}`.padStart(2,"0")}</FontText>
             </TouchableOpacity>
             }
-            { end &&
+            { (end && !checkPlatform) &&
             <>
             <View style={{marginHorizontal : 10}}>
                 <FontText>~</FontText>
@@ -24,9 +26,9 @@ function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint
             </TouchableOpacity>
             </>
             }
-        {(dateShow1 || dateShow2)
+        {((dateShow1 || dateShow2) && !checkPlatform )
             &&
-               <DateTimePicker locale="ko" testID="dateTimePicker" value={dateShow1 ? startPoint : endPoint} mode="date" is24Hour={true} onChange={(d)=>{
+               <DateTimePicker locale="ko" testID="dateTimePicker" value={ dateShow1 ? startPoint : endPoint} style={{width: 102}} mode="date" is24Hour={true} onChange={(d)=>{
                    if(d.type === "set"){
                        if(dateShow1){
                            setStartPoint(new Date(d.nativeEvent.timestamp)); 
@@ -34,9 +36,32 @@ function CustomDatePicker({start=true,end=true,startPoint,setStartPoint,endPoint
                            setEndPoint(new Date(d.nativeEvent.timestamp)); 
                        }
                     }
-                    setDateShow1(false); 
+                    setDateShow1(false);
                     setDateShow2(false); 
                }} />
+           }
+           {checkPlatform ? (end ? 
+           <>
+               <DateTimePicker locale="ko" testID="dateTimePicker" value={startPoint} style={{width: 102}} mode="date" is24Hour={true} onChange={(d)=>{
+                   if(d.type === "set"){
+                        setStartPoint(new Date(d.nativeEvent.timestamp)); 
+                    }
+               }} />
+               <FontText>  ~  </FontText>
+               <DateTimePicker locale="ko" testID="dateTimePicker" value={endPoint} style={{width: 102}} mode="date" is24Hour={true} onChange={(d)=>{
+                   if(d.type === "set"){
+                        setEndPoint(new Date(d.nativeEvent.timestamp)); 
+                    }
+               }} />
+               </>
+               : 
+               <DateTimePicker locale="ko" testID="dateTimePicker" value={startPoint} style={{width: 96}} mode="date" is24Hour={true} onChange={(d)=>{
+                   if(d.type === "set"){
+                        setStartPoint(new Date(d.nativeEvent.timestamp)); 
+                    }
+               }} />)
+               : <></>
+
            }
         </View>
 

@@ -58,7 +58,7 @@ function MemoriesDetailScreen({navigation}) {
                         <Pressable onPress={() => {
                             navigation.navigate("memoriesList");
                         }}>
-                            <AntDesign name="left" size={24} color={colors.white} />
+                            <AntDesign name="left" size={24} color={colors.mid} />
                         </Pressable>
                 )
             }

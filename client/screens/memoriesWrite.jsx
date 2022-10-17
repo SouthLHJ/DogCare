@@ -46,7 +46,7 @@ function MemoriesWriteScreen({ navigation, route }) {
 
                         if (!(date && title && description)) {
                             setLoaded(false);
-                            Alert.alert("", "추억을 남기기 위해서는 필수요소들을 작성 해 주세요!");
+                            Alert.alert("", "추억을 남기기 위해서는 필수요소들을 작성해야합니다.");
                             return;
                         } else if (route.params?.type) {
                             if (imageUri && imageData) {

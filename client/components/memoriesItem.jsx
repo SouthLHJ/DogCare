@@ -74,6 +74,10 @@ function MemoriesItem({ item, onRefresh }) {
                             <Pressable style={{ flexDirection: "row", alignItems: "baseline" }} onPress={() => {
                                 Alert.alert(item.title, "해당 추억을 삭제하시겠습니까?", [
                                     {
+                                        text: "취소",
+                                        style: "cancel"
+                                    },
+                                    {
                                         text: "삭제",
                                         onPress: () => {
                                             deleteMemory(item._id)

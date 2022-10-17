@@ -61,7 +61,13 @@ function MypageAccountScreen() {
             "","프로필을 수정하시겠습니까? 자동 로그아웃됩니다.",[{
                 text : "취소",
             },{
-                text : "확인", onPress : ()=>onEdit()
+                text : "확인", onPress : ()=> {
+                    if(rePw) {
+                        onEdit()
+                    } else {
+                        Alert.alert("", "정보 수정을 위해서는 비밀번호 입력이 필요합니다.");
+                    }
+                }
             }]
         )
     }
@@ -85,7 +91,7 @@ function MypageAccountScreen() {
                     })
             }else{
                 Alert.alert(
-                    "",`${rcv.msg}`
+                    "",`정보 수정에 실패하였습니다.`
                 )
             }
          })

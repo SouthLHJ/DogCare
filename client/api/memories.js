@@ -3,18 +3,20 @@ import {Buffer} from 'buffer'
 
 
 
-// const ip = "http://192.168.4.56:8080/util/memories";
+const ip = "http://192.168.4.56:8080/util/memories";
 // const ip = "http://192.168.35.47:8080/util/memories";
-const ip  = "http://221.156.95.190:8080/util/memories";
+// const ip  = "http://221.156.95.190:8080/util/memories";
 
 
 
 
 
 export async function getMyList(token) {
-    // console.log(token)
+    console.log(token);
     try{
         const res = await axios.get(`${ip}/myList?token_id=${token}`);
+        console.log(res)
+        
 
         return res.data;
     }catch(e) {
