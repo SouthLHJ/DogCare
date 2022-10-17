@@ -171,9 +171,13 @@ function NewWalkScreen() {
         
         <View style={{flex: 1,alignItems : "center"}}>
             {startIcon ?
-            <Image source={require("../assets/puppy.gif")} style={styles.img} resizeMode="contain"/>
+            <View style={styles.img}>
+                <Image source={require("../assets/puppy.gif")} style={styles.imgInner} resizeMode="contain"/>
+            </View>
             :    
-            <Image source={require("../assets/puppy_stop.gif")} style={styles.img} resizeMode="contain"/>
+            <View style={styles.img}>
+                <Image source={require("../assets/puppy_stop.gif")} style={styles.imgInner} resizeMode="contain"/>
+            </View>
             }
             {startIcon ?
             <TouchableOpacity style={styles.button} onPress={()=>onWalkingStop()}>
@@ -209,8 +213,15 @@ const styles = StyleSheet.create({
     },
 
     img : {
-        flex : 1,
-        width  : "85%",
+        width  : 280,
+        height  : 280,
+        marginVertical: 32,
+        borderRadius: 12,
+        overflow: "hidden",
+    },
+    imgInner: {
+        width: "100%",
+        height: "100%"
     },
 
     buttonContainer :{

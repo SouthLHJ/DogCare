@@ -87,7 +87,10 @@ function MemoriesListScreen({ navigation, route }) {
                             accessibilityLabel="listType-switch-selector"
                           />
                     </View>
-                    {list.length === 0 ? <FontText>추억을 남겨보세요!</FontText>
+                    {list.length === 0 ? 
+                    <View style={{flex: 1, justifyContent: "center"}}>
+                        <FontText title={true} bold={true}>추억을 남겨보세요!</FontText>
+                    </View>
                         :
                         <FlatList style={styles.scroll} data={list} renderItem={({ item }) => {
                             return <MemoriesItem item={item} onRefresh={() => {

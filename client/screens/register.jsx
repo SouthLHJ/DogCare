@@ -125,7 +125,7 @@ function RegisterScreen({navigation}) {
             <TextInput  style={[globalStyles.input,styles.input]}  onChangeText={(text)=>setNick(text)}
             value={nick}   keyboardType="email-address"/>
 
-            <View style={{marginBottom : 15}}>
+            <View style={{marginBottom : 15}}> 
                 <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>생년월일</FontText>
                 <CustomDatePicker start={true} end={false} startPoint={date} setStartPoint={setDate}/>
             </View>
