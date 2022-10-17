@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "my dog",
-    "slug": "내새꾸",
+    "slug": "myDog",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.jpg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/icon.jpg",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,18 +18,27 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "version": 1,
+      "package": "com.cler.myDog"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2c97a70d-42c6-4b3b-9048-bcd8bd464374"
+      }
     }
-  },"plugins": [
+  },
+  "plugins": [
     [
       "expo-image-picker",
       {

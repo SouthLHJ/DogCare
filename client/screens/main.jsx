@@ -26,7 +26,7 @@ function NoneUser (){
     const {main, white, mid} = colors;
     return (
         <>
-            <Stack.Navigator screenOptions={{tabBarActiveTintColor: mid, headerShown : false, unmountOnBlur: true, headerStyle: {backgroundColor: "white"}, headerTitleAlign: "center", headerTitle: () => {
+            <Stack.Navigator screenOptions={{headerBackVisible : false, headerShown : false, unmountOnBlur: true, headerStyle: {backgroundColor: "white"}, headerTitleAlign: "center", headerTitle: () => {
                 return (<View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row" }}>
                 <FontText title={true} bold={true} style={{ fontSize: 24, color: colors.dark, marginHorizontal: 2 }}>
                     내새꾸
