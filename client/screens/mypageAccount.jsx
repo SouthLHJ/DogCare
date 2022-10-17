@@ -22,8 +22,11 @@ function MypageAccountScreen() {
     const [birth, setBirth] = useState(new Date());
 
 
-    useEffect(()=>{
+    useEffect(() => {
         onRefresh();
+    }, [])
+
+    useEffect(()=>{
         navigation.setOptions({
             headerLeft: () => {
                 return (
@@ -44,7 +47,7 @@ function MypageAccountScreen() {
                 )
             }
         });
-    },[])
+    },[rePw, name, contact, birth])
 
     //func
     const moveBack = ()=>{
@@ -58,6 +61,7 @@ function MypageAccountScreen() {
     }
 
     const onEditButton = ()=>{
+        console.log(rePw, name, contact, birth)
         Alert.alert(
             "","프로필을 수정하시겠습니까? 자동 로그아웃됩니다.",[{
                 text : "취소",
