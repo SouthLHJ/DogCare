@@ -7,6 +7,7 @@ import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FontText from '../customs/fontText';
 import { deleteOneConsume, readConsumeAll } from '../api/consume';
 import { AppContext } from '../contexts/app-context';
+import { Feather } from '@expo/vector-icons';
 import globalStyles, { colors } from '../customs/globalStyle';
 
 function DeleteConsume() {
@@ -29,8 +30,8 @@ function DeleteConsume() {
                 <FontText style={styles.textRow}>{one.ammount}</FontText>, 
                 <FontText style={styles.textRow}>{one.description}</FontText>,
                 <View style={{alignItems : "center"}}>
-                    <TouchableOpacity onPress={()=>onDelete(one._id)} style={[styles.register]}>
-                        <FontText style={[styles.textRow,{color : 'white'}]}>삭제</FontText>
+                    <TouchableOpacity onPress={()=>onDelete(one._id)} style={{}}>
+                        <Feather name="trash" size={22} color={colors.mid} />
                     </TouchableOpacity>
                 </View>
                 ]
@@ -76,7 +77,7 @@ function DeleteConsume() {
     const tableTitle = [
         <FontText style={styles.textTitle}>날짜</FontText>,
         <FontText style={styles.textTitle}>카테고리</FontText>,
-        <FontText style={styles.textTitle}>소비가격</FontText>,
+        <FontText style={styles.textTitle}>소비액</FontText>,
         <FontText style={styles.textTitle}>내용</FontText>,
         <FontText style={styles.textTitle}>삭제</FontText>,
     ]

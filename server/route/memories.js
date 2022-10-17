@@ -33,8 +33,12 @@ router.post("/write", async (req, res)=>{ // 추억 등록
 router.get("/myList", async (req, res)=>{ // 나의 추억 
     
     try {
+        console.log(req.query);
+
         const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
         const memoriesList = await Memories.find({userId: verifyToken.token_id}).sort("-date").lean();
+
+        console.log(memoriesList);
 
         res.json({result: true, list: memoriesList });
     } catch(err) {
@@ -64,7 +68,7 @@ router.post("/edit", async (req, res)=>{ // 추억 수정
         if(haveToDel) {
             const base = path.resolve();
             const lastFileName = haveToDel.split("/")[(haveToDel.split("/").length) -1]
-            fs.rm(path.join(base, "storage", "memories", lastFileName));
+            fs.rmSync(path.join(base, "storage", "memories", lastFileName));
         };
 
         const delMemo = await Memories.findOneAndUpdate(req.query.id, {date: req.body.date, title: req.body.title, description: req.body.description, image: req.body.image ? req.body.image : null, public: req.body.public});
@@ -78,17 +82,19 @@ router.post("/edit", async (req, res)=>{ // 추억 수정
 
 router.get("/delete", async (req, res)=>{ // 삭제
     try {
+        console.log("req.query", req.query);
         const delMemo = await Memories.findByIdAndDelete(req.query.id);
 
         const haveToDel = delMemo.image;
+
         if(haveToDel) {
             console.log("haveToDel", haveToDel);
             const base = path.resolve();
             const lastFileName = haveToDel.split("/")[(haveToDel.split("/").length) -1]
-            fs.rm(path.join(base, "storage", "memories", lastFileName));
+            fs.rmSync(path.join(base, "storage", "memories", lastFileName));
         };
 
-        console.log("delMemo",delMemo)
+        console.log("delMemo", delMemo)
         res.json({result: true, data: delMemo});
     } catch(err) {
         res.json({result: false, msg: err.message});

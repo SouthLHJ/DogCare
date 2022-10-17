@@ -9,6 +9,7 @@ import MemoriesItem from "../components/memoriesItem";
 import { getAllList, getMyList } from "../api/memories";
 import { useIsFocused } from "@react-navigation/native";
 import SwitchSelector from "react-native-switch-selector"
+import { getDogInfo } from "../api/dog";
 
 function MemoriesListScreen({ navigation, route }) {
     const [refresh, setRefresh] = useState(1);
@@ -17,8 +18,19 @@ function MemoriesListScreen({ navigation, route }) {
     const [listType, setListType] = useState("my");
     const { auth } = useContext(AppContext);
     const isFocused = useIsFocused();
+    const [hasDog, setHasDog] = useState(false);
 
     useEffect(() => {
+        getDogInfo(auth.token)
+            .then((rcv) => {
+                if (rcv.result) {
+                    setHasDog(rcv.data ? true : false);
+                } else {
+                    console.log(rcv.msg);
+                };
+            }).catch((err) => {
+                console.log("getDog === ", err.message);
+            });
         // console.log(auth);
 
         if (listType === "all") {
@@ -61,8 +73,21 @@ function MemoriesListScreen({ navigation, route }) {
             {loaded ? <Loading /> : <></>}
             <View style={styles.memoriesBox}>
                 <Pressable style={[globalStyles.button, styles.button]} onPress={() => {
-                    // console.log("작성");
-                    navigation.navigate("memoriesWrite");
+                    if (!hasDog) {
+                        Alert.alert("", "이 기능을 이용하려면 반려견을 등록해야합니다. 등록 페이지로 갈까요?", [{
+                            text: "확인",
+                            onPress: () => {
+                                navigation.navigate("mypageMain");
+
+                            }
+                        },
+                        {
+                            text: "취소",
+                            style: "cancel"
+                        }]);
+                    } else {
+                        navigation.navigate("memoriesWrite");
+                    }
                 }}>
                     <MaterialIcons name="add" size={32} color="white" />
                 </Pressable>
@@ -71,7 +96,7 @@ function MemoriesListScreen({ navigation, route }) {
                 </View> */}
                 <View style={styles.listBox}>
                     <View style={styles.chooseList}>
-                            <SwitchSelector
+                        <SwitchSelector
                             initial={0}
                             onPress={value => setListType(value)}
                             textColor={colors.sub}
@@ -81,16 +106,16 @@ function MemoriesListScreen({ navigation, route }) {
                             hasPadding
                             options={[
                                 { label: "우리의 이야기", value: "my" },
-                                { label: "모두의 이야기", value: "all" }, 
+                                { label: "모두의 이야기", value: "all" },
                             ]}
                             testID="listType-switch-selector"
                             accessibilityLabel="listType-switch-selector"
-                          />
+                        />
                     </View>
-                    {list.length === 0 ? 
-                    <View style={{flex: 1, justifyContent: "center"}}>
-                        <FontText title={true} bold={true}>추억을 남겨보세요!</FontText>
-                    </View>
+                    {list.length === 0 ?
+                        <View style={{ flex: 1, justifyContent: "center" }}>
+                            <FontText title={true} bold={true} style={{fontSize: 16}}>추억을 남겨보세요!</FontText>
+                        </View>
                         :
                         <FlatList style={styles.scroll} data={list} renderItem={({ item }) => {
                             return <MemoriesItem item={item} onRefresh={() => {

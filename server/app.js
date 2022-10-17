@@ -15,7 +15,7 @@ import comment from "./route/comment.js";
  
 
 const app = express();
-dotenv.config();
+dotenv.config(); 
 
 mongoose.connect(process.env.MONGODB_URI, { dbName: "dogCare" });
  

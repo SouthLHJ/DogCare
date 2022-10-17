@@ -27,7 +27,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "version": 1,
-      "package": "com.cler.myDog"
+      "package": "com.pogeu.myDog"
     },
     "web": {
       "favicon": "./assets/favicon.png"

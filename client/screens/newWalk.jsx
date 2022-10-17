@@ -4,8 +4,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-import { useEffect, useRef, useState } from "react";
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Alert, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getCurrentPositionAsync,useForegroundPermissions,PermissionStatus} from 'expo-location';
 
@@ -16,15 +16,18 @@ import Loading from "../customs/loading";
 import WalkRegister from '../components/walkRegister';
 import { latlng_xy_convert } from '../customs/latlng2xy';
 import { useIsFocused } from '@react-navigation/native';
+import { getDogInfo } from '../api/dog';
+import { AppContext } from '../contexts/app-context';
 
 
-function NewWalkScreen() { 
+function NewWalkScreen({navigation}) { 
     // Permission 허용받기
     const [locationPermission, requestLocationPermission] = useForegroundPermissions();
     const latRef = useRef();
     const lngRef = useRef();
     const [weather,setWeather] = useState(null);
     const isfocus = useIsFocused();
+    const {auth} = useContext(AppContext);
 
 
     const time1 = useRef();
@@ -33,7 +36,20 @@ function NewWalkScreen() {
 
     const [modal, setModal] = useState(false);
 
-    useEffect(()=>{
+    const [hasDog, setHasDog] = useState(false);
+
+    useEffect(()=>{ 
+        getDogInfo(auth.token)
+            .then((rcv) => {
+                if (rcv.result) {
+                    setHasDog(rcv.data ? true : false);
+                } else {
+                    console.log(rcv.msg);
+                };
+            }).catch((err) => {
+                console.log("getDog === ", err.message);
+            });
+
         onRefreshWeather();
         async function load(){
             try{
@@ -52,6 +68,20 @@ function NewWalkScreen() {
 
     //func
     const onWalkingStart = ()=>{
+        if(!hasDog) {
+            Alert.alert("", "이 기능을 이용하려면 반려견을 등록해야합니다. 등록 페이지로 갈까요?", [{
+                text: "확인",
+                onPress: () => {
+                    navigation.navigate("mypageMain");
+                }
+            },
+        {
+            text: "취소",
+            style: "cancel"
+        }]);
+
+            return;
+        }
         if(!startIcon){
             AsyncStorage.setItem("walkStart", JSON.stringify(new Date()));
             time1.current = new Date();

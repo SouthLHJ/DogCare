@@ -33,7 +33,7 @@ function ListConsume() {
     const tableTitle = [
         <FontText style={styles.textTitle}>날짜</FontText>,
         <FontText style={styles.textTitle}>카테고리</FontText>,
-        <FontText style={styles.textTitle}>소비가격</FontText>,
+        <FontText style={styles.textTitle}>소비액</FontText>,
         <FontText style={styles.textTitle}>내용</FontText>,
     ]
 

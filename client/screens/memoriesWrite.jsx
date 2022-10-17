@@ -33,7 +33,9 @@ function MemoriesWriteScreen({ navigation, route }) {
         navigation.setOptions({
             headerRight: () => {
                 return (
-                    <Pressable onPress={() => {
+                    <TouchableOpacity onPress={(tt) => {
+                        setLoaded(true);
+
                         const data = {
                             token_id: auth.token,
                             date: date,
@@ -41,8 +43,8 @@ function MemoriesWriteScreen({ navigation, route }) {
                             description: description,
                             public: isPublic
                         };
-                        console.log(data);
-                        setLoaded(true);
+
+                        console.log("loaded", loaded)
 
                         if (!(date && title && description)) {
                             setLoaded(false);
@@ -105,7 +107,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                         setLoaded(false);
                     }}>
                         <AntDesign name="checkcircleo" size={24} color={colors.mid} />
-                    </Pressable>
+                    </TouchableOpacity>
                 )
             },
             headerLeft: () => {
@@ -118,13 +120,12 @@ function MemoriesWriteScreen({ navigation, route }) {
                 )
             }
         });
-    }, [isFocused, title, description, imageData, imageUri, isPublic]);
+    }, [isFocused, title, description, imageData, imageUri, isPublic, loaded]);
 
     useEffect(() => {
 
         if (route.params?.type) {
             const currentItem = route.params.item;
-            console.log(currentItem)
             setDate(new Date(currentItem?.date));
             setTitle(currentItem?.title)
             setDesc(currentItem?.description)
@@ -208,7 +209,7 @@ function MemoriesWriteScreen({ navigation, route }) {
         <SafeAreaView>
             <KeyboardAvoidingView behavior={behavior}>
                 {loaded ? <Loading /> : <></>}
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
+                <TouchableWithoutFeedback  onPress={Keyboard.dismiss} style={{ flex: 1 }}>
                     <View style={{ padding: 12, height: '100%' }}>
 
                         <View style={styles.inputBox}>

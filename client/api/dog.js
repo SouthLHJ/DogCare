@@ -135,5 +135,15 @@ export async function checkingMedicine(id) {
     };
 };
 
+export async function getChecked(id) {
+    try{
+        const res = await axios.get(`${ip}/lastCheck?id=${id}`);
+
+        return res.data;
+    }catch (e) {
+        return {result: false, msg: e.message};
+    };
+};
+
 
 

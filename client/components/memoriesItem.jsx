@@ -57,8 +57,8 @@ function MemoriesItem({ item, onRefresh }) {
                     }
                 </View>
                 <View style={{flex: 1, marginLeft: item.image ? 8 : 0, padding: 6, backgroundColor: "white", borderRadius: 6}}>
-                    <FontText style={{flex: 1}}>
-                        {item.description}
+                    <FontText style={{flex: 1, fontSize: 14}}>
+                        {item.description.length > 26 ? item.description.slice(0, 26) + "..." : item.description}
                     </FontText>
                 {myMemory ?
                     <View style={styles.iconBox}>
@@ -91,6 +91,7 @@ function MemoriesItem({ item, onRefresh }) {
                                                     console.log(err.message);
                                                 });
                                             onRefresh();
+                                            return;
                                         }
                                     }
                                 ])
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
     iconBox: {
         flexDirection: "row",
         marginVertical: 4,
+        justifyContent: "flex-end"
     },
     icon: {
         justifyContent: "flex-end"

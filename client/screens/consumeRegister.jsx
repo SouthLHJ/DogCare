@@ -11,13 +11,13 @@ function ConsumeRegisterScreen() {
     return (  
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={globalStyles.container}>
-        <View style={{marginVertical : 10, paddingBottom : 17, borderBottomColor : colors.light, borderBottomWidth : 2}}>
+        <View style={{ marginVertical : 10, paddingBottom : 17, borderBottomColor : colors.light, borderBottomWidth : 2, zIndex: 1000}}>
             <RegisterConsume />
         </View>
 
-        <ScrollView style={{flex : 1}}>
+        <View>
             <DeleteConsume />
-        </ScrollView>
+        </View>
     </View>
     </TouchableWithoutFeedback>
     );

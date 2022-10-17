@@ -2,7 +2,7 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 
 import { useIsFocused, useRoute } from "@react-navigation/native";
 import { useContext, useEffect, useState } from "react";
-import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View, Pressable } from "react-native";
+import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View, Pressable, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { readUserId } from "../api/account";
 import { getList, writeComment } from '../api/comment';
 import { addCommentMemory, heartReq, updateHeartMemory } from "../api/memories";
@@ -11,7 +11,7 @@ import FontText from "../customs/fontText";
 import globalStyles, { colors } from "../customs/globalStyle";
 import Loading from "../customs/loading";
 
-function MemoriesDetailScreen({navigation}) {
+function MemoriesDetailScreen({ navigation }) {
     const { auth } = useContext(AppContext);
     const route = useRoute();
     const [item, setItem] = useState();
@@ -55,11 +55,11 @@ function MemoriesDetailScreen({navigation}) {
         navigation.setOptions({
             headerLeft: () => {
                 return (
-                        <Pressable onPress={() => {
-                            navigation.navigate("memoriesList");
-                        }}>
-                            <AntDesign name="left" size={24} color={colors.mid} />
-                        </Pressable>
+                    <Pressable onPress={() => {
+                        navigation.navigate("memoriesList");
+                    }}>
+                        <AntDesign name="left" size={24} color={colors.mid} />
+                    </Pressable>
                 )
             }
         });
@@ -68,7 +68,7 @@ function MemoriesDetailScreen({navigation}) {
 
     //func
     const onHeart = (checking) => {
-        console.log(item._id, auth.id, checking )
+        console.log(item._id, auth.id, checking)
         heartReq(item._id, auth.id, checking)
             .then((rcv) => {
                 setLiked(checking)
@@ -88,26 +88,27 @@ function MemoriesDetailScreen({navigation}) {
     }
 
     return (
-        <View style={[globalStyles.container, styles.container]}>
-            <View style={styles.titleBox}>
-                <View style={{flexDirection:"row", alignItems: "baseline"}}>
-                <FontText title={true} bold={true} style={[globalStyles.textTitle]}>{item?.title}</FontText>
-                <FontText style={styles.textSmall}>/ {item?.date.split("T")[0]}</FontText>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
+            <View style={[globalStyles.container, styles.container]}>
+                <View style={styles.titleBox}>
+                    <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+                        <FontText title={true} bold={true} style={[globalStyles.textTitle]}>{item?.title}</FontText>
+                        <FontText style={styles.textSmall}>/ {item?.date.split("T")[0]}</FontText>
+                    </View>
+                    <FontText style={[globalStyles.textNomal, styles.textName]}>{name}</FontText>
                 </View>
-                <FontText style={[globalStyles.textNomal, styles.textName]}>{name}</FontText>
-            </View>
-            <View style={styles.recordBox}>
-                <View>
-                    <FontText style={styles.textSmall}>View : {item?.view ?? 0}</FontText>
-                </View>
-                <View>
-                    <FontText style={styles.textSmall}>좋아요 : {item?.heart?.length ?? 0}</FontText>
-                </View>
-                <View>
-                    <FontText style={styles.textSmall}>댓글 : {item?.comment?.length ?? 0}</FontText>
-                </View>
-                <View>
-                    {liked ?
+                <View style={styles.recordBox}>
+                    <View>
+                        <FontText style={styles.textSmall}>View : {item?.view ?? 0}</FontText>
+                    </View>
+                    <View>
+                        <FontText style={styles.textSmall}>좋아요 : {item?.heart?.length ?? 0}</FontText>
+                    </View>
+                    <View>
+                        <FontText style={styles.textSmall}>댓글 : {commentList?.length ?? 0}</FontText>
+                    </View>
+                    <View>
+                        {liked ?
                             <TouchableOpacity onPress={() => onHeart(false)}>
                                 <Ionicons name="heart-sharp" size={18} color={colors.mid} />
                             </TouchableOpacity>
@@ -115,50 +116,51 @@ function MemoriesDetailScreen({navigation}) {
                             <TouchableOpacity onPress={() => onHeart(true)}>
                                 <Ionicons name="heart-outline" size={18} color={colors.mid} />
                             </TouchableOpacity>
+                        }
+                    </View>
+                </View>
+
+                <View style={{ backgroundColor: colors.light, borderRadius: 6, margin: 12, padding: 8 }}>
+                    {item?.image ?
+                        <Image source={{ uri: item?.image }} style={styles.image} resizeMode='cover' />
+                        : <></>
                     }
+                    <View style={styles.descriptionBox}>
+                        <FontText title={true} style={[globalStyles.textNomal]}>{item?.description}</FontText>
+                    </View>
+                    <View style={{ alignItems: "flex-end" }}>
+                        {item?.public && <FontText style={styles.textSmall}>공개글</FontText>}
+                    </View>
                 </View>
-            </View>
 
-            <View style={{backgroundColor: colors.light, borderRadius: 6, margin: 12, padding: 8}}>
-            {item?.image ?
-                <Image source={{ uri: item?.image }} style={styles.image} resizeMode='cover' />
-                : <></>
-            }
-            <View style={styles.descriptionBox}>
-                <FontText title={true} style={[globalStyles.textNomal]}>{item?.description}</FontText>
-            </View>
-            <View style={{ alignItems: "flex-end" }}>
-                {item?.public && <FontText style={styles.textSmall}>공개글</FontText>}
-            </View>
-            </View>
-
-            <View>
-                <View style={styles.commentInputBox}>
-                    <TextInput style={{ flex: 1 }}
-                        onChangeText={(text) => { setComment(text) }} value={comment}
-                    />
-                    <TouchableOpacity style={styles.commentRegister} onPress={() => onComment()}>
-                        <FontText style={[globalStyles.textNomal, { color: "white" }]}>등록</FontText>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ marginTop: 10 }}>
+                <View>
+                    <View style={styles.commentInputBox}>
+                        <TextInput style={{ flex: 1 }}
+                            onChangeText={(text) => { setComment(text) }} value={comment} placeholder="댓글을 입력해주세요."
+                        />
+                        <TouchableOpacity style={styles.commentRegister} onPress={() => onComment()}>
+                            <FontText style={[globalStyles.textNomal, { color: "white" }]}>등록</FontText>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ marginTop: 14, paddingHorizontal: 12 }}>
                         <FlatList data={commentList}
                             renderItem={({ item }) => {
                                 return (
                                     <View style={styles.commentBox}>
                                         <View style={styles.commentUser}>
-                                            <FontText style={{fontSize: 14}}>{item.userName}</FontText>
+                                            <FontText style={{ fontSize: 14 }}>{item.userName}</FontText>
                                         </View>
                                         <View style={styles.commentDesc}>
-                                        <FontText style={{fontSize: 14, textAlign: "justify", lineHeight: 16}}>{item.comment}</FontText>
+                                            <FontText style={{ fontSize: 14, textAlign: "justify", lineHeight: 16 }}>{item.comment}</FontText>
                                         </View>
                                     </View>
                                 )
                             }}
                         />
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -166,7 +168,10 @@ export default MemoriesDetailScreen;
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        marginTop: 12,
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12
     },
     titleBox: {
         borderBottomWidth: 1,
@@ -185,14 +190,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     image: {
-        width: 320,
+        width: "98%",
         height: 180,
         borderRadius: 8,
         marginVertical: 4,
         alignSelf: "center",
     },
     descriptionBox: {
-        width: 320,
+        width: "98%",
         alignSelf: "center",
         marginBottom: 4,
         marginTop: 8,
@@ -201,7 +206,8 @@ const styles = StyleSheet.create({
         padding: 8
     },
     textSmall: {
-        fontSize: 12
+        fontSize: 12,
+        margin: 4
     },
     commentInputBox: {
         flexDirection: "row",
@@ -227,7 +233,7 @@ const styles = StyleSheet.create({
     commentUser: {
     },
     commentDesc: {
-        backgroundColor: "#DDD",
+        backgroundColor: colors.light,
         borderRadius: 8,
         padding: 6,
         paddingVertical: 8,

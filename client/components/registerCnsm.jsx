@@ -4,7 +4,8 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-import {  StyleSheet, Text, TextInput, TouchableOpacity,View } from "react-native";
+import {  Alert, StyleSheet, Text, TextInput, TouchableOpacity,View } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
 import { useContext, useState } from 'react';
 import globalStyles, { colors } from '../customs/globalStyle';
 import FontText from '../customs/fontText';
@@ -34,19 +35,19 @@ function RegisterConsume() {
                 <CustomDatePicker end={false} setStartPoint={setDate} startPoint={date} textStyle={{fontSize : 10}}/>
             </View>,
             <View style={{alignItems : "center"}}>
-                <TouchableOpacity onPress={()=>setSelectedItemShow(!selectedItemShow)} style={[styles.register]}>
-                    <FontText style={[styles.textRow,{color : 'white'}]}>{selectedItem?.title}</FontText>
+                <TouchableOpacity onPress={()=>setSelectedItemShow(!selectedItemShow)} style={[styles.register, {marginVertical: 2}]}>
+                    <FontText style={[styles.textRow,{color : 'white', marginVertical: 8}]}>{selectedItem?.title}</FontText>
                 </TouchableOpacity>
             </View>,
             <View style={{flexDirection : "row", justifyContent : "center"}}>
-                <TextInput style={styles.textRow}  keyboardType='number-pad' onChangeText={(text)=>setPrice(text)} value={price}/>
+                <TextInput style={[styles.textRow, {width: "100%"}]}  keyboardType='number-pad' onChangeText={(text)=>setPrice(text)} value={price}/>
             </View>,
             <View style={{flexDirection : "row", justifyContent : "center"}}>
-                <TextInput style={styles.textRow} keyboardType='email-address'  onChangeText={(text)=>setComment(text)} value={comment}/>
+                <TextInput style={[styles.textRow, {width: "100%"}]} keyboardType='email-address'  onChangeText={(text)=>setComment(text)} value={comment}/>
             </View>,
             <View style={{alignItems : "center"}}>
-                <TouchableOpacity onPress={()=>onRegister()} style={[styles.register,]}>
-                    <FontText style={[styles.textRow,{color : 'white'}]}>등록</FontText>
+                <TouchableOpacity onPress={()=>onRegister()} style={{width : "60%", justifyContent : "center", alignItems :"center"}}>
+                        <AntDesign name="checkcircleo" size={22} color={colors.mid} />
                 </TouchableOpacity>
             </View>
         ]
@@ -54,6 +55,11 @@ function RegisterConsume() {
 
     //func
     const onRegister = ()=>{
+        if(!(date && selectedItem.title && price)) {
+            Alert.alert("", "날짜와 카테고리, 소비액은 필수 입력 요소입니다.");
+            return;
+        };
+
         const data = {
             userId : context.auth.id,
             date : date,
@@ -71,6 +77,8 @@ function RegisterConsume() {
             }
          })
          .catch(err=>console.log("writeConsume  => ", err))
+
+         setSelectedItem({id: '1', title: '용품'})
     }
 
     const onRefresh = ()=>{
@@ -86,7 +94,7 @@ function RegisterConsume() {
     const tableTitle = [
         <FontText style={styles.textTitle}>날짜</FontText>,
         <FontText style={styles.textTitle}>카테고리</FontText>,
-        <FontText style={styles.textTitle}>소비가격</FontText>,
+        <FontText style={styles.textTitle}>소비액</FontText>,
         <FontText style={styles.textTitle}>내용</FontText>,
         <FontText style={styles.textTitle}>등록</FontText>,
     ]
@@ -105,8 +113,10 @@ function RegisterConsume() {
                     clearOnFocus={false}
                     closeOnBlur={true}
                     closeOnSubmit={false}
-                    initialValue={{id: '0', title: ""}} // or just '2'
-                    onSelectItem={setSelectedItem}
+                    initialValue={selectedItem} // or just '2'
+                    onSelectItem={(item) => setSelectedItem((current) => {
+                        return item ? item : current;
+                    })}
                     onChangeText={(text)=>setSelectedItem({id: '0', title: text})}
                     dataSet={[
                     {id: '1', title: '용품'},
@@ -131,10 +141,9 @@ const styles = StyleSheet.create({
         justifyContent : "center",
         alignItems :"center",
 
-        paddingVertical : 2,
 
         backgroundColor : colors.mid,
-        borderRadius : 8,
+        borderRadius : 6,
     },
 
     // 표

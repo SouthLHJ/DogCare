@@ -12,6 +12,7 @@ function MypageListScreen({ navigation, route }) {
     const [loaded, setLoaded] = useState(false);
     const [myDog, setMyDog] = useState(null);
     const { auth, dispatch } = useContext(AppContext)
+    const [rerender, setRerender] = useState(1);
     const isFocused = useIsFocused();
 
 
@@ -36,7 +37,7 @@ function MypageListScreen({ navigation, route }) {
             }
         });
 
-    }, [isFocused]);
+    }, [isFocused, rerender]);
 
     const getDogsOlder = (dogsBirth) => {
         const now = Date.now();
@@ -118,19 +119,28 @@ function MypageListScreen({ navigation, route }) {
                                 </View>
                             </View>
                                 <Pressable style={{ alignSelf: "flex-start", marginVertical: 12 }} onPress={() => {
-                                    setLoaded(true);
-                                    deletetDog(myDog._id)
-                                        .then((rcv) => {
-                                            if(rcv.result) {
-                                                console.log("삭제");
-                                            } else {
-                                                console.log(rcv.msg);
-                                            };
-                                        }).catch((err) => {
-                                            console.log(err.message);
-                                        }).finally(() => {
-                                            setLoaded(false);
-                                        });
+                                    Alert.alert("", "'" + myDog.name + "' 의 등록을 취소하겠습니까?", [{
+                                        text: "확인",
+                                        onPress: () => {
+                                            setLoaded(true);
+                                            deletetDog(myDog._id)
+                                                .then((rcv) => {
+                                                    if(rcv.result) {
+                                                        console.log("삭제");
+                                                        setRerender(rerender * -1);
+                                                    } else {
+                                                        console.log(rcv.msg);
+                                                    };
+                                                }).catch((err) => {
+                                                    console.log(err.message);
+                                                }).finally(() => {
+                                                    setLoaded(false);
+                                                });
+                                        }
+                                    }, {
+                                        text: "취소",
+                                        style: "cancel"
+                                    }])
                                 }}>
                                     <Feather name="trash" size={18} color="gray" />
                                 </Pressable>
@@ -145,9 +155,9 @@ function MypageListScreen({ navigation, route }) {
                 <View style={styles.listBox}>
                     <TouchableOpacity style={styles.listItem} onPress={() => {
                         if (myDog) {
-                            navigation.navigate("checkList", {currentData: myDog});
+                            navigation.navigate("checkList", {dogId: myDog._id, dogName: myDog.name});
                         } else {
-                            Alert.alert("", "이 기능을 이용하려면 반려견을 등록 해 주세요!");
+                            Alert.alert("", "이 기능을 이용하려면 반려견을 등록해야합니다.");
                         }
                     }}>
                         <FontText bold="semi" style={styles.listText}>내새꾸와의 약속</FontText>

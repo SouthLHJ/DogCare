@@ -85,14 +85,14 @@ function RegisterScreen({ navigation }) {
 
     let idAlarm = (<FontText></FontText>)
     if (id) {
-        if (!(/[a-z0-9]{4,}/.test(id))) {
-            idAlarm = (<FontText style={[globalStyles.textAlarm, { fontSize: 10, textAlign: "right" }]}>4~20자의 영문 소문자만 사용가능합니다.</FontText>)
+        if (!(/^[a-z0-9]{4,}$/.test(id))) {
+            idAlarm = (<FontText style={[globalStyles.textAlarm, { fontSize: 10, textAlign: "right" }]}>공백없이 4~20자의 영문 소문자만 사용가능합니다.</FontText>)
         }
     }
     let passwordAlarm = (<FontText></FontText>)
     if (pw) {
-        if (!(/[a-zA-z0-9`~!@#$%^&*]{4,}/).test(pw)) {
-            passwordAlarm = (<FontText style={[globalStyles.textAlarm, { fontSize: 10, textAlign: "right" }]}>영문자, 숫자, 특수문자(`~!@#$%^&*)만 사용 가능합니다.</FontText>)
+        if (!(/^[a-zA-z0-9`~!@#$%^&*]{4,}$/).test(pw)) {
+            passwordAlarm = (<FontText style={[globalStyles.textAlarm, { fontSize: 10, textAlign: "right" }]}>공백없이 영문자, 숫자, 특수문자(`~!@#$%^&*)만 사용 가능합니다.</FontText>)
         }
     }
     let contactAlarm = (<FontText></FontText>)

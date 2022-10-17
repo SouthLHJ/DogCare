@@ -33,21 +33,6 @@ function ChoosePlaceModal({ category, visible, onCloseModal, setCategory, setLis
         }
         setLoaded(true);
 
-
-        if (Platform.OS === "android") {
-            const res = {
-                coords: {
-                    latitude: 35.1619397111,
-                    longitude: 126.851049769
-                }
-            };
-            console.log("여기", res.coords)
-
-            setItemCoordinate({ lat: res.coords.latitude, lng: res.coords.longitude, setting: true });
-            setCoordinate({ lat: res.coords.latitude, lng: res.coords.longitude, setting: true });
-            return { lat: res.coords.latitude, lng: res.coords.longitude, setting: true };
-            // await setMapInformation(res.coords.latitude, res.coords.longitude);
-        } else {
             try {
                 const locationRes = await getCurrentPositionAsync();
 
@@ -59,7 +44,6 @@ function ChoosePlaceModal({ category, visible, onCloseModal, setCategory, setLis
                 console.log(e.message);
                 return { setting: false };
             };
-        }
     };
 
 

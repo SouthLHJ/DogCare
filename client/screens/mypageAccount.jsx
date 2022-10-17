@@ -3,7 +3,7 @@ import { AntDesign,FontAwesome,MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { editUserProfile, readUserProfile, sendLogin } from '../api/account';
 import { AppContext } from '../contexts/app-context';
 import CustomDatePicker from '../customs/datePicker';
@@ -20,6 +20,7 @@ function MypageAccountScreen() {
     const [rePw,setRePw] = useState(null);
     const [contact, setContact] = useState();
     const [birth, setBirth] = useState(new Date());
+
 
     useEffect(()=>{
         onRefresh();
@@ -91,7 +92,7 @@ function MypageAccountScreen() {
                     })
             }else{
                 Alert.alert(
-                    "",`정보 수정에 실패하였습니다.`
+                    "",`정보 수정에 실패하였습니다. 비밀번호를 제대로 입력하지 않았거나 올바르지 않은 접근입니다.`
                 )
             }
          })
@@ -131,7 +132,8 @@ function MypageAccountScreen() {
     // console.log(profile,rePw)
 
     return (  
-    <View style={globalStyles.container}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
+    <View style={[globalStyles.container, {borderTopRightRadius: 12, borderTopLeftRadius: 12, marginTop: 12}]}>
         <ScrollView>
         <View style={styles.userInfoContainer}>
             <View style={[styles.box,{alignItems : "center"}]}>
@@ -148,7 +150,7 @@ function MypageAccountScreen() {
             <FontText></FontText>
 
             <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>사용자 번호</FontText>
-            <TextInput style={[globalStyles.input]} keyboardType='number-pad' onChangeText={(text)=>setContact(text)} value={`${contact}`}/>
+            <TextInput style={[globalStyles.input]} keyboardType='number-pad' onChangeText={(text)=>{setContact(text);}} value={contact}/>
             {contactAlarm}
 
             <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>사용자 생년월일</FontText>
@@ -161,6 +163,7 @@ function MypageAccountScreen() {
         </ScrollView>
 
     </View>
+    </TouchableWithoutFeedback>
     );
 }
 

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Alert, ListViewBase, StyleSheet, Text, View, ViewPagerAndroidBase, Pressable } from "react-native";
-import { checkingMedicine, checkingTeeth } from "../api/dog";
+import { checkingMedicine, checkingTeeth, getChecked } from "../api/dog";
 import { weeklyWalkCheck } from "../api/walk";
 import { AppContext } from "../contexts/app-context";
 import FontText from "../customs/fontText";
@@ -20,22 +20,29 @@ const getLocaleDate = (d) => {
 };
 
 const getLastDate = (d) => {
-    const today = new Date().setHours(0, 0, 0, 0);
-    const lastDay = new Date(d).setHours(0, 0, 0, 0);
-    const oneDay = 1000 * 60 * 60 * 24;
+    if(d) {
+        const today = new Date().setHours(0, 0, 0, 0);
+        const lastDay = new Date(d).setHours(0, 0, 0, 0);
+        const oneDay = 1000 * 60 * 60 * 24;
 
-    return (today - lastDay) / oneDay;
+        return (today - lastDay) / oneDay;
+    } else {
+        return null;
+    }
+
 };
 
 
 
 function MypageCheckScreen({ navigation, route }) {
-    const [dogData, setDogData] = useState(null);
+    const [dogName, setDogName] = useState(null);
+    const [dogId, setDogId] = useState(null);
     const [hasBrush, setHasBrush] = useState(false);
     const [hasTake, setHasTake] = useState(false);
     const [brushGap, setBrushGap] = useState(false);
     const [TakeGap, setTakeGap] = useState(false);
     const [walkCount, setWalkCount] = useState([]);
+    const [rerender, setRerender] = useState(1);
     const { auth } = useContext(AppContext);
     const isFocused = useIsFocused();
 
@@ -53,20 +60,26 @@ function MypageCheckScreen({ navigation, route }) {
             }
         });
     }, [isFocused]);
-
+ 
 
 
     useEffect(() => {
-        if (route.params?.currentData) {
-            setDogData(route.params.currentData);
+        if (route.params || rerender ) {
+            setDogId(route.params?.dogId);
+            setDogName(route.params?.dogName)
+            getChecked(route.params?.dogId ?? dogId)
+                .then((rcv) => {
+                    if(rcv.result) {
+                        const tDay = getLastDate(rcv.data.lastTeeth);
+                        const mDay = getLastDate(rcv.data.lastMedicine);
+                        
+                        setBrushGap(tDay);
+                        setTakeGap(mDay);
+                        setHasBrush(tDay === 0 ? true : false);
+                        setHasTake(mDay === 0 ? true : false);
+                    }
+                })
 
-            const tDay = getLastDate(route.params.currentData.lastTeeth);
-            const mDay = getLastDate(route.params.currentData.lastMedicine);
-
-            setBrushGap(tDay);
-            setTakeGap(mDay);
-            setHasBrush(tDay === 0 ? true : false);
-            setHasTake(mDay === 0 ? true : false);
         };
 
         weeklyWalkCheck(auth.token)
@@ -75,17 +88,17 @@ function MypageCheckScreen({ navigation, route }) {
             }).catch((err) => {
                 console.log(err.message);
             })
-    }, [route.params]);
+    }, [route.params, rerender]);
 
     return (
         <View style={styles.mainBox}>
-            {!dogData ?
+            {!dogId ?
                 <Loading />
                 :
                 <View style={styles.body}>
                     <View style={{ width: 319, alignSelf: "center", paddingVertical: 12 }}>
                         <View style={{}}>
-                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12 }}>{dogData.name}의 산책습관</FontText>
+                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12 }}>{dogName}의 산책습관</FontText>
                             <View style={{top: -18}}>
                             <View style={styles.countBox}>
                                 <FontText title={true} bold={true} style={{ fontSize: 24, color: colors.sub }}>{walkCount.length}</FontText>
@@ -106,7 +119,7 @@ function MypageCheckScreen({ navigation, route }) {
                         </View>
                         <View style={[styles.hrLine, {marginTop: 0}]}></View>
                         <View>
-                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12  }}>{dogData.name}의 치카치카</FontText>
+                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12  }}>{dogName}의 치카치카</FontText>
                             <View style={{flexDirection: "row", alignItems: "center"}}>
                                 <BouncyCheckbox style={{marginRight: -8}} fillColor={colors.mid} isChecked={hasBrush} disableBuiltInState={true} disabled={hasBrush}
                                     onPress={() => {
@@ -116,11 +129,12 @@ function MypageCheckScreen({ navigation, route }) {
                                         }, {
                                             text: "네!",
                                             onPress: () => {
-                                                checkingTeeth(dogData._id)
+                                                checkingTeeth(dogId)
                                                     .then((rcv) => {
                                                         if (rcv.result) {
                                                             setBrushGap(0);
                                                             setHasBrush(true);
+                                                            setRerender(rerender * -1);
                                                         }
                                                     }).catch((err) => {
                                                         console.log(err.message);
@@ -128,18 +142,19 @@ function MypageCheckScreen({ navigation, route }) {
                                             }
                                         }])
                                     }} />
-                                {dogData.lastTeeth ?
+                                {typeof brushGap === "number" ?
                                     <FontText style={{ fontSize: 14 }} title={true}>
                                         {hasBrush ? `오늘 양치를 했어요!` : `마지막으로 약을 먹은 게 ${brushGap}일 전이에요!`}
                                     </FontText>
                                     : <FontText style={{ fontSize: 14 }} title={true}>
+                                        {console.log(brushGap)}
                                         아직 양치 체크를 한 적이 없어요!
                                     </FontText>}
                             </View>
                         </View>
                         <View style={styles.hrLine}></View>
                         <View>
-                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12  }}>{dogData.name}의 건강체크</FontText>
+                            <FontText title={true} bold={true} style={{ fontSize: 16, marginBottom: 12  }}>{dogName}의 건강체크</FontText>
                             <View style={{flexDirection: "row", alignItems: "center"}}>
                                 <BouncyCheckbox style={{marginRight: -8}} fillColor={colors.mid} isChecked={hasTake} disableBuiltInState={true} disabled={hasTake}
                                     onPress={() => {
@@ -149,11 +164,12 @@ function MypageCheckScreen({ navigation, route }) {
                                         }, {
                                             text: "네!",
                                             onPress: () => {
-                                                checkingMedicine(dogData._id)
+                                                checkingMedicine(dogId)
                                                     .then((rcv) => {
                                                         if (rcv.result) {
                                                             setTakeGap(0);
                                                             setHasTake(true);
+                                                            setRerender(rerender * -1);
                                                         }
                                                     }).catch((err) => {
                                                         console.log(err.message);
@@ -161,7 +177,7 @@ function MypageCheckScreen({ navigation, route }) {
                                             }
                                         },]);
                                     }} />
-                                {dogData.lastMedicine ?
+                                {typeof TakeGap === "number" ?
                                     <FontText style={{ fontSize: 14 }} title={true}>
                                         {hasTake ? `오늘 약을 먹었어요!` : `마지막으로 약을 먹은 게 ${TakeGap}일 전이에요!`}
                                     </FontText>

@@ -6,6 +6,7 @@ import { FlatList, Pressable, StyleSheet, Text, Touchable, TouchableOpacity, Vie
 import { getPlaceInfo, likeList } from "../api/place";
 import MyPagePlaceItem from "../components/mypagePlcItem";
 import { AppContext } from "../contexts/app-context";
+import FontText from '../customs/fontText';
 import globalStyles, { colors } from "../customs/globalStyle";
 import Loading from "../customs/loading";
 
@@ -63,13 +64,18 @@ function MypageLikePlaceScreen() {
 
 
     return (  
-    <View style={globalStyles.container}>
+    <View style={[globalStyles.container, {marginTop: 12, borderTopLeftRadius: 12, borderTopRightRadius: 12}]}>
+            {list.length ? 
         <View style={{flex : 1, justifyContent : "flex-start"}}>
             <FlatList 
                 data={list} renderItem={({ item }) => {
                 return <MyPagePlaceItem item={item} />}}
             />
         </View>
+            : <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <FontText style={{fontSize: 16}} title={true} bold={true}>아직 즐겨찾기한 장소가 없어요.</FontText>
+                </View>
+             }
     </View>
     );
 }
