@@ -119,14 +119,13 @@ function MypageListScreen({ navigation, route }) {
                                 </View>
                             </View>
                                 <Pressable style={{ alignSelf: "flex-start", marginVertical: 12 }} onPress={() => {
-                                    Alert.alert("", "'" + myDog.name + "' 의 등록을 취소하겠습니까?", [{
+                                    Alert.alert("'" + myDog.name + "' 의 등록을 취소하겠습니까?", "산책기록과 추억 기록은 지워지지 않고 남아있게 됩니다.", [{
                                         text: "확인",
                                         onPress: () => {
                                             setLoaded(true);
                                             deletetDog(myDog._id)
                                                 .then((rcv) => {
                                                     if(rcv.result) {
-                                                        console.log("삭제");
                                                         setRerender(rerender * -1);
                                                     } else {
                                                         console.log(rcv.msg);
