@@ -45,7 +45,7 @@ function MemoriesItem({ item, onRefresh }) {
         <View style={styles.itemBox}>
             <TouchableOpacity style={{ flex: 1}} onPress={() => moveDetail()}>
                 <View style={{ flexDirection: "row", alignItems: "baseline", margin: 4, }}>
-                    <FontText title={true} bold={true} style={{ fontSize: 18, marginRight: 4 }}>{item.title}</FontText>
+                    <FontText title={true} bold={true} style={{ fontSize: 16, marginRight: 4 }}>{item.title}</FontText>
                     <FontText style={{ color: colors.dark }}>/ {((item.date.split("T")[0]).replace("-", ".")).replace("-", ".")}</FontText>
 
                 </View>
@@ -57,7 +57,7 @@ function MemoriesItem({ item, onRefresh }) {
                     }
                 </View>
                 <View style={{flex: 1, marginLeft: item.image ? 8 : 0, padding: 6, backgroundColor: "white", borderRadius: 6}}>
-                    <FontText style={{flex: 1, fontSize: 14}}>
+                    <FontText title={true} style={{flex: 1, fontSize: 14}}>
                         {item.description.length > 26 ? item.description.slice(0, 26) + "..." : item.description}
                     </FontText>
                 {myMemory ?

@@ -39,10 +39,9 @@ function WalkItem({ item, onRefresh }) {
     }
     return (
         <View style={styles.container}>
-            <View style={[styles.itemBox, item?.memo || item?.image ? {height: item.memo.length > 20 || item?.image ? 140 : 112 } : {}]}>
+            <View style={[styles.itemBox, item?.memo || item?.image ? {height: item.memo.length > 20 || item?.image ? 140 : 120 } : {}]}>
                 <View style={{flexDirection : "row", alignItems: "baseline", margin: 4,}}>
-                    <FontText title={true} bold={true} style={{ fontSize: 18, marginRight: 4 }}>산책 </FontText>
-                    <FontText style={{ color: colors.dark }}>/ {item.date.split("T")[0]} / </FontText>
+                    <FontText title={true} bold={true} style={{ color: colors.dark, fontSize: 16 }}>{item.date.split("T")[0]} / </FontText>
                     { ((item.time2-item.time1)/(1000*60*60)).toFixed(0) != 0 && <FontText> {((item.time2-item.time1)/(1000*60*60)).toFixed(0)}시간</FontText>}
                     { ((item.time2-item.time1)/(1000*60)).toFixed(0) != 0 && <FontText> {((item.time2-item.time1)/(1000*60)).toFixed(0)}분</FontText>}
                     <FontText style={{ color: colors.dark }}> {((item.time2-item.time1)/(1000)).toFixed(0)}초</FontText>
@@ -50,13 +49,13 @@ function WalkItem({ item, onRefresh }) {
                 <View style={{flexDirection :"row", flex : 1}}>
                         {item.image ? 
                     <View style={{width : "30%", alignItems: "flex-start" }}>
-                        <Image source={{ uri: item.image }} style={{ height: "100%", width: "100%", borderRadius: 8 }} />
+                        <Image source={{ uri: item.image }} style={{ height: "100%", width: "100%", borderRadius: 8, margin: 6 }} />
                     </View>
                             : <></>
                         }
-                    <View style={{flex :2, margin: 8}}>
+                    <View style={{flex :2, margin: 6, padding: 6, backgroundColor: "white", borderRadius: 6}}>
                         <ScrollView style={{height : "90%"}}>
-                            <FontText title={true} bold={true} style={{ color: colors.black, fontSize: 14 }}>{item.memo}</FontText>
+                            <FontText title={true} style={{ color: colors.black, fontSize: 14 }}>{item.memo}</FontText>
                         </ScrollView>
                         <View style={{alignItems: "flex-end"}}>
                             <View style={styles.iconBox}>
@@ -82,7 +81,7 @@ export default WalkItem;
 const styles = StyleSheet.create({
     container : {alignItems : "center"},
     itemBox: {
-        height: 112,
+        height: 120,
         width : "100%",
         borderWidth: 3,
         borderColor: "white",

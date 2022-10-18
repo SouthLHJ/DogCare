@@ -97,6 +97,7 @@ function MemoriesDetailScreen({ navigation }) {
                     </View>
                     <FontText style={[globalStyles.textNomal, styles.textName]}>{name}</FontText>
                 </View>
+                {item?.public && 
                 <View style={styles.recordBox}>
                     <View>
                         <FontText style={styles.textSmall}>View : {item?.view ?? 0}</FontText>
@@ -110,15 +111,16 @@ function MemoriesDetailScreen({ navigation }) {
                     <View>
                         {liked ?
                             <TouchableOpacity onPress={() => onHeart(false)}>
-                                <Ionicons name="heart-sharp" size={18} color={colors.mid} />
+                                <Ionicons name="heart-sharp" size={18} color={colors.sub} />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={() => onHeart(true)}>
-                                <Ionicons name="heart-outline" size={18} color={colors.mid} />
+                                <Ionicons name="heart-outline" size={18} color={colors.sub} />
                             </TouchableOpacity>
                         }
                     </View>
                 </View>
+                }
 
                 <View style={{ backgroundColor: colors.light, borderRadius: 6, margin: 12, padding: 8 }}>
                     {item?.image ?
@@ -129,7 +131,7 @@ function MemoriesDetailScreen({ navigation }) {
                         <FontText title={true} style={[globalStyles.textNomal]}>{item?.description}</FontText>
                     </View>
                     <View style={{ alignItems: "flex-end" }}>
-                        {item?.public && <FontText style={styles.textSmall}>공개글</FontText>}
+                        {item?.public ? <FontText title={true} style={styles.textSmall}>공개글</FontText> : <FontText title={true} style={styles.textSmall}>비공개글</FontText>}
                     </View>
                 </View>
 
@@ -177,10 +179,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: colors.main,
         paddingBottom: 5,
-        marginBottom: 5
+        marginBottom: 5,
+        marginHorizontal: 4
     },
     textName: {
-        color: "gray"
+        color: "gray",
+        margin: 4
     },
     recordBox: {
         flexDirection: "row",
@@ -213,7 +217,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         borderBottomWidth: 1,
-        borderBottomColor: colors.sub,
+        borderBottomColor: colors.mid,
         padding: 6,
         paddingBottom: 4,
         marginTop: 5
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
         width: 50,
         marginLeft: 10,
         alignItems: "center",
-        backgroundColor: colors.sub,
+        backgroundColor: colors.mid,
         borderRadius: 100,
         padding: 4,
         paddingVertical: 8
