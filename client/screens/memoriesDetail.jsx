@@ -14,12 +14,14 @@ import Loading from "../customs/loading";
 function MemoriesDetailScreen({ navigation }) {
     const { auth } = useContext(AppContext);
     const route = useRoute();
+
+    const [hide, setHide] = useState(false);
     const [item, setItem] = useState();
     const [name, setName] = useState();
     const [reload, setReload] = useState(1);
     const [liked, setLiked] = useState(false);
     const [commentList, setCommentList] = useState([]);
-    const [comment, setComment] = useState();
+    const [comment, setComment] = useState(null);
     const isfocus = useIsFocused();
 
 
@@ -78,91 +80,110 @@ function MemoriesDetailScreen({ navigation }) {
     }
 
     const onComment = () => {
-        writeComment(auth.token, item._id, comment)
-            .then((rcv) => {
-                setReload(reload * -1);
-                setComment("");
-            }).catch((err) => {
-                console.log("writeComment => ", err);
-            })
+        if(!comment){
+            return
+        }else if(comment.trim().length === 0){
+            return
+        }else{
+            const trimComment = comment.trim()
+            writeComment(auth.token, item._id, trimComment)
+                .then((rcv) => {
+                    setReload(reload * -1);
+                    setComment("");
+                }).catch((err) => {
+                    console.log("writeComment => ", err);
+                })
+        }
     }
+    
+    // 키보드 유무 체크
+    Keyboard.addListener("keyboardDidShow", () => setHide(true))
+    Keyboard.addListener("keyboardDidHide", () => setHide(false))
 
     return (
         <View style={[globalStyles.container, styles.container]}>
-            <TouchableWithoutFeedback onPress={() => { Platform.OS === "ios" ? Keyboard.dismiss() : null }} >
-                <View>
-                    <View style={styles.titleBox}>
-                        <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-                            <FontText title={true} bold={true} style={[globalStyles.textTitle]}>{item?.title}</FontText>
-                            <FontText style={styles.textSmall}>/ {item?.date.split("T")[0]}</FontText>
+            <TouchableWithoutFeedback delayPressIn={300000} delayPressOut={300000}
+                onPress={() => { Platform.OS === "ios" ? Keyboard.dismiss() : null }}
+            >
+                {hide ?
+                    <></>
+                    :
+                    <View >
+                        <View style={styles.titleBox}>
+                            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+                                <FontText title={true} bold={true} style={[globalStyles.textTitle]}>{item?.title}</FontText>
+                                <FontText style={styles.textSmall}>/ {item?.date.split("T")[0]}</FontText>
+                            </View>
+                            <FontText style={[globalStyles.textNomal, styles.textName]}>{name}</FontText>
                         </View>
-                        <FontText style={[globalStyles.textNomal, styles.textName]}>{name}</FontText>
-                    </View>
-                    {item?.public &&
-                        <View style={styles.recordBox}>
-                            <View>
-                                <FontText style={styles.textSmall}>View : {item?.view ?? 0}</FontText>
+                        {item?.public &&
+                            <View style={styles.recordBox}>
+                                <View>
+                                    <FontText style={styles.textSmall}>View : {item?.view ?? 0}</FontText>
+                                </View>
+                                <View>
+                                    <FontText style={styles.textSmall}>좋아요 : {item?.heart?.length ?? 0}</FontText>
+                                </View>
+                                <View>
+                                    <FontText style={styles.textSmall}>댓글 : {commentList?.length ?? 0}</FontText>
+                                </View>
+                                <View>
+                                    {liked ?
+                                        <TouchableOpacity onPress={() => onHeart(false)}>
+                                            <Ionicons name="heart-sharp" size={18} color={colors.sub} />
+                                        </TouchableOpacity>
+                                        :
+                                        <TouchableOpacity onPress={() => onHeart(true)}>
+                                            <Ionicons name="heart-outline" size={18} color={colors.sub} />
+                                        </TouchableOpacity>
+                                    }
+                                </View>
                             </View>
-                            <View>
-                                <FontText style={styles.textSmall}>좋아요 : {item?.heart?.length ?? 0}</FontText>
-                            </View>
-                            <View>
-                                <FontText style={styles.textSmall}>댓글 : {commentList?.length ?? 0}</FontText>
-                            </View>
-                            <View>
-                                {liked ?
-                                    <TouchableOpacity onPress={() => onHeart(false)}>
-                                        <Ionicons name="heart-sharp" size={18} color={colors.sub} />
-                                    </TouchableOpacity>
-                                    :
-                                    <TouchableOpacity onPress={() => onHeart(true)}>
-                                        <Ionicons name="heart-outline" size={18} color={colors.sub} />
-                                    </TouchableOpacity>
-                                }
-                            </View>
-                        </View>
-                    }
-
-                    <View style={{ backgroundColor: colors.light, borderRadius: 6, margin: 12, padding: 8 }}>
-                        {item?.image ?
-                            <Image source={{ uri: item?.image }} style={styles.image} resizeMode='cover' />
-                            : <></>
                         }
-                        <View style={styles.descriptionBox}>
-                            <FontText title={true} style={[globalStyles.textNomal]}>{item?.description}</FontText>
-                        </View>
-                        <View style={{ alignItems: "flex-end" }}>
-                            {item?.public ? <FontText title={true} style={styles.textSmall}>공개글</FontText> : <FontText title={true} style={styles.textSmall}>비공개글</FontText>}
+
+                        <View style={{ backgroundColor: colors.light, borderRadius: 6, margin: 12, padding: 8 }}>
+                            {item?.image ?
+                                <Image source={{ uri: item?.image }} style={styles.image} resizeMode='cover' />
+                                : <></>
+                            }
+                            <View style={styles.descriptionBox}>
+                                <FontText title={true} style={[globalStyles.textNomal]}>{item?.description}</FontText>
+                            </View>
+                            <View style={{ alignItems: "flex-end" }}>
+                                {item?.public ? <FontText title={true} style={styles.textSmall}>공개글</FontText> : <FontText title={true} style={styles.textSmall}>비공개글</FontText>}
+                            </View>
                         </View>
                     </View>
-                </View>
+                }
             </TouchableWithoutFeedback>
 
-            <View style={{ flex: 1 }}>
-                <View style={styles.commentInputBox}>
-                    <TextInput style={{ flex: 1 }}
-                        onChangeText={(text) => { setComment(text) }} value={comment} placeholder="댓글을 입력해주세요."
-                    />
-                    <TouchableOpacity style={styles.commentRegister} onPress={() => onComment()}>
-                        <FontText style={[globalStyles.textNomal, { color: "white" }]}>등록</FontText>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ flex: 1, marginTop: 14, paddingHorizontal: 12 }}>
-                    <FlatList data={commentList}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={styles.commentBox}>
-                                    <View style={styles.commentUser}>
-                                        <FontText style={{ fontSize: 14 }}>{item.userName}</FontText>
-                                    </View>
-                                    <View style={styles.commentDesc}>
-                                        <FontText style={{ fontSize: 14, textAlign: "justify", lineHeight: 16 }}>{item.comment}</FontText>
-                                    </View>
+            <View >
+
+
+            </View>
+            <View style={styles.commentInputBox}>
+                <TextInput style={{ flex: 1 }}
+                    onChangeText={(text) => { setComment(text) }} value={comment} placeholder="댓글을 입력해주세요."
+                />
+                <TouchableOpacity style={styles.commentRegister} onPress={() => onComment()}>
+                    <FontText style={[globalStyles.textNomal, { color: "white" }]}>등록</FontText>
+                </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1, marginTop: 14, paddingHorizontal: 12 }}>
+                <FlatList data={commentList}
+                    renderItem={({ item }) => {
+                        return (
+                            <View style={styles.commentBox}>
+                                <View style={styles.commentUser}>
+                                    <FontText style={{ fontSize: 14 }}>{item.userName}</FontText>
                                 </View>
-                            )
-                        }}
-                    />
-                </View>
+                                <View style={styles.commentDesc}>
+                                    <FontText style={{ fontSize: 14, textAlign: "justify", lineHeight: 16 }}>{item.comment}</FontText>
+                                </View>
+                            </View>
+                        )
+                    }}
+                />
             </View>
         </View>
     );
