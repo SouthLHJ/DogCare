@@ -58,7 +58,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                             console.log("저장!");
                                             navigation.navigate("memoriesList");
                                         } else {
-                                            console.log("에러!");
+                                            console.log("editMemoriesImage 에러!", rcv.msg);
                                         };
                                     }).catch((err) => {
                                         console.log(err.message);
@@ -70,7 +70,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                             console.log("저장!");
                                             navigation.navigate("memoriesList");
                                         } else {
-                                            console.log("에러!");
+                                            console.log("editMemories 에러!",rcv.msg);
                                         };
                                     }).catch((err) => {
                                         console.log(err.message);
@@ -84,7 +84,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                             console.log("저장!");
                                             navigation.navigate("memoriesList");
                                         } else {
-                                            console.log("에러!");
+                                            console.log("writeMemoriesImage 에러!",rcv.msg);
                                         };
                                     }).catch((err) => {
                                         console.log(err.message);
@@ -96,7 +96,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                             console.log("저장!");
                                             navigation.navigate("memoriesList");
                                         } else {
-                                            console.log("에러!");
+                                            console.log("writeMemories 에러!",rcv.msg);
                                         };
                                     }).catch((err) => {
                                         console.log(err.message);

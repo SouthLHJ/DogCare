@@ -40,10 +40,10 @@ function RegisterConsume() {
                 </TouchableOpacity>
             </View>,
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                <TextInput style={[styles.textRow, { width: "100%" }]} keyboardType='number-pad' onChangeText={(text) => setPrice(text)} value={price} />
+                <TextInput style={[styles.textRow, { width: "100%" }]} keyboardType='number-pad' onChangeText={(text) => setPrice(text)} value={price} placeholder="금액" />
             </View>,
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                <TextInput style={[styles.textRow, { width: "100%" }]} keyboardType='email-address' onChangeText={(text) => setComment(text)} value={comment} />
+                <TextInput style={[styles.textRow, { width: "100%" }]} keyboardType='email-address' onChangeText={(text) => setComment(text)} value={comment} placeholder="내용"/>
             </View>,
             <View style={{ alignItems: "center" }}>
                 <TouchableOpacity onPress={() => onRegister()} style={{ width: "60%", justifyContent: "center", alignItems: "center" }}>
@@ -102,6 +102,7 @@ function RegisterConsume() {
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <>
                 <FontText style={globalStyles.textNomal} bold={true} title={true}>등록</FontText>
 
                 <View style={styles.tableContainer}>
@@ -110,6 +111,7 @@ function RegisterConsume() {
                         <Rows data={tableInput} flexArr={[1, 1, 1, 1, 1]} style={styles.row} />
                     </Table>
                 </View>
+                </>
             </TouchableWithoutFeedback>
             {selectedItemShow &&
                 <AutocompleteDropdown
