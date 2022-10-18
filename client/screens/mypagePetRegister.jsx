@@ -160,7 +160,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
         const result = await launchImageLibraryAsync({
             quality: 0.4,
             allowsEditing: true,
-            aspect: [16, 9],
+            aspect: [1, 1],
             exif: true,
             base64: true,
         });

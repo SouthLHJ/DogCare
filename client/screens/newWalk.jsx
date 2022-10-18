@@ -185,13 +185,13 @@ function NewWalkScreen({navigation}) {
         <View style={styles.buttonContainer}>
             <View style={styles.weatherContainer}>
                 <View style={{flexDirection :"row", alignItems :"center"}}>
-                    <FontText>{pty}</FontText>
+                    <FontText style={{marginRight: 6}}>{pty}</FontText>
                     <FontText style={[globalStyles.textNomal,{color : colors.black}]} bold={"semi"}>{weather[0].fcstValue}℃</FontText>
                 </View>
                 <FontText style={[globalStyles.textNomal,{color : colors.black}]} bold={"semi"}>{weather[9]?.fcstValue}</FontText>
             </View>
         </View>
-        <View style={{flexDirection : "row", justifyContent :"flex-end", alignItems : "center"}}>
+        <View style={{flexDirection : "row", justifyContent :"flex-end", alignItems : "center", margin: 4}}>
             <FontText style={{fontSize : 10}}>정보제공 : 기상청,</FontText>
             <FontText style={{fontSize : 10}}> 기준 시 : {weather[0].baseTime.slice(0,2)}시</FontText>
             <TouchableOpacity onPress={()=>location()}>
