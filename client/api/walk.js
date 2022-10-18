@@ -92,9 +92,9 @@ export async function editWalk(token, data, fileData, fileURI, id){
         item = {...data, image: uploadRes.data.path}; // 위에서 응답으로 받은 이미지 path값과 저장할 데이터들 묶어주기
     }
     else{
-        item = {...data, image : ""}
+        item = {...data, image : fileURI}
     }
-    const realDB = `${ip}/edit?token_id=${token}`; // memories, walk는 write
+    const realDB = `${ip}/edit`; // memories, walk는 write
     const res = await axios.post(realDB, {...item, id: id}); // 데이터 베이스에 정보 저장하는 용
     
     return res.data;

@@ -62,7 +62,7 @@ router.get("/allList", async (req, res)=>{ // 모두의 추억(공개)
 router.post("/edit", async (req, res)=>{ // 추억 수정
     
     try {
-        console.log(req.body)  
+        console.log(req.body);
         const haveToDel = req.query.lastImage;
 
         if(haveToDel) {
@@ -71,7 +71,7 @@ router.post("/edit", async (req, res)=>{ // 추억 수정
             fs.rmSync(path.join(base, "storage", "memories", lastFileName));
         };
 
-        const delMemo = await Memories.findOneAndUpdate(req.query.id, {date: req.body.date, title: req.body.title, description: req.body.description, image: req.body.image ? req.body.image : null, public: req.body.public});
+        const delMemo = await Memories.findByIdAndUpdate(req.body.id, {date: req.body.date, title: req.body.title, description: req.body.description, image: req.body.image ? req.body.image : null, public: req.body.public});
 
         res.json({result: true, data: delMemo});
     } catch(err) {
