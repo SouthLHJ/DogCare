@@ -58,7 +58,7 @@ function ConsumeMain({ navigation }) {
     } else {
         return (
         <View style={{flex: 1, backgroundColor: "white", margin: 12, borderRadius: 12, justifyContent: "center", alignItems: "center" }}>
-                <FontText title={true} bold={true} style={{fontSize: 16}}>해당 기능을 이용하려면 반려견 등록이 필요해요!</FontText>
+                <FontText title={true} bold={true} style={{fontSize: 14}}>해당 기능을 이용하려면 반려견 등록이 필요해요!</FontText>
                 <TouchableOpacity style={{borderBottomWidth: 1, borderBottomColor: colors.dark, marginVertical: 6}} onPress={() => {
                     navigation.navigate("mypageMain");
                 }}>

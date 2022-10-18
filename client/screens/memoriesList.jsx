@@ -114,7 +114,7 @@ function MemoriesListScreen({ navigation, route }) {
                     </View>
                     {list.length === 0 ?
                         <View style={{ flex: 1, justifyContent: "center" }}>
-                            <FontText title={true} bold={true} style={{fontSize: 16}}>추억을 남겨보세요!</FontText>
+                            <FontText title={true} bold={true} style={{fontSize: 14}}>추억을 남겨보세요!</FontText>
                         </View>
                         :
                         <FlatList style={styles.scroll} data={list} renderItem={({ item }) => {

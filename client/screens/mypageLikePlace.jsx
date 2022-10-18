@@ -73,7 +73,7 @@ function MypageLikePlaceScreen() {
             />
         </View>
             : <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                <FontText style={{fontSize: 16}} title={true} bold={true}>아직 즐겨찾기한 장소가 없어요.</FontText>
+                <FontText style={{fontSize: 14}} title={true} bold={true}>아직 즐겨찾기한 장소가 없어요.</FontText>
                 </View>
              }
     </View>

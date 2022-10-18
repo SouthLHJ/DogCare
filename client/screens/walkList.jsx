@@ -42,8 +42,8 @@ function WalkListScreen() {
     }
 
     return (  
-    <View style={[globalStyles.container]}>
-        {list.length === 0 ? <FontText style={{textAlign : "center"}}>아직 산책 기록이 없습니다.</FontText>
+    <View style={[globalStyles.container, {justifyContent: "center"}]}>
+        {list.length === 0 ? <FontText title={true} bold={true} style={{textAlign : "center", fontSize: 14}}>아직 산책 기록이 없습니다.</FontText>
             :
             <FlatList style={styles.scroll} data={list} renderItem={({ item }) => {
                 return <WalkItem item={item} onRefresh={onRefresh}/>
