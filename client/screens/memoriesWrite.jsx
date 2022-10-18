@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Alert, Image, ImageBackground, ImageComponent, Keyboard, KeyboardAvoidingView, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { Ionicons, MaterialIcons, FontAwesome5, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { launchCameraAsync, launchImageLibraryAsync, useCameraPermissions, useMediaLibraryPermissions, PermissionStatus } from 'expo-image-picker';
@@ -28,12 +28,17 @@ function MemoriesWriteScreen({ navigation, route }) {
     const [albumStatus, requestAlbumPermission] = useMediaLibraryPermissions();
     const { auth } = useContext(AppContext);
     const isFocused = useIsFocused();
+    const count = useRef(0);
 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => {
                 return (
-                    <TouchableOpacity onPress={(tt) => {
+                    <TouchableOpacity onPressIn={()=>console.log(count.current)} onPress={(tt) => {
+                        if(count.current > 0){
+                            return;
+                        }
+                        count.current += 1;
                         setLoaded(true);
 
                         const data = {
@@ -56,6 +61,8 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            count.current = 0;
+
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("editMemoriesImage 에러!", rcv.msg);
@@ -68,6 +75,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            count.current = 0;
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("editMemories 에러!",rcv.msg);
@@ -82,6 +90,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            count.current = 0;
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("writeMemoriesImage 에러!",rcv.msg);
@@ -94,6 +103,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     .then((rcv) => {
                                         if (rcv.result) {
                                             console.log("저장!");
+                                            count.current = 0;
                                             navigation.navigate("memoriesList");
                                         } else {
                                             console.log("writeMemories 에러!",rcv.msg);
@@ -103,7 +113,6 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     });
                             };
                         };
-
                         setLoaded(false);
                     }}>
                         <AntDesign name="checkcircleo" size={24} color={colors.mid} />
