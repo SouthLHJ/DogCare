@@ -25,57 +25,53 @@ function RegisterScreen({ navigation }) {
         navigation.navigate("login");
     }
     const onRegister = () => {
-        //아이디 양식 틀림
-        if (!(/[a-z0-9]{4,}/.test(id))) {
-            return
-        }
-        //전화번호 양식 틀림
-        if (!(/^[0-1]{3}\d{3,4}\d{4}$/.test(contact))) {
-            return
-        }
-        // 비밀번호 양식 틀림
-        if (!(/[a-zA-z0-9`~!@#$%^&*]{4,}/).test(pw)) {
-            return
-        }
-        // 비밀번호 재확인 틀림
-        if (!(rePw === pw)) {
-            return
-        }
+
         if (!(id && pw && nick && contact)) {
             Alert.alert(
-                "", "아이디, 비밀번호, 이름, 전화번호 작성은 필수입니다.", [{
+                "", "아이디, 비밀번호, 닉네임, 전화번호 작성은 필수입니다.", [{
                     text: "확인"
                 }]
             )
         } else {
-            const data = {
-                id: id,
-                password: pw,
-                name: nick,
-                birth: date,
-                contact: contact
+            //아이디 양식 틀림  || 전화번호 양식 틀림 ||  비밀번호 양식 틀림 ||   비밀번호 재확인 틀림
+            if (!(/[a-z0-9]{4,}/.test(id))||!(/^[0-1]{3}\d{3,4}\d{4}$/.test(contact))||!(/[a-zA-z0-9`~!@#$%^&*]{4,}/).test(pw) || !(rePw === pw)) {
+                Alert.alert(
+                    "", "양식에 맞춰 작성해주시길 바랍니다.",[{
+                        text : "확인"
+                    }]
+                )
+            }else{
+
+                const data = {
+                    id: id,
+                    password: pw,
+                    name: nick,
+                    birth: date,
+                    contact: contact
+                }
+                // console.log(data)
+                sendRegister(data)
+                    .then((rcv) => {
+                        if (rcv.result) {
+                            Alert.alert(
+                                "가입 성공!", "로그인해서 내새꾸 앱을 즐겨보세요!", [{
+                                    text: "확인", onPress: () => { setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null); navigation.navigate("login") }
+                                }]
+                            )
+                        } else {
+                            Alert.alert(
+                                "가입 실패!", "가입에 실패했어요... 다시 시도 해 주세요.", [{
+                                    text: "확인", onPress: () => { setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null) }
+                                }]
+                            )
+                            console.log("sendRegister server => ", rcv.msg)
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             }
-            // console.log(data)
-            sendRegister(data)
-                .then((rcv) => {
-                    if (rcv.result) {
-                        Alert.alert(
-                            "가입 성공!", "로그인해서 내새꾸 앱을 즐겨보세요!", [{
-                                text: "확인", onPress: () => { setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null); navigation.navigate("login") }
-                            }]
-                        )
-                    } else {
-                        Alert.alert(
-                            "가입 실패!", "가입에 실패했어요... 다시 시도 해 주세요.", [{
-                                text: "확인", onPress: () => { setId(null); setPw(null); setRePw(null); setNick(null); setDate(new Date()); setContact(null) }
-                            }]
-                        )
-                        console.log("sendRegister server => ", rcv.msg)
-                    }
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+            
         }
     }
 
@@ -111,7 +107,7 @@ function RegisterScreen({ navigation }) {
                         <ScrollView style={{ width: 320 }}>
                             <View style={{ alignItems: "flex-start", width: 320 }}>
                                 <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>아이디</FontText>
-                                <TextInput style={[globalStyles.input]} onChangeText={(text) => setId(text)} autoCapitalize="none"
+                                <TextInput style={[globalStyles.input]} onChangeText={(text) => setId(text)} autoCapitalize="none"  placeholder="필수"
                                     value={id} keyboardType="email-address" />
                                 {idAlarm}
 
@@ -119,7 +115,7 @@ function RegisterScreen({ navigation }) {
 
                             <View style={{ alignItems: "flex-start", width: 320 }}>
                                 <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>비밀번호</FontText>
-                                <TextInput style={[globalStyles.input]} onChangeText={(text) => setPw(text)} secureTextEntry={true} autoCapitalize="sentences"
+                                <TextInput style={[globalStyles.input]} onChangeText={(text) => setPw(text)} secureTextEntry={true} autoCapitalize="sentences"  placeholder="필수"
                                     value={pw} />
                                 {passwordAlarm}
 
@@ -136,7 +132,7 @@ function RegisterScreen({ navigation }) {
                             <View style={{ alignItems: "flex-start", width: 320 }}>
 
                                 <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>닉네임</FontText>
-                                <TextInput style={[globalStyles.input, styles.input]} onChangeText={(text) => setNick(text)}
+                                <TextInput style={[globalStyles.input, styles.input]} onChangeText={(text) => setNick(text)}  placeholder="필수"
                                     value={nick} keyboardType="email-address" />
                             </View>
 
@@ -151,7 +147,7 @@ function RegisterScreen({ navigation }) {
                             <View style={{ alignItems: "flex-start", width: 320 }}>
 
                                 <FontText style={[globalStyles.textNomal, globalStyles.label]} bold={"semi"}>전화번호</FontText>
-                                <TextInput style={[globalStyles.input]} onChangeText={(text) => setContact(text)}
+                                <TextInput style={[globalStyles.input]} onChangeText={(text) => setContact(text)}  placeholder="필수"
                                     value={contact} keyboardType="number-pad" />
                                 {contactAlarm}
                             </View>
