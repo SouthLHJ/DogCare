@@ -9,17 +9,17 @@ function ConsumeRegisterScreen() {
     const [data,setData] = useState();
     
     return (  
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={globalStyles.container}>
         <View style={{ marginVertical : 10, paddingBottom : 17, borderBottomColor : colors.light, borderBottomWidth : 2, zIndex: 1000}}>
             <RegisterConsume />
         </View>
 
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
             <DeleteConsume />
         </View>
+            </TouchableWithoutFeedback>
     </View>
-    </TouchableWithoutFeedback>
     );
 }
 
