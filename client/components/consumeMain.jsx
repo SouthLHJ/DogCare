@@ -26,7 +26,7 @@ function ConsumeMain({ navigation }) {
         getDogInfo(auth.token)
             .then((rcv) => {
                 if (rcv.result) {
-                    console.log(rcv)
+                    // console.log(rcv)
                     setHasDog(rcv.data ? true : false);
                 } else {
                     console.log(rcv.msg);

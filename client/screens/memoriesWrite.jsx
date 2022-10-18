@@ -207,12 +207,13 @@ function MemoriesWriteScreen({ navigation, route }) {
 
     return (
         <SafeAreaView>
-            <KeyboardAvoidingView behavior={behavior}>
+            <KeyboardAvoidingView behavior={ Platform.OS === "ios" && behavior}>
                 {loaded ? <Loading /> : <></>}
                 <TouchableWithoutFeedback  onPress={Keyboard.dismiss} style={{ flex: 1 }}>
                     <View style={{ padding: 12, height: '100%' }}>
 
                         <View style={styles.inputBox}>
+                        <ScrollView style={{ flex: 1 }}>
                             <View style={styles.headline}>
                                 <TextInput style={[globalStyles.input, { flex: 1, borderRadius: 8, padding: 4, paddingHorizontal: 8 }]} onPressIn={() => setBehavior("padding")} placeholder="제목을 입력해주세요." value={title} onChangeText={(text) => {
                                     setTitle(text);
@@ -225,7 +226,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     </TouchableOpacity>
                                 }
                                 {dateShow || Platform.OS === "ios" ?
-                                    <DateTimePicker locale="ko" testID="dateTimePicker" value={date} mode="date" style={{ width: 96, marginLeft: 4 }} is24Hour={true} onChange={(d) => {
+                                    <DateTimePicker locale="ko" testID="dateTimePicker" value={date} mode="date" style={{ width: 100, marginLeft: 4 }} is24Hour={true} onChange={(d) => {
                                         if (d.type === "set") {
                                             setDate(new Date(d.nativeEvent.timestamp));
                                         };
@@ -275,6 +276,7 @@ function MemoriesWriteScreen({ navigation, route }) {
                                     }} />
                                 </View>
                             </View>
+                        </ScrollView>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

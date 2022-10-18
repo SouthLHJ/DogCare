@@ -18,7 +18,7 @@ function LoginScreen({navigation}) {
             id: id,
             password: pw
         }
-        console.log(data)
+        // console.log(data)
         sendLogin(data)
             .then((rcv) => {
                 if (rcv.result) {

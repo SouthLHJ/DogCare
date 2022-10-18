@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import Loading from "../customs/loading";
 import { MaterialIcons, FontAwesome5, AntDesign } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -48,7 +48,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                             extra: extra,
                             species: species
                         };
-                        console.log(dogData);
+                        // console.log(dogData);
 
                         setLoaded(true);
 
@@ -174,7 +174,8 @@ function MypagePetRegisterScreen({ navigation, route }) {
 
     return (
         <SafeAreaView>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? behavior : "padding"}>
+
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" && behavior}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{ flex: 1 }}>
                 <View style={{height: "100%"}}>
                 {loaded ? <Loading /> : <></>}
@@ -185,6 +186,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                         setSpecies(datas.species);
                     }} closeModal={() => setShowCodeModal(false)} /> : <></>}
                     <View style={styles.mainBox}>
+                        <ScrollView>
                         <View style={styles.body}>
                             <View style={styles.imageBox}>
                                 {imageUri ?
@@ -294,6 +296,7 @@ function MypagePetRegisterScreen({ navigation, route }) {
                                 </View>
                             </View>
                         </View>
+                    </ScrollView>
                     </View>
                 </View>
                 </TouchableWithoutFeedback>

@@ -11,7 +11,7 @@ export async function sendLikeCheckRequest(userId, place_id) {
     try {
         const result = await axios.post(`${ip}/likeCheck`, {userId, place_id});
 
-        console.log(result.data);
+        // console.log(result.data);
         return result.data;
     } catch(e) {
         return {result: false, msg: "util  =  " + e.message};
@@ -22,7 +22,7 @@ export async function likeAdd(userId, place_id, check) { //
     try {
         const result = await axios.post(`${ip}/likeAdd`, {userId, place_id, check});
 
-        console.log(result.data);
+        // console.log(result.data);
         return result.data;
     } catch(e) {
         return {result: false, msg: "util  =  "+e.message};

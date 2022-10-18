@@ -147,7 +147,7 @@ function MypageCheckScreen({ navigation, route }) {
                                         {hasBrush ? `오늘 양치를 했어요!` : `마지막으로 약을 먹은 게 ${brushGap}일 전이에요!`}
                                     </FontText>
                                     : <FontText style={{ fontSize: 14 }} title={true}>
-                                        {console.log(brushGap)}
+                                        {/* {console.log(brushGap)} */}
                                         아직 양치 체크를 한 적이 없어요!
                                     </FontText>}
                             </View>

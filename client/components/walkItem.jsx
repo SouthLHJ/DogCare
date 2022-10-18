@@ -48,11 +48,12 @@ function WalkItem({ item, onRefresh }) {
                     <FontText style={{ color: colors.dark }}> {((item.time2-item.time1)/(1000)).toFixed(0)}초</FontText>
                 </View>
                 <View style={{flexDirection :"row", flex : 1}}>
-                    <View style={{width : "30%", alignItems: "flex-start" }}>
-                        {item.image ? <Image source={{ uri: item.image }} style={{ height: "100%", width: "90%", borderRadius: 8 }} />
+                        {item.image ?
+                            <View style={{width : "30%", alignItems: "flex-start" }}>
+                                <Image source={{ uri: item.image }} style={{ height: "100%", width: "90%", borderRadius: 8 }} />
+                            </View>
                             : <></>
                         }
-                    </View>
                     <View style={{flex :2}}>
                         <ScrollView style={{height : "90%"}}>
                             <FontText bold={true} style={{ color: colors.black, fontSize: 14 }}>{item.memo}</FontText>

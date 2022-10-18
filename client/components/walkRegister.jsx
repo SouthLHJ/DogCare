@@ -71,7 +71,7 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
         setLoaded(true);
         if(!edit){
             if (imageUri && imageData) {
-                console.log("no edit, image")    
+                // console.log("no edit, image")    
                 writeWalkImage(context.auth.token,data, imageData, imageUri)
                     .then((rcv) => {
                         if (rcv.result) {
@@ -84,7 +84,7 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                         console.log("writeWalkImage = > ",err.message);
                     });
             }else {
-                console.log("no edit, no image")    
+                // console.log("no edit, no image")    
                 writeWalk(context.auth.token,data)
                     .then((rcv) => {
                         if (rcv.result) {
@@ -98,7 +98,7 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
                     });
             };
         }else{
-            console.log("edit")    
+            // console.log("edit")    
             editWalk(context.auth.token,data,imageData,imageUri,id)
                 .then((rcv)=>{
                     if(rcv.result){

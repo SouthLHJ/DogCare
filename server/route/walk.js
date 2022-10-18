@@ -85,7 +85,8 @@ router.get("/delete", async (req, res)=>{ // 산책 기록 삭제
 
 router.post("/edit",async(req,res)=>{
     try{
-        const edit = await Walk.findOneAndUpdate(req.body.id,{date: req.body.date, time1: req.body.time1, time2 : req.body.time2 , memo: req.body.memo, image: req.body?.image });
+        const verifyToken = jwt.verify(req.query.token_id, process.env.SECRET_KEY);
+        const edit = await Walk.findOneAndUpdate(req.body.id,{userId : verifyToken.token_id,date: req.body.date, time1: req.body.time1, time2 : req.body.time2 , memo: req.body.memo, image: req.body?.image });
 
         res.json({result: true, data: edit});
     }catch(e){

@@ -20,7 +20,7 @@ export async function getDogInfo(token) {
 export async function addDogImage(data, fileData, fileURI) {
     const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1);
 
-    console.log(fileName);
+    // console.log(fileName);
     try{
         const storageURI = `${ip}/storage/${fileName}`;
 
