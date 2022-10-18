@@ -102,6 +102,7 @@ function WalkRegister({modal,setModal,time1,time2, image , memo , edit=false, id
             editWalk(context.auth.token,data,imageData,imageUri,id)
                 .then((rcv)=>{
                     if(rcv.result){
+                        // console.log(rcv.data)
                         setModal(false)
                         navigation.navigate("walkList",{edit : true});
                     }else{
