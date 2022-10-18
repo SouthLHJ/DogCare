@@ -75,12 +75,12 @@ export async function deleteWalk(id) {
 };
 
 export async function editWalk(token, data, fileData, fileURI, id){
-    console.log(token, data, fileData, fileURI, id)
-    const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1); // 파일 이름 저장
-    
-    const storageURI = `${ip}/storage/${fileName}`; // 해당 경로로 파일 이름을 params로 전달
+    // console.log(token, data, fileData, fileURI, id)
     let item  ;
     if(fileData){
+        const fileName = fileURI.substring(fileURI.lastIndexOf("/")+ 1); // 파일 이름 저장
+        
+        const storageURI = `${ip}/storage/${fileName}`; // 해당 경로로 파일 이름을 params로 전달
         const uploadRes = await axios({ // 사진 저장하는 uri
             url: storageURI,
             headers: {
@@ -92,7 +92,7 @@ export async function editWalk(token, data, fileData, fileURI, id){
         item = {...data, image: uploadRes.data.path}; // 위에서 응답으로 받은 이미지 path값과 저장할 데이터들 묶어주기
     }
     else{
-        item = {...data}
+        item = {...data, image : ""}
     }
     const realDB = `${ip}/edit?token_id=${token}`; // memories, walk는 write
     const res = await axios.post(realDB, {...item, id: id}); // 데이터 베이스에 정보 저장하는 용
