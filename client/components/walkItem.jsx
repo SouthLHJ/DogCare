@@ -48,8 +48,8 @@ function WalkItem({ item, onRefresh }) {
                 </View>
                 <View style={{flexDirection :"row", flex : 1}}>
                         {item.image ? 
-                    <View style={{width : "30%", alignItems: "flex-start" }}>
-                        <Image source={{ uri: item.image }} style={{ height: "100%", width: "100%", borderRadius: 8, margin: 6 }} />
+                    <View style={{width : "30%", alignItems: "flex-start", padding: 6 }}>
+                        <Image source={{ uri: item.image }} style={{ height: "100%", width: "100%", borderRadius: 8 }} />
                     </View>
                             : <></>
                         }

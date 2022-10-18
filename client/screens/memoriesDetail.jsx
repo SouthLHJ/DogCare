@@ -41,7 +41,7 @@ function MemoriesDetailScreen({ navigation }) {
             getList(route.params?.item._id)
                 .then((rcv) => {
                     if (rcv.result) {
-                        setCommentList(rcv.list);
+                        setCommentList(rcv.list.reverse());
                     } else {
                         console.log(rcv.msg);
                     };
@@ -88,8 +88,9 @@ function MemoriesDetailScreen({ navigation }) {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
-            <View style={[globalStyles.container, styles.container]}>
+                    <View style={[globalStyles.container, styles.container]}>
+        <TouchableWithoutFeedback  onPress={() => Keyboard.dismiss()} >
+            <View>
                 <View style={styles.titleBox}>
                     <View style={{ flexDirection: "row", alignItems: "baseline" }}>
                         <FontText title={true} bold={true} style={[globalStyles.textTitle]}>{item?.title}</FontText>
@@ -134,8 +135,10 @@ function MemoriesDetailScreen({ navigation }) {
                         {item?.public ? <FontText title={true} style={styles.textSmall}>공개글</FontText> : <FontText title={true} style={styles.textSmall}>비공개글</FontText>}
                     </View>
                 </View>
+                </View>
+        </TouchableWithoutFeedback>
 
-                <View>
+                <View style={{flex: 1}}>
                     <View style={styles.commentInputBox}>
                         <TextInput style={{ flex: 1 }}
                             onChangeText={(text) => { setComment(text) }} value={comment} placeholder="댓글을 입력해주세요."
@@ -144,7 +147,7 @@ function MemoriesDetailScreen({ navigation }) {
                             <FontText style={[globalStyles.textNomal, { color: "white" }]}>등록</FontText>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ marginTop: 14, paddingHorizontal: 12 }}>
+                    <View style={{ flex: 1, marginTop: 14, paddingHorizontal: 12 }}>
                         <FlatList data={commentList}
                             renderItem={({ item }) => {
                                 return (
@@ -162,7 +165,6 @@ function MemoriesDetailScreen({ navigation }) {
                     </View>
                 </View>
             </View>
-        </TouchableWithoutFeedback>
     );
 }
 
