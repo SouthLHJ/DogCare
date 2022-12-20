@@ -103,7 +103,7 @@ export async function deletetDog(dogId) {
 
 export async function searchCode(data) {
     try{
-        const key = "4Yv98YkXWefb10%2Bphz9ASiMc0Zsj1EVHh3bnw8dHqbPImpAEv2JncXo5F3h%2BOAvduFfR4qj5cbu26lA7mWsTmQ%3D%3D";
+        const key = process.env.REACT_APP_ANIMALCODE_KEY;
         const uri = `http://apis.data.go.kr/1543061/animalInfoSrvc/animalInfo?${data.regNo ? `dog_reg_no=${data.regNo}`: `rfid_cd=${data.rfid}`}&${data.ownerName ? `owner_nm=${data.ownerName}` : `owner_birth=${data.ownerBirth}`}&serviceKey=${key}&_type=json`
 
         const res = await axios.get(uri);

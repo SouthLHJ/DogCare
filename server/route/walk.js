@@ -6,14 +6,14 @@ import https from "https";
 import fetch from "node-fetch";
 import path from "path"
 import fs from "fs"
-
-
+import dotenv from "dotenv"
+dotenv.config()
 const router = express.Router();
 
 
 router.get("/weather",async(req,res)=>{
     // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
-    const key = "oDtrqrff3ZdIF5EMB%2FvexXvzsZtmLbgpmzK9RPUArCS7CDaPhUBMC5XjUQT1RgyY%2BOs%2FSXE8RZMTYxTbFssszg%3D%3D";  
+    const key = process.env.WEATHER_KEY;  
     const date = req.query.date;
     const time = req.query.time;
     const x = req.query.x;

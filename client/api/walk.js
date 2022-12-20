@@ -15,7 +15,7 @@ function code (){
     const timeIndex = ["02", "05", "08", "11", "14", "17", "20", "23"]
 }
 
-const key = "oDtrqrff3ZdIF5EMB%2FvexXvzsZtmLbgpmzK9RPUArCS7CDaPhUBMC5XjUQT1RgyY%2BOs%2FSXE8RZMTYxTbFssszg%3D%3D";  
+const key = process.env.REACT_APP_WEATHER_KEY;  
 
 export const readWeather = async(time,x=55,y=126)=>{
     const date = `${new Date().getFullYear()}`+`${new Date().getMonth()+1}`.padStart(2,"0")+`${new Date().getDate()}`.padStart(2,"0")
